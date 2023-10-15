@@ -6,7 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 def forcesrate(forcesu):
     url = f"https://codeforces.com/profile/{forcesu}"
-    response = requests.get(url)
+    response = requests.get(url, timeout=0.1)
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
         rank_element = soup.find(
@@ -17,7 +17,7 @@ def forcesrate(forcesu):
         else:
             return "Ranking not found."
     else:
-        return "Unable to connect to LeetCode."
+        return "Unable to connect to Codeforces."
 
 
 def coderate(chefu):
@@ -61,30 +61,23 @@ def spojrate(spo):
         )
         print(rank_element)
 
-# test function
 
-
-def get(dic):
-    res = []
+def get(usernames: dict, func) -> dict:
+    result = {}
     start_time = time.time()
-    with ThreadPoolExecutor(max_workers=10) as p:
-        res.append(p.submit(leetrate, dic["leet"]))
-        res.append(p.submit(coderate, dic['code']))
-        res.append(p.submit(forcesrate, dic['forces']))
 
+    with ThreadPoolExecutor(max_workers=20) as p:
+        res = list(p.map(func, usernames.keys()))
+
+    keys = list(usernames.keys())
+    c = 0
     for x in res:
-        print(x.result())
-
-    # leetrate(dic["leet"])
-    # coderate(dic['code'])
-    # forcesrate(dic['forces'])
-
+        result[keys[c]] = x
+        c = c+1
     print(f"{(time.time() - start_time):.2f} seconds")
 
+    return result
 
-def main():
-    for i in range(2):
-        get({"leet": "mesh_05", "code": "mesh_05", "forces": "mesh_05"})
-
-
-main()
+# leetrate(leet_id)
+# coderate(chef_id)
+# forcesrate(forces_id)

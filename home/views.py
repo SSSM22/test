@@ -3,7 +3,9 @@ from django.db import connection
 from .models import R21
 import requests
 from bs4 import BeautifulSoup
-from .scrap import forcesrate, coderate, leetrate, spojrate
+from .scrap import forcesrate, coderate, leetrate, spojrate, get
+from concurrent.futures import ThreadPoolExecutor
+import itertools
 
 # Create your views here.
 
@@ -68,24 +70,44 @@ def update(request):
 
     students = R21.objects.all().values()
 
+    cc_ids = {}
+    cf_ids = {}
+    cc_res = {}
+    cf_res = {}
+
+    c = 0
     for i in students:
+        cc_ids.update({i['codechef_username']: 0})
+        cf_ids.update({i['codeforces_username']: 0})
+        c = c + 1
+        # c IS FOR TESTING PURPOSE ONLY
+        if (c > 30):
+            break
 
-        roll = i['roll_number']
-        print(roll, end="---")
-        cc_id = i['codechef_username']
-        cf_id = i['codeforces_username']
-        spoj_id = i['spoj_username']
+    cc_res.update(get(cc_ids, coderate))
+    cf_res.update(get(cf_ids, forcesrate))
 
-        cc_prob = coderate(cc_id)
-        cf_prob = forcesrate(cf_id)
-        # spoj_prob=spojrate(spoj_id)
+    print(cc_res)
+    # for i in students:
 
-        stu = R21.objects.get(roll_number=roll)
-        stu.cc_problems_solved = cc_prob
-        stu.cf_problems_solved = cf_prob
-        stu.total_ccps_10_field = cc_prob*10
-        stu.total_cfps_10_field = cf_prob*10
-        stu.save()
+    #     roll = i['roll_number']
+    #     # print(roll, end="---")
+    #     # cc_id = i['codechef_username']
+    #     # cf_id = i['codeforces_username']
+    #     # spoj_id = i['spoj_username']
+
+    #     # Add multithreading here
+
+    #     cc_prob = coderate(cc_id)
+    #     cf_prob = forcesrate(cf_id)
+    #     # spoj_prob=spojrate(spoj_id)
+
+    #     stu = R21.objects.get(roll_number=roll)
+    #     stu.cc_problems_solved = cc_prob
+    #     stu.cf_problems_solved = cf_prob
+    #     stu.total_ccps_10_field = cc_prob*10
+    #     stu.total_cfps_10_field = cf_prob*10
+    #     stu.save()
     context = {
         'updated': 'updated'
     }
