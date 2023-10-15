@@ -1,5 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
+import time
+from concurrent.futures import ThreadPoolExecutor
 
 
 def forcesrate(forcesu):
@@ -58,3 +60,31 @@ def spojrate(spo):
             class_="dl-horizontal profile-info-data profile-info-data-stats"
         )
         print(rank_element)
+
+# test function
+
+
+def get(dic):
+    res = []
+    start_time = time.time()
+    with ThreadPoolExecutor(max_workers=10) as p:
+        res.append(p.submit(leetrate, dic["leet"]))
+        res.append(p.submit(coderate, dic['code']))
+        res.append(p.submit(forcesrate, dic['forces']))
+
+    for x in res:
+        print(x.result())
+
+    # leetrate(dic["leet"])
+    # coderate(dic['code'])
+    # forcesrate(dic['forces'])
+
+    print(f"{(time.time() - start_time):.2f} seconds")
+
+
+def main():
+    for i in range(2):
+        get({"leet": "mesh_05", "code": "mesh_05", "forces": "mesh_05"})
+
+
+main()
