@@ -6,7 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 def forcesrate(forcesu):
     url = f"https://codeforces.com/profile/{forcesu}"
-    response = requests.get(url, timeout=0.1)
+    response = requests.get(url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
         rank_element = soup.find(
@@ -15,9 +15,9 @@ def forcesrate(forcesu):
             rank = rank_element.get_text().strip()[0]
             return int(rank)
         else:
-            return "Ranking not found."
+            return 0
     else:
-        return "Unable to connect to Codeforces."
+        return 0
 
 
 def coderate(chefu):
@@ -30,9 +30,9 @@ def coderate(chefu):
             rank = rank_element.get_text().strip().split()[2]
             return int(rank[1:-2])
         else:
-            return "Ranking not found."
+            return 0
     else:
-        return "Unable to connect to CodeChef."
+        return 0
 
 
 def leetrate(leetu):
@@ -59,14 +59,47 @@ def spojrate(spo):
         rank_element = soup.find(
             class_="dl-horizontal profile-info-data profile-info-data-stats"
         )
-        print(rank_element)
+        rank = str(list(rank_element)[3])
+        return (int(rank[4:len(rank) - 5]))
+    return -1
+
+# test function
+def interviewbit_ranking(username):
+    url = f"https://www.interviewbit.com/profile/{username}"
+    response = requests.get(url)
+    print(response)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.content, 'html.parser')
+        rank_elements = soup.find_all(class_="txt")
+        if rank_elements:
+            rank = rank_elements[1].get_text().strip()
+            return rank
+        
+    else:
+        return 0
+
+
+def geeksforgeeks_ranking(username):
+    url = f"https://auth.geeksforgeeks.org/user/{username}"
+    response = requests.get(url)
+    print(response)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.content, 'html.parser')
+        rank_elements = soup.find_all(class_="score_card_value")
+        if rank_elements:
+            rank = rank_elements[1].get_text().strip()
+            return rank
+       
+    else:
+        return 0
+    
 
 
 def get(usernames: dict, func) -> dict:
     result = {}
     start_time = time.time()
 
-    with ThreadPoolExecutor(max_workers=20) as p:
+    with ThreadPoolExecutor(max_workers=6) as p:
         res = list(p.map(func, usernames.keys()))
 
     keys = list(usernames.keys())
@@ -77,7 +110,7 @@ def get(usernames: dict, func) -> dict:
     print(f"{(time.time() - start_time):.2f} seconds")
 
     return result
-
 # leetrate(leet_id)
 # coderate(chef_id)
 # forcesrate(forces_id)
+# print(spojrate("sssm_2003"))
