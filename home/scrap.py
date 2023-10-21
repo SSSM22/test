@@ -13,7 +13,7 @@ def forcesrate(forcesu):
             class_="_UserActivityFrame_counterValue")
         if rank_element:
             rank = rank_element.get_text().strip()[0]
-            return int(rank)
+            return int(rank_element.text[0:-9])
         else:
             return 0
     else:
@@ -27,8 +27,8 @@ def coderate(chefu):
         soup = BeautifulSoup(response.content, 'html.parser')
         rank_element = soup.find(class_="rating-data-section problems-solved")
         if rank_element:
-            rank = rank_element.get_text().strip().split()[2]
-            return int(rank[1:-2])
+            rank = str(list(rank_element)[1])
+            return int(rank[23:-8])
         else:
             return 0
     else:
@@ -64,17 +64,18 @@ def spojrate(spo):
     return -1
 
 # test function
+
+
 def interviewbit_ranking(username):
     url = f"https://www.interviewbit.com/profile/{username}"
     response = requests.get(url)
-    print(response)
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
         rank_elements = soup.find_all(class_="txt")
         if rank_elements:
             rank = rank_elements[1].get_text().strip()
-            return rank
-        
+            return int(rank)
+
     else:
         return 0
 
@@ -82,17 +83,15 @@ def interviewbit_ranking(username):
 def geeksforgeeks_ranking(username):
     url = f"https://auth.geeksforgeeks.org/user/{username}"
     response = requests.get(url)
-    print(response)
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
         rank_elements = soup.find_all(class_="score_card_value")
         if rank_elements:
             rank = rank_elements[1].get_text().strip()
-            return rank
-       
+            return int(rank)
+
     else:
         return 0
-    
 
 
 def get(usernames: dict, func) -> dict:
@@ -110,7 +109,11 @@ def get(usernames: dict, func) -> dict:
     print(f"{(time.time() - start_time):.2f} seconds")
 
     return result
-# leetrate(leet_id)
-# coderate(chef_id)
-# forcesrate(forces_id)
-# print(spojrate("sssm_2003"))
+
+
+# print(leetrate('Sithis')) done
+# print(coderate("everule1")) done
+# print(forcesrate("tourist")) done
+# print(spojrate("defrager")) done
+# print(geeksforgeeks_ranking('meetbrahmbhatt10l')) done
+# print(interviewbit_ranking("")) done
