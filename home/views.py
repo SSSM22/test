@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse
 from django.db import connection,transaction,IntegrityError
-from .models import R21
+from .models import R21,R22
 import requests
 from bs4 import BeautifulSoup
 from .scrap import forcesrate, coderate, leetrate, spojrate,get
@@ -9,7 +9,7 @@ from .scrap import forcesrate, coderate, leetrate, spojrate,get
 
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'admin_panel.html')
 
 
 def display_students(request, year, br):

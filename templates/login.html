@@ -1,17 +1,27 @@
-<form>
-    {% csrf_token %}
-    <div class="form-group">
-      <label for="exampleInputEmail1">Email address</label>
-      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-    </div>
-    <div class="form-group">
-      <label for="exampleInputPassword1">Password</label>
-      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-    </div>
-    <div class="form-group form-check">
-      <input type="checkbox" class="form-check-input" id="exampleCheck1">
-      <label class="form-check-label" for="exampleCheck1">Check me out</label>
-    </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
+{% load static %}
+<html>
+    <head>
+        <title>Coding details</title>
+        <link href="{% static 'css/login.css' %}" rel="stylesheet">
+    </head>
+    <body>
+        <form>
+            <div class="split">
+                <form action="/home" method="post" >
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <h1>Vardhaman College of Engineering</h1>
+                      <label>USERNAME</label><br>
+                      <input class="form-control"  placeholder="Enter Username" id="un">
+                    </div>
+                    <div class="form-group">
+                      <label>PASSWORD</label>
+                      <input type="password" class="form-control" placeholder="Password" id="psd">
+                    </div><br>
+                    <button onclick="window.location.href='/login_view'"type="button" class="button" class="btn btn-primary">Login</button>
+                    <!-- <button onclick="window.location.href='/login_view'" type="submit" class="submit">Submit</button> -->
+                  </form>
+            </div>
+        </form>
+    </body>
+</html>

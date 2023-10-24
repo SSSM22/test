@@ -1,11 +1,11 @@
 body {
-    background-color: #f0f0f0;
     font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 90vh;
+    min-height: 100vh;
 }
 
 form {
@@ -16,13 +16,35 @@ form {
     text-align: center;
 }
 
-h2 {
-    color: #333;
-    size: 40px;
+.split {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
 }
 
-h3 {
+h1 {
     color: #333;
+    font-size: 24px;
+}
+
+.form-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+}
+
+input.form-control {
+    width: 500px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 5px;
 }
 
 .button {
