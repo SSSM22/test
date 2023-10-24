@@ -61,7 +61,7 @@
     <table>
         
         <tr>
-          <th>Global Rank</th>
+          <th>Rank<br>(Global_rank)</th>
             <th>Roll_Number</th>
             <th>Name</th>
             <th>Branch</th>
@@ -83,7 +83,7 @@
     
         {% for student in students %}
             <tr>
-              <td>{{student.rank}}</td>
+              <td>{{forloop.counter}}<br>({{student.rank}})</td>
                 <td class="roll">{{ student.roll_number }}</td>
                 <td>{{ student.name}}</td>
                 <td>{{ student.branch}}</td>
@@ -91,13 +91,13 @@
                 <td>{{ student.algorithms_hackerrank_field }}</td>
                 <td>{{ student.codechef_username }}</td>
                 <td>{{ student.cc_problems_solved }}</td>
-                <td>{{ student.total_ccps_10_field }}</td>
+                <td>{{ student.ccps_10 }}</td>
                 <td>{{ student.codeforces_username }}</td>
                 <td>{{ student.cf_problems_solved }}</td>
-                <td>{{ student.total_cfps_10_field }}</td>
+                <td>{{ student.cfps_10 }}</td>
                 <td>{{student.spoj_username}}</td>
                 <td>{{student.spoj_problems_solved}}</td>
-                <td>{{student.total_sps_20_field }}</td> 
+                <td>{{student.sps_20 }}</td> 
                 <td>{{ student.overall_score }}</td>
 
                 
