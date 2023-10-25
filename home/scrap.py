@@ -116,4 +116,4 @@ def get(usernames: dict, func) -> dict:
 # print(forcesrate("tourist")) done
 # print(spojrate("defrager")) done
 # print(geeksforgeeks_ranking('meetbrahmbhatt10l')) done
-# print(interviewbit_ranking("")) done
+print(interviewbit_ranking("")) 

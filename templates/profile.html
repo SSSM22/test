@@ -1,0 +1,13 @@
+{% load static %}
+<html>
+  <head>
+    <title>Coding details</title>
+    <link href="{% static 'css/login.css' %}" rel="stylesheet" />
+  </head>
+  <body>
+    <p>{{username}}</p>
+    <a href="/logout">
+      <button>Logout</button>
+    </a>
+  </body>
+</html>
