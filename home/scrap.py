@@ -54,6 +54,7 @@ def leetrate(leetu):
 def spojrate(spo):
     url = f'https://www.spoj.com/users/{spo}'
     response = requests.get(url)
+    
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
         rank_element = soup.find(

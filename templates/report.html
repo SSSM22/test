@@ -1,0 +1,88 @@
+{% load static%}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Student Rankingss</title>
+    <style>
+      .table-container {
+        width: 100%;
+        height: 87vh;
+        overflow: scroll;
+        border: 1px solid #ccc;
+        margin: 0;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+      .table-container table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .table-container th,
+      .table-container td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+        font-size: 18px;  
+      }
+      .table-container th {
+        background-color: #3498db; 
+        color: white; 
+        font-weight: bold;
+      }
+      .table-container tbody tr:nth-child(even) {
+        background-color: #f2f2f2; 
+      }
+      .table-container tbody tr:hover {
+        background-color: #e0e0e0;
+      }
+    </style>
+    <script></script>
+  </head>
+  <body>
+    <h1 style="color: black; text-align: center">Vardhaman Student Rankings</h1> 
+    <div class="table-container">
+      <table>
+        <tr>
+          <th>Rank<br />(Global_rank)</th>
+          <th>Roll_Number</th>
+          <th>Name</th>
+          <th>Branch</th>
+          <th>HackerRank_ID</th>
+          <th>Algorithms</th>
+          <th>CodeChef_ID</th>
+          <th>No.of Problems</th>
+          <th>Problems*10</th>
+          <th>CodeForce_ID</th>
+          <th>No.of Problems</th>
+          <th>Problems*10</th>
+          <th>Spoj_UserName</th>
+          <th>Spoj_problems_Solved</th>
+          <th>Total(SPS*20)</th>
+          <th>Overall Score</th>
+        </tr>
+        <tb>
+          {% for student in students %}
+          <tr>
+            <td>{{forloop.counter}}<br />({{student.rank}})</td>
+            <td class="roll">{{ student.roll_number }}</td>
+            <td>{{ student.name}}</td>
+            <td>{{ student.branch}}</td>
+            <td>{{ student.hackerrank_username}}</td>
+            <td>{{ student.algorithms_hackerrank_field }}</td>
+            <td>{{ student.codechef_username }}</td>
+            <td>{{ student.cc_problems_solved }}</td>
+            <td>{{ student.ccps_10 }}</td>
+            <td>{{ student.codeforces_username }}</td>
+            <td>{{ student.cf_problems_solved }}</td>
+            <td>{{ student.cfps_10 }}</td>
+            <td>{{student.spoj_username}}</td>
+            <td>{{student.spoj_problems_solved}}</td>
+            <td>{{student.sps_20 }}</td>
+            <td>{{ student.overall_score }}</td>
+          </tr>
+          {% endfor %}
+        </tb>
+      </table>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Rankings</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #333;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            background-color: #555;
+        }
+
+        .table-container {
+            width: 90%;
+            max-width: 750px; /* Limit the maximum width */
+            height: 400px;
+            overflow: auto;
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .table-container table {
+            width: 100%; /* Use 100% to fit the available width */
+            border-collapse: collapse;
+        }
+
+        .table-container th,
+        .table-container td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+            font-size: 15px;
+        }
+
+        .table-container tbody {
+            overflow-y: scroll; /* Enable vertical scrolling */
+        }
+
+        .table-container th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+        }
+
+        .table-container tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .table-container tbody tr:hover {
+            background-color: #e0e0e0;
+        }
+
+        .button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 700px;
+            margin-bottom: 10%;
+        }
+    </style>
+    <script></script>
+</head>
+<body>
+<div class="sidebar">
+    <a href="#">Overview</a>
+    <a href="/report">Report</a>
+</div>
+
+<h1 style="color: black;text-align:center;">Vardhaman Student Rankings</h1>
+<div class="table-container">
+    <table>
+        <thead>
+        <tr>
+            <th>Rank<br />(Global_rank)</th>
+            <th>Roll_Number</th>
+            <th>Name</th>
+
+            <th>Overall Score</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tb>
+            {% for student in students %}
+            <tr>
+                <td>{{forloop.counter}}<br />({{student.rank}})</td>
+                <td class="roll">{{ student.roll_number }}</td>
+                <td>{{ student.name}}</td>
+
+
+                <td>{{ student.overall_score }}</td>
+
+            </tr>
+            {% endfor %}
+        </tb>
+        </tbody>
+    </table>
+</div>
+<a href="/report"><button class="button">View</button> </a>
+</body>
+</html>
