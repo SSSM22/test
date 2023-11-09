@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse,redirect
+from django.shortcuts import render, HttpResponse,redirect,get_object_or_404
 from django.db import connection,transaction,IntegrityError
 from .models import R21,R22
 import requests
@@ -8,10 +8,17 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .scrap import forcesrate, coderate, leetrate, spojrate,get
+from django.contrib.contenttypes.models import ContentType
+from django.http import Http404
+
 
 # Create your views here.
 
+dic_branch={'hodit':'IT',
+            'hodcs':'CSE',
+            'hodece':'ECE',
 
+            }
 
 def index(request):
     return render(request, 'index.html')
@@ -19,6 +26,11 @@ def index(request):
 def admin_panel(request):
     return render(request,'admin_panel1.html')
 
+def student_panel(request):
+    return render(request,'student_panel.html')
+
+def hod_panel(request):
+    return render(request,'hod_panel.html',{'hod':request.user.username})
 def display_students(request, year, br):
     global students    
     if (year == '3rd'):
@@ -94,8 +106,7 @@ def update(request):
     for i in students:
         cc_ids.update({i['codechef_username']: 0})
         cf_ids.update({i['codeforces_username']: 0})
-        if(i['spoj_username']=='deep nandan'):
-            continue
+      
         sp_ids.update({i['spoj_username']: 0})
 
     #     c = c + 1
@@ -108,6 +119,7 @@ def update(request):
     sp_res.update(get(sp_ids, spojrate))
 
     print(sp_res)
+    print(cc_res,cf_res)
 
     
     try:
@@ -148,10 +160,43 @@ def auth_login(request):
             login(request, user)
             if user.is_superuser:
                 return redirect("/admin_panel")
+            if user.is_staff:
+                    return redirect('/hod_panel')
+                    
             return redirect("/profile")
         else:
             return HttpResponse("Enter correct credentials")
     return render(request, 'login.html')
+
+def hod_view(request):
+    username=request.user.username
+    
+    
+    if request.method=='GET':
+        year=request.GET['year']
+        object_id=request.GET["Roll"]
+        students=display_students(request,year,dic_branch[username])   
+        
+        students=students.filter(roll_number=object_id)
+        context = {
+            'students': students
+            
+        }
+        return render(request,'report.html',context)
+
+   
+    if request.method=='POST':
+        year=request.POST['year']
+        students=display_students(request,year,dic_branch[username])
+        context = {
+            'students': students
+            
+        }
+        return render(request, 'over_view.html', context)
+
+
+
+
 
 
 def auth_logout(request):
@@ -163,4 +208,4 @@ def profile(request):
     username = None
     if request.user.is_authenticated:
         username = request.user.username
-    return render(request, "profile.html", {'username': username})
+    return render(request, "profile.html", {'username':username})

@@ -99,7 +99,7 @@ def get(usernames: dict, func) -> dict:
     result = {}
     start_time = time.time()
 
-    with ThreadPoolExecutor(max_workers=6) as p:
+    with ThreadPoolExecutor(max_workers=7) as p:
         res = list(p.map(func, usernames.keys()))
 
     keys = list(usernames.keys())

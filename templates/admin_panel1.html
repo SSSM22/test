@@ -1,7 +1,7 @@
 {% load static%}
 <html>
     <head>
-        <title>Coding details</title>
+        <title>Admin</title>
         <link href="{% static 'css/admin_panel.css' %}" rel="stylesheet" />
     </head>
     <body>
@@ -35,12 +35,14 @@
                             <option value="AIDS">AIDS</option>
                       </select>
                     </div><br>
-                    <input type="submit">
+                    <input type="submit" class="submit">
+                    &nbsp;
+                    <button  class="submit" onclick="window.location.href='/logout'"type="button">LogOut</button>
                     <!-- <button onclick="window.location.href='/overview'"type="button" class="submit">Submit</button> -->
                   </form>
-                  <form action="/update">
+                  <form action="/update" method="post">
                     {%csrf_token%}
-                    <input type="submit" value="Update">
+                    <input type="submit" class="submit" value="Update">
                   </form>
             </div>
         </form>
