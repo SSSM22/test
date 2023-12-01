@@ -162,12 +162,20 @@ def auth_login(request):
                 return redirect("/admin_panel")
             if user.is_staff:
                     return redirect('/hod_panel')
-                    
+            return redirect('/student_view')
             return redirect("/profile")
         else:
             return HttpResponse("Enter correct credentials")
     return render(request, 'login.html')
-
+def student_view(request):
+    roll=request.user.username
+    det=R21.objects.all().filter(roll_number=roll)
+    print(det)
+    context = {
+            'det': det
+            
+        }
+    return render(request,'student_panel.html',context)
 def hod_view(request):
     username=request.user.username
     
