@@ -59,7 +59,7 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-              # 'home.views.validate',
+                # 'home.views.validate',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -83,7 +83,7 @@ DATABASES = {
         'USER': 'root',
         'HOST': 'localhost',
         'PORT': 3306,
-        'PASSWORD': 'root',
+        'PASSWORD': '22EC1U3Inisl#wiswAPe',
     }
 }
 
