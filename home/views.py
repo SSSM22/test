@@ -36,15 +36,17 @@ def student_panel(request):
 def hod_panel(request):
     return render(request, 'hod_panel.html', {'hod': request.user.username})
 
-def pie_chart(request,roll):
-    labels = ['CodeChef','CodeForce','Spoj']
+
+def pie_chart(request, roll):
+    labels = ['CodeChef', 'CodeForce', 'Spoj']
     data = []
-    scores=R21.objects.all().values().filter(roll_number=roll)
+    scores = R21.objects.all().values().filter(roll_number=roll)
     data.append(scores[0]['ccps_10'])
     data.append(scores[0]['cfps_10'])
     data.append(scores[0]['sps_20'])
     print(data)
-    return(labels,data)
+    return (labels, data)
+
 
 def display_students(request, year, br):
     global students
@@ -181,26 +183,31 @@ def auth_login(request):
             if user.is_superuser:
                 return redirect("/admin_panel")
             if user.is_staff:
-                    return redirect('/hod_panel')
+                return redirect('/hod_panel')
             return redirect('/student_view')
             return redirect("/profile")
         else:
             return HttpResponse("Enter correct credentials")
     return render(request, 'login.html')
+
+
 def student_view(request):
-    roll=request.user.username
-    det=R21.objects.all().filter(roll_number=roll)
+    roll = request.user.username
+    det = R21.objects.all().filter(roll_number=roll)
+    global students
+    students = display_students(request, "3rd", det.values()[0]['branch'])
     print(det.values())
     print(det.values()[0]['roll_number'])
-    labels,data=pie_chart(request,det.values()[0]['roll_number'])
+    labels, data = pie_chart(request, det.values()[0]['roll_number'])
     context = {
-            'det': det,
-            'labels':labels,
-            'data':data
-            
-            
-        }
-    return render(request,'student_panel.html',context)
+        'det': det,
+        'labels': labels,
+        'data': data,
+        'students': students
+    }
+    return render(request, 'student_panel.html', context)
+
+
 def hod_view(request):
     username = request.user.username
 
@@ -235,4 +242,5 @@ def profile(request):
     username = None
     if request.user.is_authenticated:
         username = request.user.username
+        students = display_students(request, 3, "IT")
     return render(request, "student_panel.html", {'username': username})
