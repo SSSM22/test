@@ -36,6 +36,15 @@ def student_panel(request):
 def hod_panel(request):
     return render(request, 'hod_panel.html', {'hod': request.user.username})
 
+def pie_chart(request,roll):
+    labels = ['CodeChef','CodeForce','Spoj']
+    data = []
+    scores=R21.objects.all().values().filter(roll_number=roll)
+    data.append(scores[0]['ccps_10'])
+    data.append(scores[0]['cfps_10'])
+    data.append(scores[0]['sps_20'])
+    print(data)
+    return(labels,data)
 
 def display_students(request, year, br):
     global students
@@ -181,9 +190,14 @@ def auth_login(request):
 def student_view(request):
     roll=request.user.username
     det=R21.objects.all().filter(roll_number=roll)
-    print(det)
+    print(det.values())
+    print(det.values()[0]['roll_number'])
+    labels,data=pie_chart(request,det.values()[0]['roll_number'])
     context = {
-            'det': det
+            'det': det,
+            'labels':labels,
+            'data':data
+            
             
         }
     return render(request,'student_panel.html',context)
@@ -198,7 +212,6 @@ def hod_view(request):
         students = students.filter(roll_number=object_id)
         context = {
             'students': students
-
         }
         return render(request, 'report.html', context)
 
