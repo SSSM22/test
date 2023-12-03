@@ -106,7 +106,7 @@ def report(request):
         'students': students
 
     }
-    return render(request, 'report.html', context)
+    return render(request, 'over_view.html', context)
 
 
 def update(request):
