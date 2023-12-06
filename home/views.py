@@ -106,7 +106,7 @@ def report(request):
         'students': students
 
     }
-    return render(request, 'over_view.html', context)
+    return render(request, 'report.html', context)
 
 
 def update(request):
@@ -173,7 +173,7 @@ def auth_login(request):
                              "Please login before proceeding")
 
     if request.method == 'POST':
-        username = request.POST["username"]
+        username = request.POST["username"] 
         password = request.POST["password"]
 
         user = authenticate(request, username=username, password=password)
@@ -184,14 +184,14 @@ def auth_login(request):
                 return redirect("/admin_panel")
             if user.is_staff:
                 return redirect('/hod_panel')
-            return redirect('/student_view')
+            return redirect('/student_view/'+username)
             return redirect("/profile")
         else:
             return HttpResponse("Enter correct credentials")
     return render(request, 'login.html')
 
 
-def student_view(request):
+def student_view(request,username):
     roll = request.user.username
     det = R21.objects.all().filter(roll_number=roll)
     global students
@@ -200,6 +200,7 @@ def student_view(request):
     print(det.values()[0]['roll_number'])
     labels, data = pie_chart(request, det.values()[0]['roll_number'])
     context = {
+        'username': roll,
         'det': det,
         'labels': labels,
         'data': data,

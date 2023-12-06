@@ -11,7 +11,7 @@ urlpatterns = [
     path('report',views.report,name='report'),
     path('hod_panel',views.hod_panel,name='hod'),
     path('hod_view',views.hod_view,name='hod_view'),
-    path('student_view',views.student_view,name='student_view'),
+    path('student_view/<str:username>/',views.student_view,name='student_view'),
     #mains
     path('login', views.auth_login, name='login'),
     path('profile', views.profile, name='profile'),
