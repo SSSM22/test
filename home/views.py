@@ -10,7 +10,12 @@ from django.contrib import messages
 from .scrap import forcesrate, coderate, leetrate, spojrate, get
 from django.contrib.contenttypes.models import ContentType
 from django.http import Http404
-
+# from django.contrib import messages
+# from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+# from django.urls import reverse_lazy
+# from django.contrib.auth.views import PasswordResetView
+# from django.contrib.messages.views import SuccessMessageMixin
 
 # Create your views here.
 
@@ -99,6 +104,9 @@ def validate(request):
 
         }
         return render(request, 'over_view.html', context)
+    else:
+        students = display_students(request, '3rd', 'all')
+        return render(request,'over_view.html',{'students':students})
 
 
 def report(request):
@@ -237,6 +245,34 @@ def auth_logout(request):
     logout(request)
     return redirect("/login")
 
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.info(request, 'Your password has been changed successfully!')
+            # messages.success(request, 'Your password was successfully updated!')
+            return redirect('/logout')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'change_password.html', {
+        'form': form
+    })
+
+
+
+# class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+#     template_name = 'password_reset.html'
+#     email_template_name = 'password_reset_email.html'
+#     subject_template_name = 'users/password_reset_subject'
+#     success_message = "We've emailed you instructions for setting your password, " \
+#                       "if an account exists with the email you entered. You should receive them shortly." \
+#                       " If you don't receive an email, " \
+#                       "please make sure you've entered the address you registered with, and check your spam folder."
+#     success_url = reverse_lazy('login')
 
 @login_required(login_url='/login')
 def profile(request):
@@ -245,3 +281,5 @@ def profile(request):
         username = request.user.username
         students = display_students(request, 3, "IT")
     return render(request, "student_panel.html", {'username': username})
+
+

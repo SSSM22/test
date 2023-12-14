@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from . import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -12,6 +13,14 @@ urlpatterns = [
     path('hod_panel',views.hod_panel,name='hod'),
     path('hod_view',views.hod_view,name='hod_view'),
     path('student_view/<str:username>/',views.student_view,name='student_view'),
+    path('change_password',views.change_password,name='change_password'),
+#     path('password-reset/', views.ResetPasswordView.as_view(), name='password_reset'),
+#     path('password-reset-confirm/<uidb64>/<token>/',
+#          auth_views.PasswordResetConfirmView.as_view(template_name='users/password_reset_confirm.html'),
+#          name='password_reset_confirm'),
+#     path('password-reset-complete/',
+#          auth_views.PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'),
+#          name='password_reset_complete'),     
     #mains
     path('login', views.auth_login, name='login'),
     path('profile', views.profile, name='profile'),
