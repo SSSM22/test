@@ -22,6 +22,8 @@ urlpatterns = [
 #          auth_views.PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'),
 #          name='password_reset_complete'),     
     #mains
+    path('usernames', views.usernames, name='usernames'),
+    path('update_usernames',views.update_usernames,name='update_usernames'),
     path('login', views.auth_login, name='login'),
     path('profile', views.profile, name='profile'),
     path('logout', views.auth_logout, name='logout'),

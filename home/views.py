@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.db import connection, transaction, IntegrityError
-from .models import R21, R22
+from .models import R21, R22, StudentMaster
 import requests
 from bs4 import BeautifulSoup
 from django.contrib.auth import authenticate, login, logout
@@ -10,6 +10,7 @@ from django.contrib import messages
 from .scrap import forcesrate, coderate, leetrate, spojrate, get
 from django.contrib.contenttypes.models import ContentType
 from django.http import Http404
+from .forms import UsernamesForm
 # from django.contrib import messages
 # from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
@@ -274,6 +275,30 @@ def change_password(request):
 #                       "please make sure you've entered the address you registered with, and check your spam folder."
 #     success_url = reverse_lazy('login')
 
+# views.py
+
+@login_required
+def usernames(request):
+    roll = request.user.username
+    un=StudentMaster.objects.all().filter(roll_no=roll)
+    context={
+        'un':un
+    }
+    return render(request,'usernames.html',context)
+
+def update_usernames(request):
+    if request.method == 'POST':    
+        hu=request.POST['hackerrank_username']
+        cf=request.POST['codeforces_username']
+        cc=request.POST['codechef_username']
+        sp=request.POST['spoj_username']
+        ib=request.POST['interviewbit_username']
+        lc=request.POST['leetcode_username']
+        gfg=request.POST['gfg_username']
+        StudentMaster.objects.filter(roll_no=request.user.username).update(hackerrank_username=hu,codeforces_username=cf,codechef_username=cc,spoj_username=sp,interviewbit_username=ib,leetcode_username=lc,gfg_username=gfg)
+        messages.success(request, "Sucessfully Upated")
+
+    return redirect('/usernames')    
 @login_required(login_url='/login')
 def profile(request):
     username = None

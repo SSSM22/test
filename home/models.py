@@ -60,3 +60,33 @@ class R22(models.Model):
     class Meta:
         managed = True
         db_table = 'r22'
+
+class StudentMaster(models.Model):
+    rank = models.IntegerField(db_column='RANK', blank=True, null=True)  # Field name made lowercase.
+    roll_no = models.CharField(db_column='ROLL_NO', primary_key=True, max_length=10, db_collation='utf8mb3_general_ci')  # Field name made lowercase.
+    name = models.CharField(db_column='NAME', max_length=39)  # Field name made lowercase.
+    course = models.CharField(db_column='Course', max_length=7, db_collation='utf8mb3_general_ci', blank=True, null=True)  # Field name made lowercase.
+    year = models.IntegerField(db_column='Year', blank=True, null=True)  # Field name made lowercase.
+    branch = models.CharField(db_column='Branch', max_length=3, db_collation='utf8mb3_general_ci', blank=True, null=True)  # Field name made lowercase.
+    sec = models.CharField(db_column='Sec', max_length=1, db_collation='utf8mb3_general_ci', blank=True, null=True)  # Field name made lowercase.
+    hackerrank_username = models.CharField(db_column='HackerRank_Username', max_length=48, db_collation='utf8mb3_general_ci', blank=True, null=True)  # Field name made lowercase.
+    codeforces_username = models.CharField(db_column='CodeForces_Username', max_length=40, db_collation='utf8mb3_general_ci', blank=True, null=True)  # Field name made lowercase.
+    codechef_username = models.CharField(db_column='CodeChef_Username', max_length=92, db_collation='utf8mb3_general_ci', blank=True, null=True)  # Field name made lowercase.
+    spoj_username = models.CharField(db_column='Spoj_Username', max_length=22, db_collation='utf8mb3_general_ci', blank=True, null=True)  # Field name made lowercase.
+    interviewbit_username = models.CharField(db_column='InterviewBit_Username', max_length=42, db_collation='utf8mb3_general_ci', blank=True, null=True)  # Field name made lowercase.
+    leetcode_username = models.CharField(db_column='LeetCode_Username', max_length=29, db_collation='utf8mb3_general_ci', blank=True, null=True)  # Field name made lowercase.
+    gfg_username = models.CharField(db_column='GFG_Username', max_length=48, db_collation='utf8mb3_general_ci', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'student_master'
+        
+class Usernames(models.Model):
+    user = models.ForeignKey(StudentMaster, on_delete=models.CASCADE)
+    hackerrank_username = models.CharField(max_length=50)
+    codeforces_username = models.CharField(max_length=50)
+    codechef_username = models.CharField(max_length=50)
+    spoj_username = models.CharField(max_length=50)
+    interviewbit_username = models.CharField(max_length=50)
+    leetcode_username = models.CharField(max_length=50)
+    gfg_username = models.CharField(max_length=50)
