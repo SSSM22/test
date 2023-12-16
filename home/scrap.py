@@ -12,8 +12,11 @@ def forcesrate(forcesu):
         rank_element = soup.find(
             class_="_UserActivityFrame_counterValue")
         if rank_element:
-            rank = rank_element.get_text().strip()[0]
-            return int(rank_element.text[0:-9])
+            try:
+                rank = rank_element.get_text().strip()[0]
+                return int(rank_element.text[0:-9])
+            except:
+                return 0
         else:
             return 0
     else:
@@ -27,8 +30,11 @@ def coderate(chefu):
         soup = BeautifulSoup(response.content, 'html.parser')
         rank_element = soup.find(class_="rating-data-section problems-solved")
         if rank_element:
-            rank = str(list(rank_element)[1])
-            return int(rank[23:-8])
+            try:
+                rank = str(list(rank_element)[1])
+                return int(rank[23:-8])
+            except:
+                return 0
         else:
             return 0
     else:
@@ -43,26 +49,34 @@ def leetrate(leetu):
         rank_element = soup.find(
             class_="text-[24px] font-medium text-label-1 dark:text-dark-label-1")
         if rank_element:
-            rank = rank_element.get_text().strip()
-            return rank
+            try:
+                rank = int(rank_element.get_text().strip())
+                return rank
+            except:
+                return 0
+
         else:
-            return "Ranking not found."
+            return 0
     else:
-        return "Unable to connect to LeetCode"
+        return 0
 
 
 def spojrate(spo):
     url = f'https://www.spoj.com/users/{spo}'
     response = requests.get(url)
-    
+
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
         rank_element = soup.find(
             class_="dl-horizontal profile-info-data profile-info-data-stats"
         )
-        rank = str(list(rank_element)[3])
-        return (int(rank[4:len(rank) - 5]))
-    return -1
+        try:
+            rank = str(list(rank_element)[3])
+            return (int(rank[4:len(rank) - 5]))
+        except:
+            return 0
+
+    return 0
 
 # test function
 
@@ -73,10 +87,12 @@ def interviewbit_ranking(username):
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
         rank_elements = soup.find_all(class_="txt")
-        if rank_elements:
-            rank = rank_elements[1].get_text().strip()
-            return int(rank)
-
+        if rank_elements is not None:
+            try:
+                rank = int(rank_elements[1].get_text().strip())
+                return rank
+            except:
+                return 0
     else:
         return 0
 
@@ -87,10 +103,12 @@ def geeksforgeeks_ranking(username):
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
         rank_elements = soup.find_all(class_="score_card_value")
-        if rank_elements:
-            rank = rank_elements[1].get_text().strip()
-            return int(rank)
-
+        if rank_elements is not None:
+            try:
+                rank = int(rank_elements[1].get_text().strip())
+                return rank
+            except:
+                return 0
     else:
         return 0
 
@@ -111,10 +129,11 @@ def get(usernames: dict, func) -> dict:
 
     return result
 
+# Profiles for testing purposes
 
-# print(leetrate('Sithis')) done
-# print(coderate("everule1")) done
-# print(forcesrate("tourist")) done
-# print(spojrate("defrager")) done
-# print(geeksforgeeks_ranking('meetbrahmbhatt10l')) done
-print(interviewbit_ranking("")) 
+# print(leetrate('Sithis'))
+# print(coderate("everule1"))
+# print(forcesrate("tourist"))
+# print(spojrate("defrager"))
+# print(geeksforgeeks_ranking('anil bera'))
+# print(interviewbit_ranking("sssm_2003"))

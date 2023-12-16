@@ -1,13 +1,13 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.db import connection, transaction, IntegrityError
-from .models import R21, R22, StudentMaster
+from .models import R21, R22, StudentMaster, StudentScores
 import requests
 from bs4 import BeautifulSoup
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .scrap import forcesrate, coderate, leetrate, spojrate, get
+from .scrap import forcesrate, coderate, leetrate, spojrate, get, geeksforgeeks_ranking, interviewbit_ranking
 from django.contrib.contenttypes.models import ContentType
 from django.http import Http404
 # from .forms import UsernamesForm
@@ -120,21 +120,28 @@ def report(request):
 
 def update(request):
 
-    students = R21.objects.all().values()
-
+    student = StudentMaster.objects.all().values()
+    ib_ids = {}
+    lc_ids = {}
+    gfg_ids = {}
     cc_ids = {}
     cf_ids = {}
     sp_ids = {}
+    ib_res = {}
+    lc_res = {}
+    gfg_res = {}
     cc_res = {}
     cf_res = {}
     sp_res = {}
     c = 0
-    for i in students:
+    for i in student:
         cc_ids.update({i['codechef_username']: 0})
         cf_ids.update({i['codeforces_username']: 0})
-
+        ib_ids.update({i['interviewbit_username']: 0})
         sp_ids.update({i['spoj_username']: 0})
-
+        lc_ids.update({i['leetcode_username']: 0})
+        gfg_ids.update({i['gfg_username']: 0})
+    print(sp_ids, len(sp_ids))
     #     c = c + 1
     #    # c IS FOR TESTING PURPOSE ONLY
     #     if (c > 30):
@@ -143,35 +150,38 @@ def update(request):
     cc_res.update(get(cc_ids, coderate))
     cf_res.update(get(cf_ids, forcesrate))
     sp_res.update(get(sp_ids, spojrate))
+    gfg_res.update(get(gfg_ids, geeksforgeeks_ranking))
+    lc_res.update(get(lc_ids, leetrate))
+    ib_res.update(get(ib_ids, interviewbit_ranking))
 
+    # print(sp_res,gfg_res,lc_res,ib_res)
     print(sp_res)
-    print(cc_res, cf_res)
 
-    try:
-        with transaction.atomic():
-            for key, value in cc_res.items():
-                R21.objects.filter(codechef_username=key).update(
-                    cc_problems_solved=value)
-                R21.objects.filter(codechef_username=key).update(
-                    ccps_10=value*10)
-            for key, value in cf_res.items():
-                R21.objects.filter(codeforces_username=key).update(
-                    cf_problems_solved=value)
-                R21.objects.filter(codeforces_username=key).update(
-                    cfps_10=value*10)
-            for key, value in sp_res.items():
-                R21.objects.filter(codeforces_username=key).update(
-                    cf_problems_solved=value)
-                R21.objects.filter(codeforces_username=key).update(
-                    sps_20=value*20)
+    # try:
+    #     with transaction.atomic():
+    #         for key, value in cc_res.items():
+    #             StudentScores.objects.filter(codechef_username=key).update(
+    #                 cc_problems_solved=value)
+    #             R21.objects.filter(codechef_username=key).update(
+    #                 ccps_10=value*10)
+    #         for key, value in cf_res.items():
+    #             R21.objects.filter(codeforces_username=key).update(
+    #                 cf_problems_solved=value)
+    #             R21.objects.filter(codeforces_username=key).update(
+    #                 cfps_10=value*10)
+    #         for key, value in sp_res.items():
+    #             R21.objects.filter(codeforces_username=key).update(
+    #                 cf_problems_solved=value)
+    #             R21.objects.filter(codeforces_username=key).update(
+    #                 sps_20=value*20)
 
-        with connection.cursor() as cursor:
-            cursor.callproc('update_overall_score')
-            cursor.callproc('update_rank')
-            cursor.close()
+    #     with connection.cursor() as cursor:
+    #         cursor.callproc('update_overall_score')
+    #         cursor.callproc('update_rank')
+    #         cursor.close()
 
-    except IntegrityError:
-        return HttpResponse("DB ERROR")
+    # except IntegrityError:
+    #     return HttpResponse("DB ERROR")
 
     return HttpResponse("updated")
 
