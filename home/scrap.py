@@ -46,9 +46,9 @@ def leetrate(leetu):
             rank = rank_element.get_text().strip()
             return rank
         else:
-            return "Ranking not found."
+            return 0
     else:
-        return "Unable to connect to LeetCode"
+        return 0
 
 
 def spojrate(spo):
@@ -60,9 +60,11 @@ def spojrate(spo):
         rank_element = soup.find(
             class_="dl-horizontal profile-info-data profile-info-data-stats"
         )
+        print(spo)
         rank = str(list(rank_element)[3])
+        print(rank)
         return (int(rank[4:len(rank) - 5]))
-    return -1
+    return 0
 
 # test function
 
@@ -117,4 +119,4 @@ def get(usernames: dict, func) -> dict:
 # print(forcesrate("tourist")) done
 # print(spojrate("defrager")) done
 # print(geeksforgeeks_ranking('meetbrahmbhatt10l')) done
-print(interviewbit_ranking("")) 
+print(spojrate("sssm_2003")) 
