@@ -1,13 +1,13 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.db import connection, transaction, IntegrityError
-from .models import R21, R22, StudentMaster,StudentScores
+from .models import R21, R22, StudentMaster, StudentScores
 import requests
 from bs4 import BeautifulSoup
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .scrap import forcesrate, coderate, leetrate, spojrate, get
+from .scrap import forcesrate, coderate, geeksforgeeks_ranking, interviewbit_ranking, leetrate, spojrate, get
 from django.contrib.contenttypes.models import ContentType
 from django.http import Http404
 # from .forms import UsernamesForm
@@ -107,7 +107,7 @@ def validate(request):
         return render(request, 'over_view.html', context)
     else:
         students = display_students(request, '3rd', 'all')
-        return render(request,'over_view.html',{'students':students})
+        return render(request, 'over_view.html', {'students': students})
 
 
 def report(request):
@@ -121,15 +121,15 @@ def report(request):
 def update(request):
 
     student = StudentMaster.objects.all().values()
-    ib_ids={}
-    lc_ids={}
-    gfg_ids={}
+    ib_ids = {}
+    lc_ids = {}
+    gfg_ids = {}
     cc_ids = {}
     cf_ids = {}
     sp_ids = {}
-    ib_res={}
-    lc_res={}
-    gfg_res={}
+    ib_res = {}
+    lc_res = {}
+    gfg_res = {}
     cc_res = {}
     cf_res = {}
     sp_res = {}
@@ -137,11 +137,11 @@ def update(request):
     for i in student:
         cc_ids.update({i['codechef_username']: 0})
         cf_ids.update({i['codeforces_username']: 0})
-        ib_ids.update({i['interviewbit_username']:0})
+        ib_ids.update({i['interviewbit_username']: 0})
         sp_ids.update({i['spoj_username']: 0})
-        lc_ids.update({i['leetcode_username']:0})
-        gfg_ids.update({i['gfg_username']:0})
-    print(sp_ids,len(sp_ids))
+        lc_ids.update({i['leetcode_username']: 0})
+        gfg_ids.update({i['gfg_username']: 0})
+    print(sp_ids, len(sp_ids))
     #     c = c + 1
     #    # c IS FOR TESTING PURPOSE ONLY
     #     if (c > 30):
@@ -150,12 +150,12 @@ def update(request):
     cc_res.update(get(cc_ids, coderate))
     cf_res.update(get(cf_ids, forcesrate))
     sp_res.update(get(sp_ids, spojrate))
-    gfg_res.update(get(gfg_ids,geeksforgeeks_ranking))
-    lc_res.update(get(lc_ids,leetrate))
-    ib_res.update(get(ib_ids,interviewbit_ranking))
+    gfg_res.update(get(gfg_ids, geeksforgeeks_ranking))
+    lc_res.update(get(lc_ids, leetrate))
+    ib_res.update(get(ib_ids, interviewbit_ranking))
 
     # print(sp_res,gfg_res,lc_res,ib_res)
-    print( sp_res)
+    print(sp_res)
 
     # try:
     #     with transaction.atomic():
@@ -192,7 +192,7 @@ def auth_login(request):
                              "Please login before proceeding")
 
     if request.method == 'POST':
-        username = request.POST["username"] 
+        username = request.POST["username"]
         password = request.POST["password"]
 
         user = authenticate(request, username=username, password=password)
@@ -210,7 +210,7 @@ def auth_login(request):
     return render(request, 'login.html')
 
 
-def student_view(request,username):
+def student_view(request, username):
     roll = request.user.username
     det = R21.objects.all().filter(roll_number=roll)
     global students
@@ -256,13 +256,15 @@ def auth_logout(request):
     logout(request)
     return redirect("/login")
 
+
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
-            messages.info(request, 'Your password has been changed successfully!')
+            messages.info(
+                request, 'Your password has been changed successfully!')
             # messages.success(request, 'Your password was successfully updated!')
             return redirect('/logout')
         else:
@@ -272,7 +274,6 @@ def change_password(request):
     return render(request, 'change_password.html', {
         'form': form
     })
-
 
 
 # class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
@@ -290,25 +291,29 @@ def change_password(request):
 @login_required
 def usernames(request):
     roll = request.user.username
-    un=StudentMaster.objects.all().filter(roll_no=roll)
-    context={
-        'un':un
+    un = StudentMaster.objects.all().filter(roll_no=roll)
+    context = {
+        'un': un
     }
-    return render(request,'usernames.html',context)
+    return render(request, 'usernames.html', context)
+
 
 def update_usernames(request):
-    if request.method == 'POST':    
-        hu=request.POST['hackerrank_username']
-        cf=request.POST['codeforces_username']
-        cc=request.POST['codechef_username']
-        sp=request.POST['spoj_username']
-        ib=request.POST['interviewbit_username']
-        lc=request.POST['leetcode_username']
-        gfg=request.POST['gfg_username']
-        StudentMaster.objects.filter(roll_no=request.user.username).update(hackerrank_username=hu,codeforces_username=cf,codechef_username=cc,spoj_username=sp,interviewbit_username=ib,leetcode_username=lc,gfg_username=gfg)
+    if request.method == 'POST':
+        hu = request.POST['hackerrank_username']
+        cf = request.POST['codeforces_username']
+        cc = request.POST['codechef_username']
+        sp = request.POST['spoj_username']
+        ib = request.POST['interviewbit_username']
+        lc = request.POST['leetcode_username']
+        gfg = request.POST['gfg_username']
+        StudentMaster.objects.filter(roll_no=request.user.username).update(hackerrank_username=hu, codeforces_username=cf,
+                                                                           codechef_username=cc, spoj_username=sp, interviewbit_username=ib, leetcode_username=lc, gfg_username=gfg)
         messages.success(request, "Sucessfully Upated")
 
-    return redirect('/usernames')    
+    return redirect('/usernames')
+
+
 @login_required(login_url='/login')
 def profile(request):
     username = None
@@ -316,5 +321,3 @@ def profile(request):
         username = request.user.username
         students = display_students(request, 3, "IT")
     return render(request, "student_panel.html", {'username': username})
-
-
