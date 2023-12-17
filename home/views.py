@@ -7,7 +7,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+<<<<<<< HEAD
 from .scrap import forcesrate, coderate, geeksforgeeks_ranking, interviewbit_ranking, leetrate, spojrate, get
+=======
+from .scrap import forcesrate, coderate, leetrate, spojrate, get, geeksforgeeks_ranking, interviewbit_ranking
+>>>>>>> 44284968be45938a1f901532195c7cec37921ab0
 from django.contrib.contenttypes.models import ContentType
 from django.http import Http404
 # from .forms import UsernamesForm
@@ -183,7 +187,7 @@ def update(request):
     # except IntegrityError:
     #     return HttpResponse("DB ERROR")
 
-    # return HttpResponse("updated")
+    return HttpResponse("updated")
 
 
 def auth_login(request):
