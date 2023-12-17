@@ -76,11 +76,11 @@ class StudentMaster(models.Model):
     interviewbit_username = models.CharField(db_column='InterviewBit_Username', max_length=42, db_collation='utf8mb3_general_ci', blank=True, null=True)  # Field name made lowercase.
     leetcode_username = models.CharField(db_column='LeetCode_Username', max_length=29, db_collation='utf8mb3_general_ci', blank=True, null=True)  # Field name made lowercase.
     gfg_username = models.CharField(db_column='GFG_Username', max_length=48, db_collation='utf8mb3_general_ci', blank=True, null=True)  # Field name made lowercase.
-    overall_score = models.IntegerField(db_column='Overall_Score')  # Field name made lowercase
 
     class Meta:
         managed = False
         db_table = 'student_master'
+
 
 class StudentScores(models.Model):
     roll_no = models.CharField(db_column='ROLL_NO', primary_key=True, max_length=10)  # Field name made lowercase.
@@ -98,10 +98,11 @@ class StudentScores(models.Model):
     leetcode_score = models.IntegerField(db_column='LeetCode_Score', blank=True, null=True)  # Field name made lowercase.
     gfg = models.TextField(db_column='GFG', blank=True, null=True)  # Field name made lowercase.
     gfg_score = models.IntegerField(db_column='GFG_Score', blank=True, null=True)  # Field name made lowercase.
+    overall_score = models.IntegerField(db_column='Overall_score')  # Field name made lowercase.
 
     class Meta:
         managed = False
-        db_table = 'student_scores'        
+        db_table = 'student_scores'       
         
 class Usernames(models.Model):
     user = models.ForeignKey(StudentMaster, on_delete=models.CASCADE)
