@@ -134,28 +134,30 @@ def update(request):
     cf_res = {}
     sp_res = {}
     c = 0
+    userlist=[]
     for i in student:
-        cc_ids.update({i['codechef_username']: 0})
-        cf_ids.update({i['codeforces_username']: 0})
-        ib_ids.update({i['interviewbit_username']: 0})
-        sp_ids.update({i['spoj_username']: 0})
-        lc_ids.update({i['leetcode_username']: 0})
-        gfg_ids.update({i['gfg_username']: 0})
-    print(sp_ids, len(sp_ids))
+        userlist.append({"roll_no":i['roll_no'],'id':i['codechef_username'],'score':0})
+        # cc_ids.update({i['roll_no']:i['codechef_username']})
+        # cf_ids.update({i['roll_no']:i['codeforces_username']})
+        # ib_ids.update({i['roll_no']:i['interviewbit_username']})
+        # sp_ids.update({i['roll_no']:i['spoj_username']})
+        # lc_ids.update({i['roll_no']:i['leetcode_username']})
+        # gfg_ids.update({i['roll_no']:i['gfg_username']})
+    print(userlist, len(userlist))
     #     c = c + 1
     #    # c IS FOR TESTING PURPOSE ONLY
     #     if (c > 30):
     #         break
 
-    cc_res.update(get(cc_ids, coderate))
-    cf_res.update(get(cf_ids, forcesrate))
-    sp_res.update(get(sp_ids, spojrate))
-    gfg_res.update(get(gfg_ids, geeksforgeeks_ranking))
-    lc_res.update(get(lc_ids, leetrate))
-    ib_res.update(get(ib_ids, interviewbit_ranking))
+    # cc_res.update(get(cc_ids, coderate))
+    # cf_res.update(get(cf_ids, forcesrate))
+    # sp_res.update(get(sp_ids, spojrate))
+    # gfg_res.update(get(gfg_ids, geeksforgeeks_ranking))
+    # lc_res.update(get(lc_ids, leetrate))
+    # ib_res.update(get(ib_ids, interviewbit_ranking))
 
     # print(sp_res,gfg_res,lc_res,ib_res)
-    print(sp_res)
+    # print(sp_res)
 
     # try:
     #     with transaction.atomic():

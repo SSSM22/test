@@ -113,7 +113,7 @@ def geeksforgeeks_ranking(username):
         return 0
 
 
-def get(usernames: dict, func) -> dict:
+def get(usernames: list, func) -> list:
     result = {}
     start_time = time.time()
 
