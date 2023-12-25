@@ -2,6 +2,29 @@ import requests
 from bs4 import BeautifulSoup
 import time
 from concurrent.futures import ThreadPoolExecutor
+import http.client
+import json
+import math
+
+def hackerrank_ranking(username):
+    conn = http.client.HTTPSConnection("www.hackerrank.com")
+    payload = ""
+    headers = {
+        'cookie': "hackerrank_mixpanel_token=ff22930b-bc23-4171-bc2b-b88d8feb3fd0; hrc_l_i=F; _hrank_session=798b66069b13021061cd131795c615e6",
+        'user-agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0"
+        }
+    to_get="/rest/hackers/"+username+"/scores_elo"
+    conn.request("GET",to_get , payload, headers)
+    res = conn.getresponse()
+    data = res.read()
+    data=data.decode("utf-8")
+    parsed_data = json.loads(data)
+    if(len(parsed_data)==1):
+        return 0
+    algo=parsed_data[1]['practice']['score']
+    ds=parsed_data[9]['practice']['score']
+    
+    return math.floor(algo+ds)
 
 
 def forcesrate(forcesu):
@@ -137,3 +160,4 @@ def get(usernames: list, func) -> list:
 # print(spojrate("defrager"))
 # print(geeksforgeeks_ranking('anil bera'))
 # print(interviewbit_ranking("sssm_2003"))
+print(hackerrank_ranking('sssm_2003'))
