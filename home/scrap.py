@@ -19,7 +19,7 @@ def hackerrank_ranking(username):
     data = res.read()
     data=data.decode("utf-8")
     parsed_data = json.loads(data)
-    if(len(parsed_data)==1):
+    if(len(parsed_data)==1 or len(parsed_data)==0):
         return 0
     algo=parsed_data[1]['practice']['score']
     ds=parsed_data[9]['practice']['score']
@@ -160,4 +160,4 @@ def get(usernames: list, func) -> list:
 # print(spojrate("defrager"))
 # print(geeksforgeeks_ranking('anil bera'))
 # print(interviewbit_ranking("sssm_2003"))
-print(hackerrank_ranking('sssm_2003'))
+# print(hackerrank_ranking('sssm_2003'))

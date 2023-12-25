@@ -3,7 +3,7 @@ from django.db import connection, transaction, IntegrityError
 from .models import R21, R22, StudentMaster, StudentScores
 import requests
 from bs4 import BeautifulSoup
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout,update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -121,29 +121,29 @@ def report(request):
 def update(request):
 
     student = StudentMaster.objects.all().values()
-    ib_ids = {}
-    lc_ids = {}
-    gfg_ids = {}
-    cc_ids = {}
-    cf_ids = {}
-    sp_ids = {}
-    ib_res = {}
-    lc_res = {}
-    gfg_res = {}
-    cc_res = {}
-    cf_res = {}
-    sp_res = {}
     c = 0
-    userlist=[]
+    cc_data=[]
+    cf_data=[]  
+    sp_data=[]
+    ib_data=[]
+    lc_data=[]
+    gfg_data=[]
+    hackerrank_data=[]
     for i in student:
-        userlist.append({"roll_no":i['roll_no'],'id':i['codechef_username'],'score':0})
+        cc_data.append({"roll_no":i['roll_no'],'id':i['codechef_username'],'score':0})
+        cf_data.append({"roll_no":i['roll_no'],'id':i['codeforces_username'],'score':0})
+        sp_data.append({"roll_no":i['roll_no'],'id':i['spoj_username'],'score':0})
+        ib_data.append({"roll_no":i['roll_no'],'id':i['interviewbit_username'],'score':0})
+        lc_data.append({"roll_no":i['roll_no'],'id':i['leetcode_username'],'score':0})
+        gfg_data.append({"roll_no":i['roll_no'],'id':i['gfg_username'],'score':0})
+        hackerrank_data.append({"roll_no":i['roll_no'],'id':i['hackerrank_username'],'score':0})
         # cc_ids.update({i['roll_no']:i['codechef_username']})
         # cf_ids.update({i['roll_no']:i['codeforces_username']})
         # ib_ids.update({i['roll_no']:i['interviewbit_username']})
         # sp_ids.update({i['roll_no']:i['spoj_username']})
         # lc_ids.update({i['roll_no']:i['leetcode_username']})
         # gfg_ids.update({i['roll_no']:i['gfg_username']})
-    print(userlist, len(userlist))
+
     #     c = c + 1
     #    # c IS FOR TESTING PURPOSE ONLY
     #     if (c > 30):
@@ -205,7 +205,10 @@ def auth_login(request):
                 return redirect("/admin_panel")
             if user.is_staff:
                 return redirect('/hod_panel')
-            
+            st=StudentMaster.objects.get(roll_no=username)
+            if(st.hackerrank_username=='None' or st.codechef_username=='None' or st.codeforces_username=='None' or st.spoj_username=='None' or st.interviewbit_username=='None' or st.leetcode_username=='None' or st.gfg_username=='None'):
+                messages.info(request, 'Please fill in all your usernames and login again to view your profile')
+                return redirect('/usernames')
             return redirect('/student_view/'+username)
 
         else:
@@ -293,10 +296,10 @@ def change_password(request):
 
 @login_required
 def usernames(request):
-    roll = request.user.username
+    roll = request.user.username 
     un = StudentMaster.objects.all().filter(roll_no=roll)
     context = {
-        'un': un
+        'un': un     
     }
     return render(request, 'usernames.html', context)
 
