@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout,update_session_auth_
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .scrap import forcesrate, coderate, geeksforgeeks_ranking, interviewbit_ranking, leetrate, spojrate, get
+from .scrap import forcesrate, coderate, geeksforgeeks_ranking, interviewbit_ranking, leetrate, spojrate, get,hackerrank_ranking
 from django.contrib.contenttypes.models import ContentType
 from django.http import Http404
 # from .forms import UsernamesForm
@@ -137,27 +137,22 @@ def update(request):
         lc_data.append({"roll_no":i['roll_no'],'id':i['leetcode_username'],'score':0})
         gfg_data.append({"roll_no":i['roll_no'],'id':i['gfg_username'],'score':0})
         hackerrank_data.append({"roll_no":i['roll_no'],'id':i['hackerrank_username'],'score':0})
-        # cc_ids.update({i['roll_no']:i['codechef_username']})
-        # cf_ids.update({i['roll_no']:i['codeforces_username']})
-        # ib_ids.update({i['roll_no']:i['interviewbit_username']})
-        # sp_ids.update({i['roll_no']:i['spoj_username']})
-        # lc_ids.update({i['roll_no']:i['leetcode_username']})
-        # gfg_ids.update({i['roll_no']:i['gfg_username']})
 
     #     c = c + 1
     #    # c IS FOR TESTING PURPOSE ONLY
     #     if (c > 30):
     #         break
 
-    # cc_res.update(get(cc_ids, coderate))
-    # cf_res.update(get(cf_ids, forcesrate))
-    # sp_res.update(get(sp_ids, spojrate))
-    # gfg_res.update(get(gfg_ids, geeksforgeeks_ranking))
-    # lc_res.update(get(lc_ids, leetrate))
-    # ib_res.update(get(ib_ids, interviewbit_ranking))
-
+    cc_data = get(cc_data, coderate)
+    cf_data = get(cf_data, forcesrate)
+    sp_data = get(sp_data, spojrate)
+    gfg_data = get(gfg_data, geeksforgeeks_ranking)
+    lc_data = get(lc_data, leetrate)
+    ib_data = get(ib_data, interviewbit_ranking) # Looks like students didnt provide the right usernames for interviewbit
+    hackerrank_data = get(hackerrank_data, hackerrank_ranking)
+    
     # print(sp_res,gfg_res,lc_res,ib_res)
-    # print(sp_res)
+    print(cf_data)
 
     # try:
     #     with transaction.atomic():

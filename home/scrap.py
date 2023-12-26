@@ -7,19 +7,24 @@ import json
 import math
 
 def hackerrank_ranking(username):
-    conn = http.client.HTTPSConnection("www.hackerrank.com")
-    payload = ""
-    headers = {
-        'cookie': "hackerrank_mixpanel_token=ff22930b-bc23-4171-bc2b-b88d8feb3fd0; hrc_l_i=F; _hrank_session=798b66069b13021061cd131795c615e6",
-        'user-agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0"
-        }
-    to_get="/rest/hackers/"+username+"/scores_elo"
-    conn.request("GET",to_get , payload, headers)
-    res = conn.getresponse()
-    data = res.read()
-    data=data.decode("utf-8")
-    parsed_data = json.loads(data)
-    if(len(parsed_data)==1 or len(parsed_data)==0):
+    if(username == 'None'):
+        return 0
+    try:
+        conn = http.client.HTTPSConnection("www.hackerrank.com")
+        payload = ""
+        headers = {
+            'cookie': "hackerrank_mixpanel_token=ff22930b-bc23-4171-bc2b-b88d8feb3fd0; hrc_l_i=F; _hrank_session=798b66069b13021061cd131795c615e6",
+            'user-agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0"
+            }
+        to_get="/rest/hackers/"+username+"/scores_elo"
+        conn.request("GET",to_get , payload, headers)
+        res = conn.getresponse()
+        data = res.read()
+        data=data.decode("utf-8")
+        parsed_data = json.loads(data)
+        if(len(parsed_data)==1 or len(parsed_data)==0):
+            return 0
+    except:
         return 0
     algo=parsed_data[1]['practice']['score']
     ds=parsed_data[9]['practice']['score']
@@ -28,6 +33,8 @@ def hackerrank_ranking(username):
 
 
 def forcesrate(forcesu):
+    if(forcesu == 'None'):
+        return 0
     url = f"https://codeforces.com/profile/{forcesu}"
     response = requests.get(url)
     if response.status_code == 200:
@@ -47,6 +54,8 @@ def forcesrate(forcesu):
 
 
 def coderate(chefu):
+    if(chefu == 'None'):
+        return 0
     url = f"https://www.codechef.com/users/{chefu}"
     response = requests.get(url)
     if response.status_code == 200:
@@ -65,6 +74,8 @@ def coderate(chefu):
 
 
 def leetrate(leetu):
+    if(leetu == 'None'):
+        return 0
     url = f"https://leetcode.com/{leetu}"
     response = requests.get(url)
     if response.status_code == 200:
@@ -85,6 +96,8 @@ def leetrate(leetu):
 
 
 def spojrate(spo):
+    if(spo == 'None'):
+        return 0
     url = f'https://www.spoj.com/users/{spo}'
     response = requests.get(url)
 
@@ -105,6 +118,8 @@ def spojrate(spo):
 
 
 def interviewbit_ranking(username):
+    if(username == 'None'):
+        return 0
     url = f"https://www.interviewbit.com/profile/{username}"
     response = requests.get(url)
     if response.status_code == 200:
@@ -121,6 +136,8 @@ def interviewbit_ranking(username):
 
 
 def geeksforgeeks_ranking(username):
+    if(username == 'None'):
+        return 0
     url = f"https://auth.geeksforgeeks.org/user/{username}"
     response = requests.get(url)
     if response.status_code == 200:
@@ -139,25 +156,29 @@ def geeksforgeeks_ranking(username):
 def get(usernames: list, func) -> list:
     result = {}
     start_time = time.time()
+    userid = []
+    for i in usernames:
+        userid.append(i['id'])
 
     with ThreadPoolExecutor(max_workers=7) as p:
-        res = list(p.map(func, usernames.keys()))
+        res = list(p.map(func, userid))
 
-    keys = list(usernames.keys())
+    # keys = list(usernames.keys())
     c = 0
     for x in res:
-        result[keys[c]] = x
+        # result[keys[c]] = x
+        usernames[c]['score'] = x
         c = c+1
     print(f"{(time.time() - start_time):.2f} seconds")
 
-    return result
+    return usernames
 
 # Profiles for testing purposes
 
 # print(leetrate('Sithis'))
 # print(coderate("everule1"))
-# print(forcesrate("tourist"))
+print(forcesrate("devisahithi2004"))
 # print(spojrate("defrager"))
 # print(geeksforgeeks_ranking('anil bera'))
 # print(interviewbit_ranking("sssm_2003"))
-# print(hackerrank_ranking('sssm_2003'))
+# print(hackerrank_ranking('swarajsudheer'))
