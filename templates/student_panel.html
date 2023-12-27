@@ -15,7 +15,7 @@
         <a href="https://discord.gg/jXUkmX7Tvf" target="_blank"><button class="button">Discord Group</button> </a>
         <a href="/change_password"><button class="button">Change Password</button> </a>
         <p>
-          Roll Number: <span id="roll-number">{{details.roll_number}}</span>
+          Roll Number: <span id="roll-number">{{details.roll_no.roll_no}}</span>
         </p>
         <h2>Student Report</h2>
       </div>
@@ -23,27 +23,35 @@
         <h2>Scores</h2>
         <ul>
           <li>
+            <strong>Hackerrank:</strong>
+            <span id="Hackerrank-score">{{details.roll_no.hackerrank_score}}</span>
+          </li>
+          <li>
             <strong>CodeChef:</strong>
-            <span id="codechef-score">{{details.ccps_10}}</span>
+            <span id="codechef-score">{{details.roll_no.codechef_score}}</span>
           </li>
           <li>
             <strong>LeetCode:</strong> <span id="leetcode-score">85</span>
           </li>
           <li>
             <strong>Codeforces:</strong>
-            <span id="codeforces-score">{{details.cfps_10}}</span>
+            <span id="codeforces-score">{{details.roll_no.codeforces_score}}</span>
           </li>
           <li>
             <strong>Spoj:</strong>
-            <span id="spoj-score">{{details.sps_20}}</span>
+            <span id="spoj-score">{{details.roll_no.spoj_score}}</span>
           </li>
           <li>
             <strong>InterviewBit:</strong>
-            <span id="interviewbit-score">78</span>
+            <span id="interviewbit-score">{{details.roll_no.interviewbit_score}}</span>
+          </li>
+          <li>
+            <strong>GeeksForGeeks:</strong>
+            <span id="GeeksForGeeks-score">{{details.roll_no.gfg_score}}</span>
           </li>
         </ul>
       </div>
-      <a href="/overview"><button class="button">View Batch Report</button> </a>
+      <a href="/overview" target="_blank"><button class="button">View Batch Report</button> </a>
       <a href="/usernames"><button class="button">Usernames</button> </a>
       <h2>Pie Chart</h2>
       {% block content %}
@@ -66,7 +74,7 @@
           datasets: [{
             data: {{ data|safe }},
             backgroundColor: [
-              '#FF0000', '#FFFF00', '	#00FFFF', '#C0C0C0', '#D3D3D3'
+              '#FF0000', '#FFFF00', '	#00FFFF', '#C0C0C0', '#D3D3D3','#008080','#006400'
             ],
             label: 'Population'
           }],

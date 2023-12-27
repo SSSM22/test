@@ -63,7 +63,7 @@ class R22(models.Model):
 
 class StudentMaster(models.Model):
     rank = models.IntegerField(db_column='RANK', blank=True, null=True)  # Field name made lowercase.
-    roll_no = models.CharField(db_column='ROLL_NO', primary_key=True, max_length=10, db_collation='utf8mb3_general_ci')  # Field name made lowercase.
+    roll_no = models.OneToOneField('StudentScores', models.DO_NOTHING, db_column='ROLL_NO', primary_key=True)  # Field name made lowercase.
     name = models.CharField(db_column='NAME', max_length=39)  # Field name made lowercase.
     course = models.CharField(db_column='Course', max_length=7, db_collation='utf8mb3_general_ci', blank=True, null=True)  # Field name made lowercase.
     year = models.IntegerField(db_column='Year', blank=True, null=True)  # Field name made lowercase.

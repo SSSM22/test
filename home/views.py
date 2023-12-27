@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.db import connection, transaction, IntegrityError
+from django.db.models import F
 from .models import R21, R22, StudentMaster, StudentScores
 import requests
 from bs4 import BeautifulSoup
@@ -21,7 +22,7 @@ from  datetime import date
 
 # Create your views here.
 
-dic_branch = {'hodit': 'IT',
+dic_branch = {'hodit': 'INF',
               'hodcs': 'CSE',
               'hodece': 'ECE',
 
@@ -46,52 +47,28 @@ def hod_panel(request):
 
 
 def pie_chart(request, roll):
-    labels = ['CodeChef', 'CodeForce', 'Spoj']
+    labels = ['CodeChef', 'CodeForce', 'Spoj','Hackerrank','Interviewbit','Leetcode','Geeksforgeeks']
     data = []
-    scores = R21.objects.all().values().filter(roll_number=roll)
-    data.append(scores[0]['ccps_10'])
-    data.append(scores[0]['cfps_10'])
-    data.append(scores[0]['sps_20'])
+    scores =StudentMaster.objects.select_related('roll_no').get(roll_no=roll)#joining tables studentMaster table has foreign key roll_no
+    data.append(scores.roll_no.codechef_score) #accessing the score of codechef of a particular student syntax
+    data.append(scores.roll_no.codeforces_score)
+    data.append(scores.roll_no.spoj_score)
+    data.append(scores.roll_no.hackerrank_score)
+    data.append(scores.roll_no.interviewbit_score)
+    data.append(scores.roll_no.leetcode_score)
+    data.append(scores.roll_no.gfg_score)
     print(data)
     return (labels, data)
 
 
-def display_students(request, year, br):
+def display_students(request):
     global students
-    if (year == '3rd'):
-        if (br != 'all'):
-            students = R21.objects.all().order_by('-overall_score').filter(branch=br)
-            return students
-
-        students = R21.objects.all().order_by('-overall_score')
-
-    if (year == '2nd'):
-        if (br != 'all'):
-
-            students = R22.objects.all().order_by('-overall_score').filter(branch=br)
-            print("hello")
-            print(students)
-            return students
-
-        students = R22.objects.all().order_by('-overall_score')
-
-    if (year == '1st'):
-        if (br != 'all'):
-            students = R23.objects.all().order_by('-overall_score').filter(branch=br)
-            return students
-
-        students = R23.objects.all().order_by('-overall_score')
-
-    if (year == '4th'):
-        if (br != 'all'):
-            students = R20.objects.all().order_by('-overall_score').filter(branch=br)
-            return students
-
-        students = R20.objects.all().order_by('-overall_score')
-
-    return students
-    # return render(request,'display.html',context)
-
+    students = (
+    StudentMaster.objects
+    .select_related('roll_no')
+    .annotate(overall_score=F('roll_no__overall_score'))
+    .order_by('-overall_score'))
+    return students   
 
 def validate(request):
     if request.method == 'POST':
@@ -100,15 +77,15 @@ def validate(request):
         branch = details['branch']
         print(year, branch)
 
-        students = display_students(request, year, branch)
+        students = display_students(request)
 
         context = {
-            'students': students
+            'students': students.filter(branch=branch, year=year)
 
         }
         return render(request, 'over_view.html', context)
     else:
-        students = display_students(request, '3rd', 'all')
+        students = display_students(request)
         return render(request, 'over_view.html', {'students': students})
 
 
@@ -247,18 +224,15 @@ def auth_login(request):
 
 def student_view(request, username):
     roll = request.user.username
-    det = R21.objects.all().filter(roll_number=roll)
-    global students
-    students = display_students(request, "3rd", det.values()[0]['branch'])
-    print(det.values())
-    print(det.values()[0]['roll_number'])
-    labels, data = pie_chart(request, det.values()[0]['roll_number'])
+    det = StudentMaster.objects.select_related('roll_no').filter(roll_no=roll)
+    print(det)
+    labels, data = pie_chart(request, roll)
     context = {
         'username': roll,
         'det': det,
         'labels': labels,
         'data': data,
-        'students': students
+        'students': det
     }
     return render(request, 'student_panel.html', context)
 
@@ -267,11 +241,13 @@ def hod_view(request):
     username = request.user.username
 
     if request.method == 'GET':
-        year = request.GET['year']
-        object_id = request.GET["Roll"]
-        students = display_students(request, year, dic_branch[username])
+        roll = request.GET["Roll"]
+        students = display_students(request,)
 
-        students = students.filter(roll_number=object_id)
+        students = students.filter(roll_no=roll)
+        if(students.count()==0):
+            messages.info(request, 'No students found')
+            return redirect('hod')
         context = {
             'students': students
         }
@@ -279,9 +255,9 @@ def hod_view(request):
 
     if request.method == 'POST':
         year = request.POST['year']
-        students = display_students(request, year, dic_branch[username])
+        students = display_students(request,)
         context = {
-            'students': students
+            'students': students.filter(year=year,branch=dic_branch[username])
 
         }
         return render(request, 'over_view.html', context)
@@ -332,7 +308,7 @@ def usernames(request):
     }
     return render(request, 'usernames.html', context)
 
-
+@login_required
 def update_usernames(request):
     if request.method == 'POST':
         hu = request.POST['hackerrank_username']
