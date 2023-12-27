@@ -27,7 +27,7 @@ dic_branch = {'hodit': 'INF',
               'hodece': 'ECE',
 
               }
-scraped_dates=['December 26, 2023']
+scraped_dates=['December 25, 2023','December 26, 2023']
 
 
 def index(request):
@@ -45,6 +45,11 @@ def student_panel(request):
 def hod_panel(request):
     return render(request, 'hod_panel.html', {'hod': request.user.username})
 
+
+def scatter_plot(request,roll):
+    # Assuming you have obtained x_values and y_values in your view
+    y_values =list(map(int,StudentScores.objects.all().get(roll_no=roll).daily_scores.split(',')))
+    return(scraped_dates, y_values)
 
 def pie_chart(request, roll):
     labels = ['CodeChef', 'CodeForce', 'Spoj','Hackerrank','Interviewbit','Leetcode','Geeksforgeeks']
@@ -90,6 +95,7 @@ def validate(request):
 
 
 def report(request):
+    students = display_students(request)
     context = {
         'students': students
 
@@ -224,15 +230,20 @@ def auth_login(request):
 
 def student_view(request, username):
     roll = request.user.username
+    # scatter_plot(request,roll)
     det = StudentMaster.objects.select_related('roll_no').filter(roll_no=roll)
     print(det)
     labels, data = pie_chart(request, roll)
+    xvalues, yvalues =scatter_plot(request,roll)
+    print(xvalues,yvalues)
     context = {
         'username': roll,
         'det': det,
         'labels': labels,
         'data': data,
-        'students': det
+        'students': det,
+        'xValues':xvalues,
+        'yValues':yvalues
     }
     return render(request, 'student_panel.html', context)
 

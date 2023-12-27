@@ -3,9 +3,10 @@
   <head>
     <title>Coding details</title>
     <link href="{% static 'css/student_panel.css' %}" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   </head>
   <body>
-    <!-- <form> -->
     <div class="split">
       <h1>Vardhaman college of Engineering</h1>
       {% for details in det%}
@@ -24,7 +25,8 @@
         <ul>
           <li>
             <strong>Hackerrank:</strong>
-            <span id="Hackerrank-score">{{details.roll_no.hackerrank_score}}</span>
+            <span id="Hackerrank-score">{{details.roll_no.hackerrank_score}}</span> 
+            <!-- kept roll_id because of accesing it from other table through join in views.py -->
           </li>
           <li>
             <strong>CodeChef:</strong>
@@ -69,7 +71,7 @@
     <script>
 
       var config = {
-        type: 'pie',
+        type: 'doughnut',
         data: {
           datasets: [{
             data: {{ data|safe }},
@@ -91,7 +93,40 @@
       };
     </script>
     {% endblock %}
-    <!-- </form> -->
+    <h2>Daily Progress</h2>
+    <div class="chart-container">
+      <canvas
+        id="myChart"
+        style="height: 25%"
+        width="100"
+        height="100"
+      ></canvas>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script>
+      myChart =document.getElementById("myChart").getContext("2d");
+      new Chart("myChart", {
+  type: "scatter",
+  data: {
+    labels: xValues,
+    datasets: [{
+      fill: false,
+      pointRadius: 1,
+      borderColor: "rgba(255,0,0,0.5)",
+      data: yValues
+    }]
+  },    
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "y = x * 2 + 7",
+      fontSize: 16
+    }
+  }
+});
+    </script>
+
     {% endfor %}
   </body>
 </html>

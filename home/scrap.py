@@ -180,5 +180,5 @@ def get(usernames: list, func) -> list:
 # print(forcesrate("srivandanatalla"))
 # print(spojrate("srivandana"))
 # print(geeksforgeeks_ranking('anil bera'))
-# print(interviewbit_ranking("sssm_2003"))
+print(interviewbit_ranking("sssm_2003"))
 # print(hackerrank_ranking('sssm_2003'))
