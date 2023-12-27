@@ -64,7 +64,7 @@ def coderate(chefu):
         if rank_element:
             try:
                 rank = str(list(rank_element)[1])
-                return int(rank[23:-8])
+                return int(rank[23:-8])+int(str((list(rank_element)[5]))[14:-8])
             except:
                 return 0
         else:
@@ -175,10 +175,10 @@ def get(usernames: list, func) -> list:
 
 # Profiles for testing purposes
 
-# print(leetrate('Sithis'))
-# print(coderate("everule1"))
-print(forcesrate("devisahithi2004"))
-# print(spojrate("defrager"))
+# print(leetrate('srivandanatalla'))
+# print(coderate("srivandana"))
+# print(forcesrate("srivandanatalla"))
+# print(spojrate("srivandana"))
 # print(geeksforgeeks_ranking('anil bera'))
 # print(interviewbit_ranking("sssm_2003"))
-# print(hackerrank_ranking('swarajsudheer'))
+# print(hackerrank_ranking('sssm_2003'))

@@ -17,6 +17,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 # from django.urls import reverse_lazy
 # from django.contrib.auth.views import PasswordResetView
 # from django.contrib.messages.views import SuccessMessageMixin
+from  datetime import date
 
 # Create your views here.
 
@@ -25,6 +26,7 @@ dic_branch = {'hodit': 'IT',
               'hodece': 'ECE',
 
               }
+scraped_dates=['December 26, 2023']
 
 
 def index(request):
@@ -119,7 +121,7 @@ def report(request):
 
 
 def update(request):
-
+    scraped_dates.append(date.today().strftime("%B %d, %Y"))
     student = StudentMaster.objects.all().values()
     c = 0
     cc_data=[]
@@ -152,33 +154,65 @@ def update(request):
     hackerrank_data = get(hackerrank_data, hackerrank_ranking)
     
     # print(sp_res,gfg_res,lc_res,ib_res)
-    print(cf_data)
+    print(cc_data)
+    try:
+        with transaction.atomic():
+            for i in cc_data:
+                ans=str(StudentScores.objects.get(roll_no=i['roll_no']).codechef)+','+str(i['score'])
+                points=StudentScores.objects.get(roll_no=i['roll_no']).codechef_score+i['score']*10
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    codechef=ans)
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    codechef_score=points)
+            for i in cf_data:
+                ans=str(StudentScores.objects.get(roll_no=i['roll_no']).codeforces)+','+str(i['score'])
+                points=StudentScores.objects.get(roll_no=i['roll_no']).codeforces_score+i['score']*10
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    codeforces=ans)
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    codeforces_score=points)
+            for i in sp_data:
+                ans=str(StudentScores.objects.get(roll_no=i['roll_no']).spoj)+','+str(i['score'])
+                points=StudentScores.objects.get(roll_no=i['roll_no']).spoj_score+i['score']*20
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    spoj=ans)
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    spoj_score=points)
+            for i in gfg_data:
+                ans=str(StudentScores.objects.get(roll_no=i['roll_no']).gfg)+','+str(i['score'])
+                points=StudentScores.objects.get(roll_no=i['roll_no']).gfg_score+i['score']
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    gfg=ans)
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    gfg_score=points)        
+            for i in lc_data:
+                ans=str(StudentScores.objects.get(roll_no=i['roll_no']).leetcode)+','+str(i['score'])
+                points=StudentScores.objects.get(roll_no=i['roll_no']).leetcode_score+i['score']*50
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    leetcode=ans)
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    leetcode_score=points)
+            for i in ib_data:
+                ans=str(StudentScores.objects.get(roll_no=i['roll_no']).interviewbit)+','+str(i['score']//3)
+                points=StudentScores.objects.get(roll_no=i['roll_no']).interviewbit_score+i['score']//3
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    interviewbit=ans)
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    interviewbit_score=points)    
+            for i in hackerrank_data:
+                ans=str(StudentScores.objects.get(roll_no=i['roll_no']).hackerrank)+','+str(i['score'])
+                points=StudentScores.objects.get(roll_no=i['roll_no']).hackerrank_score+i['score']
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    hackerrank=ans)
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    hackerrank_score=points)    
+        with connection.cursor() as cursor:
+            cursor.callproc('overall_score')
+        #     cursor.callproc('update_rank')
+        #     cursor.close()
 
-    # try:
-    #     with transaction.atomic():
-    #         for key, value in cc_res.items():
-    #             StudentScores.objects.filter(codechef_username=key).update(
-    #                 cc_problems_solved=value)
-    #             R21.objects.filter(codechef_username=key).update(
-    #                 ccps_10=value*10)
-    #         for key, value in cf_res.items():
-    #             R21.objects.filter(codeforces_username=key).update(
-    #                 cf_problems_solved=value)
-    #             R21.objects.filter(codeforces_username=key).update(
-    #                 cfps_10=value*10)
-    #         for key, value in sp_res.items():
-    #             R21.objects.filter(codeforces_username=key).update(
-    #                 cf_problems_solved=value)
-    #             R21.objects.filter(codeforces_username=key).update(
-    #                 sps_20=value*20)
-
-    #     with connection.cursor() as cursor:
-    #         cursor.callproc('update_overall_score')
-    #         cursor.callproc('update_rank')
-    #         cursor.close()
-
-    # except IntegrityError:
-    #     return HttpResponse("DB ERROR")
+    except IntegrityError:
+        return HttpResponse("DB ERROR")
 
     return HttpResponse("updated")
 
