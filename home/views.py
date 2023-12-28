@@ -22,9 +22,10 @@ from  datetime import date
 
 # Create your views here.
 
-dic_branch = {'hodit': 'INF',
-              'hodcs': 'CSE',
-              'hodece': 'ECE',
+dic_branch = {'hodit': 'it',
+              'hodcs': 'cse',
+              'hodece': 'ece',
+              'hodeee':'eee'
 
               }
 scraped_dates=['December 25, 2023','December 26, 2023']
@@ -78,7 +79,7 @@ def display_students(request):
 def validate(request):
     if request.method == 'POST':
         details = request.POST.dict()
-        year = details['year']
+        year = int(details['year'])
         branch = details['branch']
         print(year, branch)
 
@@ -243,7 +244,8 @@ def student_view(request, username):
         'data': data,
         'students': det,
         'xValues':xvalues,
-        'yValues':yvalues
+        'yValues':yvalues,
+        'image':det.values_list('branch')[0][0]#getting the branch of the student from queryset
     }
     return render(request, 'student_panel.html', context)
 
