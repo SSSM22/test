@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Student Rankingss</title>
+    <title>Student Rankings</title>
     <style>
       .table-container {
         width: 100%;
@@ -22,24 +22,110 @@
         border: 1px solid #ccc;
         padding: 8px;
         text-align: left;
-        font-size: 18px;  
+        font-size: 18px;
       }
       .table-container th {
-        background-color: #3498db; 
-        color: white; 
+        background-color: #3498db;
+        color: white;
         font-weight: bold;
       }
       .table-container tbody tr:nth-child(even) {
-        background-color: #f2f2f2; 
+        background-color: #f2f2f2;
       }
       .table-container tbody tr:hover {
         background-color: #e0e0e0;
       }
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+      }
+
+      /* Hide default HTML checkbox */
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      /* The slider */
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+      }
+
+      input:checked + .slider {
+        background-color: #2196f3;
+      }
+
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196f3;
+      }
+
+      input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+      }
+
+      /* Rounded sliders */
+      .slider.round {
+        border-radius: 34px;
+      }
+
+      .slider.round:before {
+        border-radius: 50%;
+      }
     </style>
-    <script></script>
+    <script>
+      function func() {
+        let checkbox = document.getElementById("check");
+        if (checkbox.checked == true) {
+          window.alert("Show all");
+          return true;
+        } else {
+          window.alert("Show branch only");
+          return false;
+        }
+      }
+    </script>
   </head>
   <body>
-    <h1 style="color: black; text-align: center">Vardhaman Student Rankings</h1> 
+    <div style="display: flex; justify-content: space-between">
+      <h1 style="color: black; text-align: center">
+        Vardhaman Student Rankings
+      </h1>
+      <div style="margin: 10px; display: flex">
+        {% if branch != None %}
+        <h2>Branch filter</h2>
+        <label class="switch" style="margin: 15px">
+          <input type="checkbox" id="check" />
+          <span class="slider round" onclick="func()"></span>
+        </label>
+        {% endif %}
+      </div>
+    </div>
+
     <div class="table-container">
       <table>
         <tr>
@@ -57,14 +143,14 @@
           <th>Overall Score</th>
         </tr>
         <tb>
-          {% for student in students %}
+          {% for student in students %} {% if student.branch == branch %}
           <tr>
             <td>{{forloop.counter}}<br />({{student.rank}})</td>
             <td class="roll">{{ student.roll_no.roll_no }}</td>
             <td>{{ student.name}}</td>
             <td>{{ student.branch}}</td>
             <td>{{ student.roll_no.hackerrank_score }}</td>
-            
+
             <td>{{ student.roll_no.codechef_score }}</td>
             <td>{{ student.roll_no.codeforces_score }}</td>
             <td>{{ student.roll_no.spoj_score }}</td>
@@ -73,7 +159,7 @@
             <td>{{student.roll_no.interviewbit_score}}</td>
             <td>{{ student.overall_score }}</td>
           </tr>
-          {% endfor %}
+          {% endif %} {% endfor %}
         </tb>
       </table>
     </div>

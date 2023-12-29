@@ -22,10 +22,10 @@ from  datetime import date
 
 # Create your views here.
 
-dic_branch = {'hodit': 'it',
-              'hodcs': 'cse',
-              'hodece': 'ece',
-              'hodeee':'eee'
+dic_branch = {'hodit': 'INF',
+              'hodcs': 'CSE',
+              'hodece': 'ECE',
+              'hodeee':'EEE'
 
               }
 scraped_dates=['December 25, 2023','December 26, 2023']
@@ -99,8 +99,9 @@ def report(request):
     students = display_students(request)
     context = {
         'students': students
-
     }
+    if(request.user.is_staff and (not request.user.is_superuser)):
+        context['branch'] = dic_branch[request.user.username]
     return render(request, 'report.html', context)
 
 
