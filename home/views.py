@@ -115,14 +115,15 @@ def update(request):
     lc_data=[]
     gfg_data=[]
     hackerrank_data=[]
-    for i in student:
-        cc_data.append({"roll_no":i['roll_no'],'id':i['codechef_username'],'score':0})
-        cf_data.append({"roll_no":i['roll_no'],'id':i['codeforces_username'],'score':0})
-        sp_data.append({"roll_no":i['roll_no'],'id':i['spoj_username'],'score':0})
-        ib_data.append({"roll_no":i['roll_no'],'id':i['interviewbit_username'],'score':0})
-        lc_data.append({"roll_no":i['roll_no'],'id':i['leetcode_username'],'score':0})
-        gfg_data.append({"roll_no":i['roll_no'],'id':i['gfg_username'],'score':0})
-        hackerrank_data.append({"roll_no":i['roll_no'],'id':i['hackerrank_username'],'score':0})
+    for i in student: 
+        #roll_no_id is used because the roll_no is a foreign key in StudentScores table
+        cc_data.append({"roll_no":i['roll_no_id'],'id':i['codechef_username'],'score':0})
+        cf_data.append({"roll_no":i['roll_no_id'],'id':i['codeforces_username'],'score':0})
+        sp_data.append({"roll_no":i['roll_no_id'],'id':i['spoj_username'],'score':0})
+        ib_data.append({"roll_no":i['roll_no_id'],'id':i['interviewbit_username'],'score':0})
+        lc_data.append({"roll_no":i['roll_no_id'],'id':i['leetcode_username'],'score':0})
+        gfg_data.append({"roll_no":i['roll_no_id'],'id':i['gfg_username'],'score':0})
+        hackerrank_data.append({"roll_no":i['roll_no_id'],'id':i['hackerrank_username'],'score':0})
 
     #     c = c + 1
     #    # c IS FOR TESTING PURPOSE ONLY
@@ -141,17 +142,17 @@ def update(request):
     print(cc_data)
     try:
         with transaction.atomic():
-            for i in cc_data:
-                ans=str(StudentScores.objects.get(roll_no=i['roll_no']).codechef)+','+str(i['score'])
-                points=StudentScores.objects.get(roll_no=i['roll_no']).codechef_score+i['score']*10
-                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+            for i in cc_data: #roll_no_id is used because the roll_no is a foreign key in StudentScores table
+                ans=str(StudentScores.objects.get(roll_no=i['roll_no_id']).codechef)+','+str(i['score'])
+                points=StudentScores.objects.get(roll_no=i['roll_no_id']).codechef_score+i['score']*10
+                StudentScores.objects.filter(roll_no=i['roll_no_id']).update(
                     codechef=ans)
-                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                StudentScores.objects.filter(roll_no=i['roll_no_id']).update(
                     codechef_score=points)
             for i in cf_data:
-                ans=str(StudentScores.objects.get(roll_no=i['roll_no']).codeforces)+','+str(i['score'])
-                points=StudentScores.objects.get(roll_no=i['roll_no']).codeforces_score+i['score']*10
-                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                ans=str(StudentScores.objects.get(roll_no=i['roll_no_id']).codeforces)+','+str(i['score'])
+                points=StudentScores.objects.get(roll_no=i['roll_no_id']).codeforces_score+i['score']*10
+                StudentScores.objects.filter(roll_no=i['roll_no_id']).update(
                     codeforces=ans)
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     codeforces_score=points)
