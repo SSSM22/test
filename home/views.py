@@ -28,7 +28,7 @@ dic_branch = {'hodit': 'INF',
               'hodeee':'EEE'
 
               }
-scraped_dates=['December 25, 2023','December 26, 2023']
+scraped_dates=['December 25, 2023','December 26, 2023','December 29, 2023']
 
 
 def index(request):
@@ -140,20 +140,20 @@ def update(request):
     hackerrank_data = get(hackerrank_data, hackerrank_ranking)
     
     # print(sp_res,gfg_res,lc_res,ib_res)
-    print(cc_data)
+    # print(cc_data)
     try:
         with transaction.atomic():
             for i in cc_data: #roll_no_id is used because the roll_no is a foreign key in StudentScores table
-                ans=str(StudentScores.objects.get(roll_no=i['roll_no_id']).codechef)+','+str(i['score'])
-                points=StudentScores.objects.get(roll_no=i['roll_no_id']).codechef_score+i['score']*10
-                StudentScores.objects.filter(roll_no=i['roll_no_id']).update(
+                ans=str(StudentScores.objects.get(roll_no=i['roll_no']).codechef)+','+str(i['score'])
+                points=StudentScores.objects.get(roll_no=i['roll_no']).codechef_score+i['score']*10
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     codechef=ans)
-                StudentScores.objects.filter(roll_no=i['roll_no_id']).update(
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     codechef_score=points)
             for i in cf_data:
-                ans=str(StudentScores.objects.get(roll_no=i['roll_no_id']).codeforces)+','+str(i['score'])
-                points=StudentScores.objects.get(roll_no=i['roll_no_id']).codeforces_score+i['score']*10
-                StudentScores.objects.filter(roll_no=i['roll_no_id']).update(
+                ans=str(StudentScores.objects.get(roll_no=i['roll_no']).codeforces)+','+str(i['score'])
+                points=StudentScores.objects.get(roll_no=i['roll_no']).codeforces_score+i['score']*10
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     codeforces=ans)
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     codeforces_score=points)
