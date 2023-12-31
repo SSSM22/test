@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.db import connection, transaction, IntegrityError
+from django.db.models import F
 from .models import R21, R22, StudentMaster, StudentScores
 import requests
 from bs4 import BeautifulSoup
@@ -17,14 +18,17 @@ from django.contrib.auth.forms import PasswordChangeForm
 # from django.urls import reverse_lazy
 # from django.contrib.auth.views import PasswordResetView
 # from django.contrib.messages.views import SuccessMessageMixin
+from  datetime import date
 
 # Create your views here.
 
-dic_branch = {'hodit': 'IT',
+dic_branch = {'hodit': 'INF',
               'hodcs': 'CSE',
               'hodece': 'ECE',
+              'hodeee':'EEE'
 
               }
+scraped_dates=['December 25, 2023','December 26, 2023','December 29, 2023']
 
 
 def index(request):
@@ -43,83 +47,66 @@ def hod_panel(request):
     return render(request, 'hod_panel.html', {'hod': request.user.username})
 
 
+def scatter_plot(request,roll):
+    # Assuming you have obtained x_values and y_values in your view
+    y_values =list(map(int,StudentScores.objects.all().get(roll_no=roll).daily_scores.split(',')))
+    return(scraped_dates, y_values)
+
 def pie_chart(request, roll):
-    labels = ['CodeChef', 'CodeForce', 'Spoj']
+    labels = ['CodeChef', 'CodeForce', 'Spoj','Hackerrank','Interviewbit','Leetcode','Geeksforgeeks']
     data = []
-    scores = R21.objects.all().values().filter(roll_number=roll)
-    data.append(scores[0]['ccps_10'])
-    data.append(scores[0]['cfps_10'])
-    data.append(scores[0]['sps_20'])
+    scores =StudentMaster.objects.select_related('roll_no').get(roll_no=roll)#joining tables studentMaster table has foreign key roll_no
+    data.append(scores.roll_no.codechef_score) #accessing the score of codechef of a particular student syntax
+    data.append(scores.roll_no.codeforces_score)
+    data.append(scores.roll_no.spoj_score)
+    data.append(scores.roll_no.hackerrank_score)
+    data.append(scores.roll_no.interviewbit_score)
+    data.append(scores.roll_no.leetcode_score)
+    data.append(scores.roll_no.gfg_score)
     print(data)
     return (labels, data)
 
 
-def display_students(request, year, br):
+def display_students(request):
     global students
-    if (year == '3rd'):
-        if (br != 'all'):
-            students = R21.objects.all().order_by('-overall_score').filter(branch=br)
-            return students
-
-        students = R21.objects.all().order_by('-overall_score')
-
-    if (year == '2nd'):
-        if (br != 'all'):
-
-            students = R22.objects.all().order_by('-overall_score').filter(branch=br)
-            print("hello")
-            print(students)
-            return students
-
-        students = R22.objects.all().order_by('-overall_score')
-
-    if (year == '1st'):
-        if (br != 'all'):
-            students = R23.objects.all().order_by('-overall_score').filter(branch=br)
-            return students
-
-        students = R23.objects.all().order_by('-overall_score')
-
-    if (year == '4th'):
-        if (br != 'all'):
-            students = R20.objects.all().order_by('-overall_score').filter(branch=br)
-            return students
-
-        students = R20.objects.all().order_by('-overall_score')
-
-    return students
-    # return render(request,'display.html',context)
-
+    students = (
+    StudentMaster.objects
+    .select_related('roll_no')
+    .annotate(overall_score=F('roll_no__overall_score'))
+    .order_by('-overall_score'))
+    return students   
 
 def validate(request):
     if request.method == 'POST':
         details = request.POST.dict()
-        year = details['year']
+        year = int(details['year'])
         branch = details['branch']
         print(year, branch)
 
-        students = display_students(request, year, branch)
+        students = display_students(request)
 
         context = {
-            'students': students
+            'students': students.filter(branch=branch, year=year)
 
         }
         return render(request, 'over_view.html', context)
     else:
-        students = display_students(request, '3rd', 'all')
+        students = display_students(request)
         return render(request, 'over_view.html', {'students': students})
 
 
 def report(request):
+    students = display_students(request)
     context = {
         'students': students
-
     }
+    if(request.user.is_staff and (not request.user.is_superuser)):
+        context['branch'] = dic_branch[request.user.username]
     return render(request, 'report.html', context)
 
 
 def update(request):
-
+    scraped_dates.append(date.today().strftime("%B %d, %Y"))
     student = StudentMaster.objects.all().values()
     c = 0
     cc_data=[]
@@ -129,14 +116,15 @@ def update(request):
     lc_data=[]
     gfg_data=[]
     hackerrank_data=[]
-    for i in student:
-        cc_data.append({"roll_no":i['roll_no'],'id':i['codechef_username'],'score':0})
-        cf_data.append({"roll_no":i['roll_no'],'id':i['codeforces_username'],'score':0})
-        sp_data.append({"roll_no":i['roll_no'],'id':i['spoj_username'],'score':0})
-        ib_data.append({"roll_no":i['roll_no'],'id':i['interviewbit_username'],'score':0})
-        lc_data.append({"roll_no":i['roll_no'],'id':i['leetcode_username'],'score':0})
-        gfg_data.append({"roll_no":i['roll_no'],'id':i['gfg_username'],'score':0})
-        hackerrank_data.append({"roll_no":i['roll_no'],'id':i['hackerrank_username'],'score':0})
+    for i in student: 
+        #roll_no_id is used because the roll_no is a foreign key in StudentScores table
+        cc_data.append({"roll_no":i['roll_no_id'],'id':i['codechef_username'],'score':0})
+        cf_data.append({"roll_no":i['roll_no_id'],'id':i['codeforces_username'],'score':0})
+        sp_data.append({"roll_no":i['roll_no_id'],'id':i['spoj_username'],'score':0})
+        ib_data.append({"roll_no":i['roll_no_id'],'id':i['interviewbit_username'],'score':0})
+        lc_data.append({"roll_no":i['roll_no_id'],'id':i['leetcode_username'],'score':0})
+        gfg_data.append({"roll_no":i['roll_no_id'],'id':i['gfg_username'],'score':0})
+        hackerrank_data.append({"roll_no":i['roll_no_id'],'id':i['hackerrank_username'],'score':0})
 
     #     c = c + 1
     #    # c IS FOR TESTING PURPOSE ONLY
@@ -152,33 +140,65 @@ def update(request):
     hackerrank_data = get(hackerrank_data, hackerrank_ranking)
     
     # print(sp_res,gfg_res,lc_res,ib_res)
-    print(cf_data)
+    # print(cc_data)
+    try:
+        with transaction.atomic():
+            for i in cc_data: #roll_no_id is used because the roll_no is a foreign key in StudentScores table
+                ans=str(StudentScores.objects.get(roll_no=i['roll_no']).codechef)+','+str(i['score'])
+                points=StudentScores.objects.get(roll_no=i['roll_no']).codechef_score+i['score']*10
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    codechef=ans)
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    codechef_score=points)
+            for i in cf_data:
+                ans=str(StudentScores.objects.get(roll_no=i['roll_no']).codeforces)+','+str(i['score'])
+                points=StudentScores.objects.get(roll_no=i['roll_no']).codeforces_score+i['score']*10
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    codeforces=ans)
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    codeforces_score=points)
+            for i in sp_data:
+                ans=str(StudentScores.objects.get(roll_no=i['roll_no']).spoj)+','+str(i['score'])
+                points=StudentScores.objects.get(roll_no=i['roll_no']).spoj_score+i['score']*20
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    spoj=ans)
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    spoj_score=points)
+            for i in gfg_data:
+                ans=str(StudentScores.objects.get(roll_no=i['roll_no']).gfg)+','+str(i['score'])
+                points=StudentScores.objects.get(roll_no=i['roll_no']).gfg_score+i['score']
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    gfg=ans)
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    gfg_score=points)        
+            for i in lc_data:
+                ans=str(StudentScores.objects.get(roll_no=i['roll_no']).leetcode)+','+str(i['score'])
+                points=StudentScores.objects.get(roll_no=i['roll_no']).leetcode_score+i['score']*50
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    leetcode=ans)
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    leetcode_score=points)
+            for i in ib_data:
+                ans=str(StudentScores.objects.get(roll_no=i['roll_no']).interviewbit)+','+str(i['score']//3)
+                points=StudentScores.objects.get(roll_no=i['roll_no']).interviewbit_score+i['score']//3
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    interviewbit=ans)
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    interviewbit_score=points)    
+            for i in hackerrank_data:
+                ans=str(StudentScores.objects.get(roll_no=i['roll_no']).hackerrank)+','+str(i['score'])
+                points=StudentScores.objects.get(roll_no=i['roll_no']).hackerrank_score+i['score']
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    hackerrank=ans)
+                StudentScores.objects.filter(roll_no=i['roll_no']).update(
+                    hackerrank_score=points)    
+        with connection.cursor() as cursor:
+            cursor.callproc('overall_score')
+        #     cursor.callproc('update_rank')
+        #     cursor.close()
 
-    # try:
-    #     with transaction.atomic():
-    #         for key, value in cc_res.items():
-    #             StudentScores.objects.filter(codechef_username=key).update(
-    #                 cc_problems_solved=value)
-    #             R21.objects.filter(codechef_username=key).update(
-    #                 ccps_10=value*10)
-    #         for key, value in cf_res.items():
-    #             R21.objects.filter(codeforces_username=key).update(
-    #                 cf_problems_solved=value)
-    #             R21.objects.filter(codeforces_username=key).update(
-    #                 cfps_10=value*10)
-    #         for key, value in sp_res.items():
-    #             R21.objects.filter(codeforces_username=key).update(
-    #                 cf_problems_solved=value)
-    #             R21.objects.filter(codeforces_username=key).update(
-    #                 sps_20=value*20)
-
-    #     with connection.cursor() as cursor:
-    #         cursor.callproc('update_overall_score')
-    #         cursor.callproc('update_rank')
-    #         cursor.close()
-
-    # except IntegrityError:
-    #     return HttpResponse("DB ERROR")
+    except IntegrityError:
+        return HttpResponse("DB ERROR")
 
     return HttpResponse("updated")
 
@@ -213,18 +233,21 @@ def auth_login(request):
 
 def student_view(request, username):
     roll = request.user.username
-    det = R21.objects.all().filter(roll_number=roll)
-    global students
-    students = display_students(request, "3rd", det.values()[0]['branch'])
-    print(det.values())
-    print(det.values()[0]['roll_number'])
-    labels, data = pie_chart(request, det.values()[0]['roll_number'])
+    # scatter_plot(request,roll)
+    det = StudentMaster.objects.select_related('roll_no').filter(roll_no=roll)
+    print(det)
+    labels, data = pie_chart(request, roll)
+    xvalues, yvalues =scatter_plot(request,roll)
+    print(xvalues,yvalues)
     context = {
         'username': roll,
         'det': det,
         'labels': labels,
         'data': data,
-        'students': students
+        'students': det,
+        'xValues':xvalues,
+        'yValues':yvalues,
+        'image':det.values_list('branch')[0][0]#getting the branch of the student from queryset
     }
     return render(request, 'student_panel.html', context)
 
@@ -233,11 +256,13 @@ def hod_view(request):
     username = request.user.username
 
     if request.method == 'GET':
-        year = request.GET['year']
-        object_id = request.GET["Roll"]
-        students = display_students(request, year, dic_branch[username])
+        roll = request.GET["Roll"]
+        students = display_students(request,)
 
-        students = students.filter(roll_number=object_id)
+        students = students.filter(roll_no=roll)
+        if(students.count()==0):
+            messages.info(request, 'No students found')
+            return redirect('hod')
         context = {
             'students': students
         }
@@ -245,9 +270,9 @@ def hod_view(request):
 
     if request.method == 'POST':
         year = request.POST['year']
-        students = display_students(request, year, dic_branch[username])
+        students = display_students(request,)
         context = {
-            'students': students
+            'students': students.filter(year=year,branch=dic_branch[username])
 
         }
         return render(request, 'over_view.html', context)
@@ -298,7 +323,7 @@ def usernames(request):
     }
     return render(request, 'usernames.html', context)
 
-
+@login_required
 def update_usernames(request):
     if request.method == 'POST':
         hu = request.POST['hackerrank_username']

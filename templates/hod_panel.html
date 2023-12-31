@@ -6,28 +6,28 @@
     <link href="{% static 'css/hod_panel.css' %}" rel="stylesheet">
 </head>
 <body>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
     <div class="container">
         <h1>{{hod}} Logged In</h1>
         <form action="/hod_view" method="get">
             <label>Roll Number:</label>
-            <input type="text" id="Roll" name="Roll" placeholder="Enter Roll Number of Student">
-            <label for="year">Choose year:</label>
-            <select name="year" id="year" class="form-control">
-                <option value="1st">First Year</option>
-                <option value="2nd">Second Year</option>
-                <option value="3rd">Third Year</option>
-                <option value="4th">Fourth Year</option>
-            </select><br>
+            <input type="text" id="Roll" name="Roll" placeholder="Enter Roll Number of Student"><br>
             <input type="submit" value="Search">
         </form>
         <form action="/hod_view" method="post">
             {% csrf_token %}
             <label for="year">Choose year:</label>
             <select name="year" id="year" class="form-control">
-                <option value="1st">First Year</option>
-                <option value="2nd">Second Year</option>
-                <option value="3rd">Third Year</option>
-                <option value="4th">Fourth Year</option>
+                <option value="2027">First Year</option>
+                <option value="2026">Second Year</option>
+                <option value="2025">Third Year</option>
+                <option value="2024">Fourth Year</option>
             </select><br>
             <input type="submit">
             <button onclick="window.location.href='/logout'" type="button">Logout</button>

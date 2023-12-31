@@ -63,7 +63,7 @@ class R22(models.Model):
 
 class StudentMaster(models.Model):
     rank = models.IntegerField(db_column='RANK', blank=True, null=True)  # Field name made lowercase.
-    roll_no = models.CharField(db_column='ROLL_NO', primary_key=True, max_length=10, db_collation='utf8mb3_general_ci')  # Field name made lowercase.
+    roll_no = models.OneToOneField('StudentScores', models.DO_NOTHING, db_column='ROLL_NO', primary_key=True)  # Field name made lowercase.
     name = models.CharField(db_column='NAME', max_length=39)  # Field name made lowercase.
     course = models.CharField(db_column='Course', max_length=7, db_collation='utf8mb3_general_ci', blank=True, null=True)  # Field name made lowercase.
     year = models.IntegerField(db_column='Year', blank=True, null=True)  # Field name made lowercase.
@@ -85,24 +85,25 @@ class StudentMaster(models.Model):
 class StudentScores(models.Model):
     roll_no = models.CharField(db_column='ROLL_NO', primary_key=True, max_length=10)  # Field name made lowercase.
     hackerrank = models.TextField(db_column='HackerRank', blank=True, null=True)  # Field name made lowercase.
-    hackerrank_score = models.IntegerField(db_column='HackerRank_Score', blank=True, null=True)  # Field name made lowercase.
+    hackerrank_score = models.IntegerField(db_column='HackerRank_Score')  # Field name made lowercase.
     codeforces = models.TextField(db_column='CodeForces', blank=True, null=True)  # Field name made lowercase.
-    codeforces_score = models.IntegerField(db_column='CodeForces_Score', blank=True, null=True)  # Field name made lowercase.
+    codeforces_score = models.IntegerField(db_column='CodeForces_Score')  # Field name made lowercase.
     codechef = models.TextField(db_column='CodeChef', blank=True, null=True)  # Field name made lowercase.
-    codechef_score = models.IntegerField(db_column='CodeChef_Score', blank=True, null=True)  # Field name made lowercase.
+    codechef_score = models.IntegerField(db_column='CodeChef_Score')  # Field name made lowercase.
     spoj = models.TextField(db_column='Spoj', blank=True, null=True)  # Field name made lowercase.
-    spoj_score = models.IntegerField(db_column='Spoj_Score', blank=True, null=True)  # Field name made lowercase.
+    spoj_score = models.IntegerField(db_column='Spoj_Score')  # Field name made lowercase.
     interviewbit = models.TextField(db_column='InterviewBit', blank=True, null=True)  # Field name made lowercase.
-    interviewbit_score = models.IntegerField(db_column='InterviewBit_Score', blank=True, null=True)  # Field name made lowercase.
+    interviewbit_score = models.IntegerField(db_column='InterviewBit_Score')  # Field name made lowercase.
     leetcode = models.TextField(db_column='LeetCode', blank=True, null=True)  # Field name made lowercase.
-    leetcode_score = models.IntegerField(db_column='LeetCode_Score', blank=True, null=True)  # Field name made lowercase.
+    leetcode_score = models.IntegerField(db_column='LeetCode_Score')  # Field name made lowercase.
     gfg = models.TextField(db_column='GFG', blank=True, null=True)  # Field name made lowercase.
-    gfg_score = models.IntegerField(db_column='GFG_Score', blank=True, null=True)  # Field name made lowercase.
+    gfg_score = models.IntegerField(db_column='GFG_Score')  # Field name made lowercase.
     overall_score = models.IntegerField(db_column='Overall_score')  # Field name made lowercase.
+    daily_scores = models.TextField(blank=True, null=True)       
 
     class Meta:
         managed = False
-        db_table = 'student_scores'       
+        db_table = 'student_scores'
         
 class Usernames(models.Model):
     user = models.ForeignKey(StudentMaster, on_delete=models.CASCADE)
