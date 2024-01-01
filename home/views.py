@@ -21,6 +21,8 @@ from django.contrib.auth.forms import PasswordChangeForm
 from  datetime import date
 from rest_framework.response import Response
 
+
+from .announcementform import AnnouncementForm
 # Create your views here.
 
 dic_branch = {'hodit': 'INF',
@@ -36,7 +38,14 @@ def index(request):
 
 
 def admin_panel(request):
-    return render(request, 'admin_panel1.html')
+    fomr= AnnouncementForm()
+    if request.method == 'POST':
+        form =AnnouncementForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('adminpanel')
+    context= {'form':fomr}
+    return render(request, 'admin_panel1.html',context)
 
 
 def student_panel(request):

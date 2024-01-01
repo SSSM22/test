@@ -1,50 +1,62 @@
 {% load static%}
 <html>
-    <head>
-        <title>Admin</title>
-        <link href="{% static 'css/admin_panel.css' %}" rel="stylesheet" />
-    </head>
-    <body>
+  <head>
+    <title>Admin</title>
+    <link href="{% static 'css/admin_panel.css' %}" rel="stylesheet" />
+  </head>
+  <body>
+    <form action="/overview" method="post">
+      <div class="split">
         <form action="/overview" method="post">
-            <div class="split">
-                <form action="/overview" method="post">
-                  {% csrf_token %}
-                    <div class="form-group">
-                        <h2>Vardhaman College of Engineering</h2>
-                        <label for="year">Choose year</label>
-                        <select name="year" id="year" class="form-control">
-                          <option value="1">first Year</option>
-                          <option value="2">Second Year</option>
-                          <option value="3">Third year</option>
-                          <option value="4">Fourth Year</option>
-                        </select>
-                    </div>
-                    <br>
-                    <div class="form-group">
-                      <label>Choose Branch</label>
-                            <select name="branch" id="branch"  class="form-control">
-                            <option value="all">All</option>
-                            <option value="IT">IT</option>
-                            <option value="CSE">CSE</option>
-                            <option value="CS-AIML">CSM</option>
-                            <option value="EEE">EEE</option>
-                            <option value="MECH">MECH</option>
-                            <option value="CIVIL">CIVIL</option>
-                            <option value="ECE">ECE</option>
-                            <option value="AIML">AIML</option>
-                            <option value="AIDS">AIDS</option>
-                      </select>
-                    </div><br>
-                    <input type="submit" class="submit">
-                    &nbsp;
-                    <button  class="submit" onclick="window.location.href='/logout'"type="button">LogOut</button>
-                    <!-- <button onclick="window.location.href='/overview'"type="button" class="submit">Submit</button> -->
-                  </form>
-                  <form action="/update" method="post">
-                    {%csrf_token%}
-                    <input type="submit" class="submit" value="Update">
-                  </form>
-            </div>
+          {% csrf_token %}
+          <div class="form-group">
+            <h2>Vardhaman College of Engineering</h2>
+            <label for="year">Choose year</label>
+            <select name="year" id="year" class="form-control">
+              <option value="1">first Year</option>
+              <option value="2">Second Year</option>
+              <option value="3">Third year</option>
+              <option value="4">Fourth Year</option>
+            </select>
+          </div>
+          <br />
+          <div class="form-group">
+            <label>Choose Branch</label>
+            <select name="branch" id="branch" class="form-control">
+              <option value="all">All</option>
+              <option value="IT">IT</option>
+              <option value="CSE">CSE</option>
+              <option value="CS-AIML">CSM</option>
+              <option value="EEE">EEE</option>
+              <option value="MECH">MECH</option>
+              <option value="CIVIL">CIVIL</option>
+              <option value="ECE">ECE</option>
+              <option value="AIML">AIML</option>
+              <option value="AIDS">AIDS</option>
+            </select>
+          </div>
+          <br />
+          <input type="submit" class="submit" />
+          &nbsp;
+          <button
+            class="submit"
+            onclick="window.location.href='/logout'"
+            type="button"
+          >
+            LogOut
+          </button>
+          <!-- <button onclick="window.location.href='/overview'"type="button" class="submit">Submit</button> -->
         </form>
-    </body>
+        <form action="/update" method="post">
+          {%csrf_token%}
+          <input type="submit" class="submit" value="Update" />
+        </form>
+      </div>
+    </form>
+
+    <form action="" method="POST">
+      {% csrf_token %} {{form.as_p}}
+      <input type="submit" value="Submit" />
+    </form>
+  </body>
 </html>
