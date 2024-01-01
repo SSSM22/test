@@ -1,0 +1,32 @@
+<tr>
+  <th>Rank<br />(Global_rank)</th>
+  <th>Roll_Number</th>
+  <th>Name</th>
+  <th>Branch</th>
+  <th>Algorithms</th>
+  <th>Codechef_Problems*10</th>
+  <th>Codeforces_Problems*10</th>
+  <th>Spoj_problems_Solved*20</th>
+  <th>GeeksForGeeks_score</th>
+  <th>Leetcode_score*50</th>
+  <th>InterViewBit_Score</th>
+  <th>Overall Score</th>
+</tr>
+
+{% for student in students %}
+<tr>
+  <td>{{forloop.counter}}<br />({{student.rank}})</td>
+  <td class="roll">{{ student.roll_no.roll_no }}</td>
+  <td>{{ student.name}}</td>
+  <td>{{ student.branch}}</td>
+  <td>{{ student.roll_no.hackerrank_score }}</td>
+
+  <td>{{ student.roll_no.codechef_score }}</td>
+  <td>{{ student.roll_no.codeforces_score }}</td>
+  <td>{{ student.roll_no.spoj_score }}</td>
+  <td>{{student.roll_no.gfg_score}}</td>
+  <td>{{student.roll_no.leetcode_score }}</td>
+  <td>{{student.roll_no.interviewbit_score}}</td>
+  <td>{{ student.overall_score }}</td>
+</tr>
+{% endfor %}

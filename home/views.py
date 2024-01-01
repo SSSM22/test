@@ -19,6 +19,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 # from django.contrib.auth.views import PasswordResetView
 # from django.contrib.messages.views import SuccessMessageMixin
 from  datetime import date
+from rest_framework.response import Response
 
 # Create your views here.
 
@@ -26,7 +27,6 @@ dic_branch = {'hodit': 'INF',
               'hodcs': 'CSE',
               'hodece': 'ECE',
               'hodeee':'EEE'
-
               }
 scraped_dates=['December 25, 2023','December 26, 2023','December 29, 2023']
 
@@ -74,7 +74,17 @@ def display_students(request):
     .select_related('roll_no')
     .annotate(overall_score=F('roll_no__overall_score'))
     .order_by('-overall_score'))
-    return students   
+    return students  
+ 
+def display_students_branch(request,branch):
+    global students
+    students = (
+    StudentMaster.objects
+    .select_related('roll_no').filter(branch=branch)
+    .annotate(overall_score=F('roll_no__overall_score'))
+    .order_by('-overall_score'))
+    
+    return students 
 
 def validate(request):
     if request.method == 'POST':
@@ -104,6 +114,19 @@ def report(request):
         context['branch'] = dic_branch[request.user.username]
     return render(request, 'report.html', context)
 
+
+def load_rows(request):
+    checks = request.GET.get("checks")
+    print(checks)
+    if(checks != None):
+        students = display_students_branch(request,checks)
+        return render(request,"report_rows.html",{"students":students})
+    students = display_students(request)
+    return render(request,"report_rows.html",{"students":students})
+    
+    # table_body = request.GET.get("table_body")
+    # if(request.user.is_staff == True ):
+    #     students = StudentMaster.objects.select_related('roll_no').annotate(overall_score=F('roll_no__overall_score')).order_by('-overall_score').filter(branch=dic_branch[request.user.username])
 
 def update(request):
     scraped_dates.append(date.today().strftime("%B %d, %Y"))

@@ -27,7 +27,7 @@ urlpatterns = [
     path('login', views.auth_login, name='login'),
     path('profile', views.profile, name='profile'),
     path('logout', views.auth_logout, name='logout'),
-
+    path('load_rows', views.load_rows, name="load_rows")
 
 
 ]

@@ -97,17 +97,12 @@
         border-radius: 50%;
       }
     </style>
+    <script type="text/javascript" src="{% static 'home/htmx.js' %}"></script>
+
     <script>
-      function func() {
-        let checkbox = document.getElementById("check");
-        if (checkbox.checked == true) {
-          window.alert("Show all");
-          return true;
-        } else {
-          window.alert("Show branch only");
-          return false;
-        }
-      }
+      document.body.addEventListener("htmx:configRequest", (event) => {
+        event.detail.headers["X-CSRFToken"] = "{{ csrf_token }}";
+      });
     </script>
   </head>
   <body>
@@ -118,16 +113,27 @@
       <div style="margin: 10px; display: flex">
         {% if branch != None %}
         <h2>Branch filter</h2>
-        <label class="switch" style="margin: 15px">
-          <input type="checkbox" id="check" />
-          <span class="slider round" onclick="func()"></span>
-        </label>
+        <form method="POST">
+          {% csrf_token %}
+          <label class="switch" style="margin: 15px">
+            <input
+              type="checkbox"
+              name="checks"
+              id="check "
+              value="{{branch}}"
+              hx-get="load_rows"
+              hx-target="#table_body"
+            />
+            <span class="slider round"></span>
+          </label>
+        </form>
+
         {% endif %}
       </div>
     </div>
 
     <div class="table-container">
-      <table>
+      <table name="table_body" id="table_body">
         <tr>
           <th>Rank<br />(Global_rank)</th>
           <th>Roll_Number</th>
@@ -142,8 +148,8 @@
           <th>InterViewBit_Score</th>
           <th>Overall Score</th>
         </tr>
-        <tb>
-          {% for student in students %}
+        <tb
+          >{% for student in students %}
           <tr>
             <td>{{forloop.counter}}<br />({{student.rank}})</td>
             <td class="roll">{{ student.roll_no.roll_no }}</td>
