@@ -39,13 +39,13 @@ def index(request):
 
 
 def admin_panel(request):
-    fomr= AnnouncementForm()
+    form= AnnouncementForm()
     if request.method == 'POST':
         form =AnnouncementForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('adminpanel')
-    context= {'form':fomr}
+    context= {'form':form}
     return render(request, 'admin_panel1.html',context)
 
 
@@ -246,7 +246,7 @@ def auth_login(request):
         password = request.POST["password"]
 
         user = authenticate(request, username=username, password=password)
-        if user is not None:
+        if user is not None:    
 
             login(request, user)
             if user.is_superuser:
@@ -368,8 +368,7 @@ def update_usernames(request):
         ib = request.POST['interviewbit_username']
         lc = request.POST['leetcode_username']
         gfg = request.POST['gfg_username']
-        StudentMaster.objects.filter(roll_no=request.user.username).update(hackerrank_username=hu, codeforces_username=cf,
-                                                                           codechef_username=cc, spoj_username=sp, interviewbit_username=ib, leetcode_username=lc, gfg_username=gfg)
+        StudentMaster.objects.filter(roll_no=request.user.username).update(hackerrank_username=hu, codeforces_username=cf,codechef_username=cc, spoj_username=sp, interviewbit_username=ib, leetcode_username=lc, gfg_username=gfg)
         messages.success(request, "Sucessfully Upated")
 
     return redirect('/usernames')
