@@ -23,6 +23,7 @@ from rest_framework.response import Response
 
 
 from .announcementform import AnnouncementForm
+from .models import Announcement
 # Create your views here.
 
 dic_branch = {'hodit': 'INF',
@@ -265,6 +266,7 @@ def auth_login(request):
 
 def student_view(request, username):
     roll = request.user.username
+    announcement = Announcement.objects.all()
     # scatter_plot(request,roll)
     det = StudentMaster.objects.select_related('roll_no').filter(roll_no=roll)
     print(det)
@@ -279,7 +281,8 @@ def student_view(request, username):
         'students': det,
         'xValues':xvalues,
         'yValues':yvalues,
-        'image':det.values_list('branch')[0][0]#getting the branch of the student from queryset
+        'image':det.values_list('branch')[0][0],#getting the branch of the student from queryset
+        'announcements': announcement
     }
     return render(request, 'student_panel.html', context)
 
