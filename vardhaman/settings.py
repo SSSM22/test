@@ -83,10 +83,10 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'cdc',
-        'USER': 'root',
-        'HOST': 'localhost',
+        'USER': 'sssm',
+        'HOST': 'vardhamanstudent-data.mysql.database.azure.com',
         'PORT': 3306,
-        'PASSWORD': '22EC1U3Inisl#wiswAPe',
+        'PASSWORD': 'abcd1234!@',
     }
 }
 
