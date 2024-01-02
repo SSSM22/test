@@ -1,3 +1,4 @@
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
@@ -30,8 +31,10 @@ h1 {
 }
 
 .form-group {
-    text-align: left;
-    margin-bottom: 20px;
+    position: relative;
+    padding: 15px 0 0;
+    margin-top: 10px;
+    width: 50%;
 }
 
 label {
