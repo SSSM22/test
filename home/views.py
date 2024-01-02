@@ -26,8 +26,8 @@ from .announcementform import AnnouncementForm
 from .models import Announcement
 # Create your views here.
 
-dic_branch = {'hodit': 'INF',
-              'hodcs': 'CSE',
+dic_branch = {'hodit': 'it',
+              'hodcs': 'cse',
               'hodece': 'ECE',
               'hodeee':'EEE'
               }
@@ -292,7 +292,7 @@ def hod_view(request):
 
     if request.method == 'GET':
         roll = request.GET["Roll"]
-        students = display_students(request,)
+        students = display_students(request)
 
         students = students.filter(roll_no=roll)
         if(students.count()==0):
