@@ -275,6 +275,12 @@ def student_view(request, username):
     labels, data = pie_chart(request, roll)
     xvalues, yvalues =scatter_plot(request,roll)
     print(xvalues,yvalues)
+    # below code for graph below is the samlpe data
+    data_string = "10,20,30,40,52,68,78,80,90,100,100,100,100,110,115,125,130,140,150,150,150,190,200,210,211,215,215,215,220,220";
+    Gdata = [int(x.strip()) for x in data_string.split(',')]
+    Glabels = [str(i+1) for i in range(30)]
+    #end graph
+    
     context = {
         'username': roll,
         'det': det,
@@ -284,7 +290,9 @@ def student_view(request, username):
         'xValues':xvalues,
         'yValues':yvalues,
         'image':det.values_list('branch')[0][0],#getting the branch of the student from queryset
-        'announcements': announcement
+        'announcements': announcement,
+        'Glabels': Glabels,
+        'Gdata': Gdata
     }
     return render(request, 'student_panel.html', context)
 
