@@ -28,8 +28,10 @@ from .models import Announcement
 
 dic_branch = {'hodit': 'it',
               'hodcs': 'cse',
-              'hodece': 'ECE',
-              'hodeee':'EEE'
+              'hodece': 'ece',
+              'hodeee':'eee',
+              'hodcsm':'cse(aiml)',
+              'hodaid':''
               }
 scraped_dates=['December 25, 2023','December 26, 2023','December 29, 2023']
 
