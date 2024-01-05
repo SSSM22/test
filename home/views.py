@@ -2,8 +2,6 @@ from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.db import connection, transaction, IntegrityError
 from django.db.models import F
 from .models import R21, R22, StudentMaster, StudentScores
-import requests
-from bs4 import BeautifulSoup
 from django.contrib.auth import authenticate, login, logout,update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -19,7 +17,6 @@ from django.contrib.auth.forms import PasswordChangeForm
 # from django.contrib.auth.views import PasswordResetView
 # from django.contrib.messages.views import SuccessMessageMixin
 from  datetime import date
-from rest_framework.response import Response
 
 
 from .announcementform import AnnouncementForm
@@ -244,9 +241,9 @@ def auth_login(request):
                              "Please login before proceeding")
 
     if request.method == 'POST':
-        username = request.POST["username"]
-        password = request.POST["password"]
-
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        print(username, password)
         user = authenticate(request, username=username, password=password)
         if user is not None:    
 
