@@ -136,15 +136,20 @@
     {% comment %} code for announcements display from models  {% endcomment %}
     <h1>Announcements</h1>
     <ul>
-        {% for i in announcements %}
-            <li>
-                <p>{{ i.text_input }}</p>
-                <p><strong>Date Published:</strong> {{ i.date_input }}</p>
-            </li>
-        {% empty %}
-            <li>No announcements available.</li>
-        {% endfor %}
-    </ul>
+      {% for i in announcements %}
+          <li>
+              {% if "https://" in i.text_input %}
+                  <a href="{{ i.text_input }}">{{ i.text_input }}</a>
+              {% else %}
+                  <p>{{ i.text_input }}</p>
+              {% endif %}
+              <p><strong>Date Published:</strong> {{ i.date_input }}</p>
+          </li>
+      {% empty %}
+          <li>No announcements available.</li>
+      {% endfor %}
+  </ul>
+  
 
     <div style="width: 800px; height: 400px;">
       <canvas id="myChart"></canvas>
