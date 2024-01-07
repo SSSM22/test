@@ -109,9 +109,20 @@ def validate(request):
 
 
 def report(request):
+    q=request.GET.get('q') if request.GET.get('q') != None else ''
+    score_gt = request.GET.get('score_gt', '')  # Score greater than
+    score_lt = request.GET.get('score_lt', '')
     students = display_students(request)
+    if q:
+        students = students.filter(branch=q)
+    if score_gt:
+        students = students.filter(overall_score__gt=float(score_gt))
+    if score_lt:
+        students = students.filter(overall_score__lt=float(score_lt))
+    distinct_branches = StudentMaster.objects.values_list('branch', flat=True).distinct()
     context = {
-        'students': students
+        'students': students,
+        'branches': distinct_branches
     }
     if(request.user.is_staff and (not request.user.is_superuser)):
         context['branch'] = dic_branch[request.user.username]
