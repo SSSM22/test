@@ -110,6 +110,17 @@
       <h1 style="color: black; text-align: center">
         Vardhaman Student Rankings
       </h1>
+      <form action="{% url 'report' %}" method="GET">
+        <select name="q" id="branchDropdown">
+          <option value="">Select Branch</option>
+          {% for branch in branches %}
+          <option value="{{ branch }}">{{ branch }}</option>
+          {% endfor %}
+        </select>
+        <input type="number" name="score_gt" placeholder="Score Greater Than" />
+        <input type="number" name="score_lt" placeholder="Score Less Than" />
+        <input type="submit" value="Search" />
+      </form>
       <div style="margin: 10px; display: flex">
         {% if branch != None %}
         <h2>Branch filter</h2>
@@ -156,7 +167,6 @@
             <td>{{ student.name}}</td>
             <td>{{ student.branch}}</td>
             <td>{{ student.roll_no.hackerrank_score }}</td>
-
             <td>{{ student.roll_no.codechef_score }}</td>
             <td>{{ student.roll_no.codeforces_score }}</td>
             <td>{{ student.roll_no.spoj_score }}</td>
