@@ -1,22 +1,16 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.db import connection, transaction, IntegrityError
 from django.db.models import F
-from .models import R21, R22, StudentMaster, StudentScores
+from .models import  StudentMaster, StudentScores
 from django.contrib.auth import authenticate, login, logout,update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .scrap import forcesrate, coderate, geeksforgeeks_ranking, interviewbit_ranking, leetrate, spojrate, get,hackerrank_ranking
 from django.contrib.contenttypes.models import ContentType
-from django.http import Http404
-# from .forms import UsernamesForm
-# from django.contrib import messages
-# from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-# from django.urls import reverse_lazy
-# from django.contrib.auth.views import PasswordResetView
-# from django.contrib.messages.views import SuccessMessageMixin
 from  datetime import date
+
 
 
 from .announcementform import AnnouncementForm
@@ -246,22 +240,25 @@ def auth_login(request):
         print(username, password)
         user = authenticate(request, username=username, password=password)
         if user is not None:    
-
+            if user.last_login is None: #if user is logging in for the first time
+                login(request, user)   
+                return redirect('/change_password')
             login(request, user)
             if user.is_superuser:
                 return redirect("/admin_panel")
             if user.is_staff:
                 return redirect('/hod_panel')
             st=StudentMaster.objects.get(roll_no=username)
+            
             if(st.hackerrank_username=='None' or st.codechef_username=='None' or st.codeforces_username=='None' or st.spoj_username=='None' or st.interviewbit_username=='None' or st.leetcode_username=='None' or st.gfg_username=='None'):
                 messages.info(request, 'Please fill in all your usernames and login again to view your profile')
                 return redirect('/usernames')
+            
             return redirect('/student_view/'+username)
 
         else:
             return HttpResponse("Enter correct credentials")
     return render(request, 'login.html')
-
 
 def student_view(request, username):
     roll = request.user.username
