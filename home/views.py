@@ -251,16 +251,15 @@ def auth_login(request):
         print(username, password)
         user = authenticate(request, username=username, password=password)
         if user is not None:    
-            if user.last_login is None: #if user is logging in for the first time
-                login(request, user)   
-                return redirect('/change_password')
             login(request, user)
             if user.is_superuser:
                 return redirect("/admin_panel")
             if user.is_staff:
                 return redirect('/hod_panel')
             st=StudentMaster.objects.get(roll_no=username)
-            
+            if user.last_login is None: #if user is logging in for the first time then he will be redirected to change password page
+                login(request, user)   
+                return redirect('/change_password')
             if(st.hackerrank_username=='None' or st.codechef_username=='None' or st.codeforces_username=='None' or st.spoj_username=='None' or st.interviewbit_username=='None' or st.leetcode_username=='None' or st.gfg_username=='None'):
                 messages.info(request, 'Please fill in all your usernames and login again to view your profile')
                 return redirect('/usernames')
@@ -268,7 +267,8 @@ def auth_login(request):
             return redirect('/student_view/'+username)
 
         else:
-            return HttpResponse("Enter correct credentials")
+            messages.warning(request, 'Enter correct credentials')
+            return redirect("/login")
     return render(request, 'login.html')
 
 def student_view(request, username):
