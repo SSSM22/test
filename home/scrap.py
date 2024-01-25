@@ -153,20 +153,19 @@ def geeksforgeeks_ranking(username):
         return 0
 
 
-def get(usernames: list, func) -> list:
-    result = {}
+def get(usernames: list, func) -> list: # usernames is a list of dictionaries having rollno,usernames and score
+    
     start_time = time.time()
     userid = []
     for i in usernames:
-        userid.append(i['id'])
+        userid.append(i['id']) #appending usernames to userid list
 
     with ThreadPoolExecutor(max_workers=7) as p:
-        res = list(p.map(func, userid))
+        res = list(p.map(func, userid)) #res is a list of scores of all the usernames
 
-    # keys = list(usernames.keys())
     c = 0
-    for x in res:
-        # result[keys[c]] = x
+    for x in res: #iterating through the scores list and adding them to the usernames dictionary
+        
         usernames[c]['score'] = x
         c = c+1
     print(f"{(time.time() - start_time):.2f} seconds")

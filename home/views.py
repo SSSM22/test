@@ -144,7 +144,7 @@ def load_rows(request):
 
 def update(request):
     scraped_dates.append(date.today().strftime("%B %d, %Y"))
-    student = StudentMaster.objects.all().values()
+    student = StudentMaster.objects.all().values() #getting all the students from the database
     c = 0
     cc_data=[]
     cf_data=[]  
@@ -153,7 +153,7 @@ def update(request):
     lc_data=[]
     gfg_data=[]
     hackerrank_data=[]
-    for i in student: 
+    for i in student: #iterating through the students list and adding them to the usernames dictionary
         #roll_no_id is used because the roll_no is a foreign key in StudentScores table
         cc_data.append({"roll_no":i['roll_no_id'],'id':i['codechef_username'],'score':0})
         cf_data.append({"roll_no":i['roll_no_id'],'id':i['codeforces_username'],'score':0})
@@ -162,11 +162,6 @@ def update(request):
         lc_data.append({"roll_no":i['roll_no_id'],'id':i['leetcode_username'],'score':0})
         gfg_data.append({"roll_no":i['roll_no_id'],'id':i['gfg_username'],'score':0})
         hackerrank_data.append({"roll_no":i['roll_no_id'],'id':i['hackerrank_username'],'score':0})
-
-    #     c = c + 1
-    #    # c IS FOR TESTING PURPOSE ONLY
-    #     if (c > 30):
-    #         break
 
     cc_data = get(cc_data, coderate)
     cf_data = get(cf_data, forcesrate)
@@ -228,7 +223,8 @@ def update(request):
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     hackerrank=ans)
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
-                    hackerrank_score=points)    
+                    hackerrank_score=points) 
+        print("db updated")           
         with connection.cursor() as cursor:
             cursor.callproc('overall_score')
         #     cursor.callproc('update_rank')
