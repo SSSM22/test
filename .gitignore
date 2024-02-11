@@ -2,3 +2,5 @@
 __pycache__/
 .vscode/
 venv/
+.env
+home/migrations/__pycache__/

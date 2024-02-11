@@ -5,14 +5,23 @@
         <link href="{% static 'css/index.css' %}" rel="stylesheet">
     </head>
     <body>
+        
+        <div class="centered"><ul>Vardhaman College of Engineering</ul></div>
+        <div class="login-box">
         <form>
-            <div class="split first">
+            <div class="split-first">
             </div>
-            <div class="split second">
-                <h2>Vardhaman College of Engineering</h2>
-                <h3>Login to Continue</h3>
-                <button onclick="window.location.href='/login'"type="button" class="button" class="btn btn-primary">Login</button>
+            <div class="split-second">
+                <h2>Career Development Cell</h2>
+                
+                <button onclick="window.location.href='/login'"type="button" class="button" class="btn btn-primary">
+                    <span class="circle" aria-hidden="true">
+                        <span class="icon arrow"></span>
+                        </span>
+                        <span class="button-text">Log In</span>
+                    </button>
             </div>
         </form>
+    </div>
     </body>
 </html>

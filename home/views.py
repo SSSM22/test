@@ -1,34 +1,30 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.db import connection, transaction, IntegrityError
 from django.db.models import F
-from .models import R21, R22, StudentMaster, StudentScores
-import requests
-from bs4 import BeautifulSoup
+from .models import  StudentMaster, StudentScores
 from django.contrib.auth import authenticate, login, logout,update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .scrap import forcesrate, coderate, geeksforgeeks_ranking, interviewbit_ranking, leetrate, spojrate, get,hackerrank_ranking
 from django.contrib.contenttypes.models import ContentType
-from django.http import Http404
-# from .forms import UsernamesForm
-# from django.contrib import messages
-# from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
-# from django.urls import reverse_lazy
-# from django.contrib.auth.views import PasswordResetView
-# from django.contrib.messages.views import SuccessMessageMixin
 from  datetime import date
 
+
+
+from .announcementform import AnnouncementForm
+from .models import Announcement
 # Create your views here.
 
 dic_branch = {'hodit': 'it',
               'hodcs': 'cse',
               'hodece': 'ece',
-              'hodeee':'eee'
-
+              'hodeee':'eee',
+              'hodcsm':'cse(aiml)',
+              'hodaid':''
               }
-scraped_dates=['December 25, 2023','December 26, 2023']
+scraped_dates=['December 25, 2023','December 26, 2023','December 29, 2023']
 
 
 def index(request):
@@ -36,7 +32,14 @@ def index(request):
 
 
 def admin_panel(request):
-    return render(request, 'admin_panel1.html')
+    form= AnnouncementForm()
+    if request.method == 'POST':
+        form =AnnouncementForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('adminpanel')
+    context= {'form':form}
+    return render(request, 'admin_panel1.html',context)
 
 
 def student_panel(request):
@@ -74,7 +77,17 @@ def display_students(request):
     .select_related('roll_no')
     .annotate(overall_score=F('roll_no__overall_score'))
     .order_by('-overall_score'))
-    return students   
+    return students  
+ 
+def display_students_branch(request,branch):
+    global students
+    students = (
+    StudentMaster.objects
+    .select_related('roll_no').filter(branch=branch)
+    .annotate(overall_score=F('roll_no__overall_score'))
+    .order_by('-overall_score'))
+    
+    return students 
 
 def validate(request):
     if request.method == 'POST':
@@ -96,17 +109,42 @@ def validate(request):
 
 
 def report(request):
+    q=request.GET.get('q') if request.GET.get('q') != None else ''
+    score_gt = request.GET.get('score_gt', '')  # Score greater than
+    score_lt = request.GET.get('score_lt', '')
     students = display_students(request)
+    if q:
+        students = students.filter(branch=q)
+    if score_gt:
+        students = students.filter(overall_score__gt=float(score_gt))
+    if score_lt:
+        students = students.filter(overall_score__lt=float(score_lt))
+    distinct_branches = StudentMaster.objects.values_list('branch', flat=True).distinct()
     context = {
-        'students': students
-
+        'students': students,
+        'branches': distinct_branches
     }
+    if(request.user.is_staff and (not request.user.is_superuser)):
+        context['branch'] = dic_branch[request.user.username]
     return render(request, 'report.html', context)
 
 
+def load_rows(request):
+    checks = request.GET.get("checks")
+    print(checks)
+    if(checks != None):
+        students = display_students_branch(request,checks)
+        return render(request,"report_rows.html",{"students":students})
+    students = display_students(request)
+    return render(request,"report_rows.html",{"students":students})
+    
+    # table_body = request.GET.get("table_body")
+    # if(request.user.is_staff == True ):
+    #     students = StudentMaster.objects.select_related('roll_no').annotate(overall_score=F('roll_no__overall_score')).order_by('-overall_score').filter(branch=dic_branch[request.user.username])
+
 def update(request):
     scraped_dates.append(date.today().strftime("%B %d, %Y"))
-    student = StudentMaster.objects.all().values()
+    student = StudentMaster.objects.all().values() #getting all the students from the database
     c = 0
     cc_data=[]
     cf_data=[]  
@@ -115,19 +153,15 @@ def update(request):
     lc_data=[]
     gfg_data=[]
     hackerrank_data=[]
-    for i in student:
-        cc_data.append({"roll_no":i['roll_no'],'id':i['codechef_username'],'score':0})
-        cf_data.append({"roll_no":i['roll_no'],'id':i['codeforces_username'],'score':0})
-        sp_data.append({"roll_no":i['roll_no'],'id':i['spoj_username'],'score':0})
-        ib_data.append({"roll_no":i['roll_no'],'id':i['interviewbit_username'],'score':0})
-        lc_data.append({"roll_no":i['roll_no'],'id':i['leetcode_username'],'score':0})
-        gfg_data.append({"roll_no":i['roll_no'],'id':i['gfg_username'],'score':0})
-        hackerrank_data.append({"roll_no":i['roll_no'],'id':i['hackerrank_username'],'score':0})
-
-    #     c = c + 1
-    #    # c IS FOR TESTING PURPOSE ONLY
-    #     if (c > 30):
-    #         break
+    for i in student: #iterating through the students list and adding them to the usernames dictionary
+        #roll_no_id is used because the roll_no is a foreign key in StudentScores table
+        cc_data.append({"roll_no":i['roll_no_id'],'id':i['codechef_username'],'score':0})
+        cf_data.append({"roll_no":i['roll_no_id'],'id':i['codeforces_username'],'score':0})
+        sp_data.append({"roll_no":i['roll_no_id'],'id':i['spoj_username'],'score':0})
+        ib_data.append({"roll_no":i['roll_no_id'],'id':i['interviewbit_username'],'score':0})
+        lc_data.append({"roll_no":i['roll_no_id'],'id':i['leetcode_username'],'score':0})
+        gfg_data.append({"roll_no":i['roll_no_id'],'id':i['gfg_username'],'score':0})
+        hackerrank_data.append({"roll_no":i['roll_no_id'],'id':i['hackerrank_username'],'score':0})
 
     cc_data = get(cc_data, coderate)
     cf_data = get(cf_data, forcesrate)
@@ -138,10 +172,10 @@ def update(request):
     hackerrank_data = get(hackerrank_data, hackerrank_ranking)
     
     # print(sp_res,gfg_res,lc_res,ib_res)
-    print(cc_data)
+    # print(cc_data)
     try:
         with transaction.atomic():
-            for i in cc_data:
+            for i in cc_data: #roll_no_id is used because the roll_no is a foreign key in StudentScores table
                 ans=str(StudentScores.objects.get(roll_no=i['roll_no']).codechef)+','+str(i['score'])
                 points=StudentScores.objects.get(roll_no=i['roll_no']).codechef_score+i['score']*10
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
@@ -189,7 +223,8 @@ def update(request):
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     hackerrank=ans)
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
-                    hackerrank_score=points)    
+                    hackerrank_score=points) 
+        print("db updated")           
         with connection.cursor() as cursor:
             cursor.callproc('overall_score')
         #     cursor.callproc('update_rank')
@@ -207,36 +242,46 @@ def auth_login(request):
                              "Please login before proceeding")
 
     if request.method == 'POST':
-        username = request.POST["username"]
-        password = request.POST["password"]
-
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        print(username, password)
         user = authenticate(request, username=username, password=password)
-        if user is not None:
-
+        if user is not None:    
             login(request, user)
             if user.is_superuser:
                 return redirect("/admin_panel")
             if user.is_staff:
                 return redirect('/hod_panel')
             st=StudentMaster.objects.get(roll_no=username)
+            if user.last_login is None: #if user is logging in for the first time then he will be redirected to change password page
+                login(request, user)   
+                return redirect('/change_password')
             if(st.hackerrank_username=='None' or st.codechef_username=='None' or st.codeforces_username=='None' or st.spoj_username=='None' or st.interviewbit_username=='None' or st.leetcode_username=='None' or st.gfg_username=='None'):
                 messages.info(request, 'Please fill in all your usernames and login again to view your profile')
                 return redirect('/usernames')
+            
             return redirect('/student_view/'+username)
 
         else:
-            return HttpResponse("Enter correct credentials")
+            messages.warning(request, 'Enter correct credentials')
+            return redirect("/login")
     return render(request, 'login.html')
-
 
 def student_view(request, username):
     roll = request.user.username
+    announcement = Announcement.objects.all()
     # scatter_plot(request,roll)
     det = StudentMaster.objects.select_related('roll_no').filter(roll_no=roll)
     print(det)
     labels, data = pie_chart(request, roll)
     xvalues, yvalues =scatter_plot(request,roll)
     print(xvalues,yvalues)
+    # below code for graph below is the samlpe data
+    data_string = "10,20,30,40,52,68,78,80,90,100,100,100,100,110,115,125,130,140,150,150,150,190,200,210,211,215,215,215,220,220";
+    Gdata = [int(x.strip()) for x in data_string.split(',')]
+    Glabels = [str(i+1) for i in range(30)]
+    #end graph
+    
     context = {
         'username': roll,
         'det': det,
@@ -245,7 +290,10 @@ def student_view(request, username):
         'students': det,
         'xValues':xvalues,
         'yValues':yvalues,
-        'image':det.values_list('branch')[0][0]#getting the branch of the student from queryset
+        'image':det.values_list('branch')[0][0],#getting the branch of the student from queryset
+        'announcements': announcement,
+        'Glabels': Glabels,
+        'Gdata': Gdata
     }
     return render(request, 'student_panel.html', context)
 
@@ -255,7 +303,7 @@ def hod_view(request):
 
     if request.method == 'GET':
         roll = request.GET["Roll"]
-        students = display_students(request,)
+        students = display_students(request)
 
         students = students.filter(roll_no=roll)
         if(students.count()==0):
@@ -331,8 +379,7 @@ def update_usernames(request):
         ib = request.POST['interviewbit_username']
         lc = request.POST['leetcode_username']
         gfg = request.POST['gfg_username']
-        StudentMaster.objects.filter(roll_no=request.user.username).update(hackerrank_username=hu, codeforces_username=cf,
-                                                                           codechef_username=cc, spoj_username=sp, interviewbit_username=ib, leetcode_username=lc, gfg_username=gfg)
+        StudentMaster.objects.filter(roll_no=request.user.username).update(hackerrank_username=hu, codeforces_username=cf,codechef_username=cc, spoj_username=sp, interviewbit_username=ib, leetcode_username=lc, gfg_username=gfg)
         messages.success(request, "Sucessfully Upated")
 
     return redirect('/usernames')

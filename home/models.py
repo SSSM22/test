@@ -114,3 +114,11 @@ class Usernames(models.Model):
     interviewbit_username = models.CharField(max_length=50)
     leetcode_username = models.CharField(max_length=50)
     gfg_username = models.CharField(max_length=50)
+    
+    
+class Announcement(models.Model):
+    text_input = models.CharField(max_length=200)
+    date_input = models.DateField()
+    
+    def __str__(self):
+        return self.text_input
