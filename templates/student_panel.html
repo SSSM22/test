@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Coding details</title>
-    <link href="{% static 'css/student_panel.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/student_panel.css' %}"  />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   </head>
@@ -20,6 +20,8 @@
         </p>
         <h2>Student Report</h2>
       </div>
+      <br>
+      <br>
       <div class="score-container">
         <img src="http://studentscorner.vardhaman.org/images/{{image}}/{{username}}.jpg" height="140" width="122" style="border: solid 5px #AAAAAA">
         <h2>Scores</h2>
