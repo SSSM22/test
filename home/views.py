@@ -319,7 +319,6 @@ def hod_view(request):
         students = display_students(request,)
         context = {
             'students': students.filter(year=year,branch=dic_branch[username])
-
         }
         return render(request, 'over_view.html', context)
 
