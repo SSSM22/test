@@ -228,7 +228,7 @@ def update(request):
         with connection.cursor() as cursor:
             cursor.callproc('overall_score')
         #     cursor.callproc('update_rank')
-        #     cursor.close()
+            cursor.close()
 
     except IntegrityError:
         return HttpResponse("DB ERROR")
@@ -297,10 +297,9 @@ def student_view(request, username):
     }
     return render(request, 'student_panel.html', context)
 
-
+@login_required
 def hod_view(request):
     username = request.user.username
-
     if request.method == 'GET':
         roll = request.GET["Roll"]
         students = display_students(request)
