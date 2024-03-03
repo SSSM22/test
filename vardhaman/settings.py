@@ -82,12 +82,12 @@ WSGI_APPLICATION = 'vardhaman.wsgi.application'
 DATABASES = {
     'default': {
 
-        'ENGINE': 'mysql.connector.django',
+        'ENGINE': 'django.db.backends.mysql', #mysql.connector.django
         'NAME': 'cdc',
-        'USER': 'sssm',
-        'HOST': 'vardhamanstudent-data.mysql.database.azure.com',
+        'USER': 'root', #sssm
+        'HOST': 'localhost',#vardhamanstudent-data.mysql.database.azure.com
         'PORT': 3306,
-        'PASSWORD': 'abcd1234!@',
+        'PASSWORD': 'root',#abcd1234!@
     }
 }
 
@@ -135,7 +135,7 @@ if DEBUG:
 else:
         STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-CSRF_TRUSTED_ORIGINS=['https://sssm.azurewebsites.net/']
+# CSRF_TRUSTED_ORIGINS=['https://sssm.azurewebsites.net/','localhost']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
