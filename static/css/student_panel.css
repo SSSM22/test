@@ -1,158 +1,80 @@
+/* General styles */
 body {
   font-family: Arial, sans-serif;
-  background-color: #ffffff;
   margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 90vh;
-}
-
-.split {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 800px;
-  padding: 40px;
-  transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.4);
-  box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
-  border-radius: 10px;
-  text-align: center;
-}
-
-h1 {
-  color: #fff;
-  font-size: 28px;
-  margin-bottom: 20px;
-}
-
-.welcome-container {
-  margin-bottom: 20px;
-}
-
-#student-name {
-  color: #03a9f4;
-}
-
-button {
-  margin: 10px;
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  outline: none;
-  border: 0;
-  vertical-align: middle;
-  text-decoration: none;
-  background: transparent;
   padding: 0;
-  font-size: inherit;
-  font-family: inherit;
-  width: 12rem;
-  height: auto;
 }
 
-button .circle {
-  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
-  position: relative;
-  display: block;
-  margin: 0;
-  width: 3rem;
-  height: 3rem;
-  background: #282936;
-  border-radius: 1.625rem;
-}
-
-button .circle .icon {
-  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  background: #fff;
-}
-
-button .circle .icon.arrow {
-  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
-  left: 0.625rem;
-  width: 1.125rem;
-  height: 0.125rem;
-  background: none;
-}
-
-button .circle .icon.arrow::before {
-  position: absolute;
-  content: "";
-  top: -0.29rem;
-  right: 0.0625rem;
-  width: 0.625rem;
-  height: 0.625rem;
-  border-top: 0.125rem solid #fff;
-  border-right: 0.125rem solid #fff;
-  transform: rotate(45deg);
-}
-
-button .button-text {
-  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: 0.75rem 0;
-  margin: 0 0 0 1.85rem;
-  color: #fff;
-  font-weight: 700;
-  line-height: 1.6;
+h1,
+h2 {
+  margin: 10px 0;
   text-align: center;
-  text-transform: uppercase;
-}
-
-button:hover .circle {
-  width: 100%;
-}
-
-button:hover .circle .icon.arrow {
-  background: #fff;
-  transform: translate(1rem, 0);
-}
-
-button:hover .button-text {
-  color: #fff;
-}
-
-.score-container {
-  text-align: left;
-}
-
-img {
-  border: solid 5px #aaaaaa;
 }
 
 ul {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 li {
   margin-bottom: 10px;
-  color: #fff;
 }
 
-h2 {
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+a:hover {
+  color: #007bff;
+}
+
+button.button {
+  background-color: #007bff;
   color: #fff;
-  margin-top: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px 10px;
+}
+
+button.button:hover {
+  background-color: #0069d9;
+}
+
+/* Specific styles for different sections */
+
+.split {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.welcome-container {
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+  width: 50%;
+}
+
+.score-container {
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+  width: 50%;
+  text-align: left;
 }
 
 .chart-container {
-  margin-top: 20px;
+  width: 100%;
+  height: 300px; /* Adjust height as needed */
 }
 
-#pie-chart {
-  height: 25%;
-}
-
-#myChart {
-  height: 25%;
+.announcements {
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
 }
