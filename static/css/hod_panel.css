@@ -2,117 +2,130 @@ body {
   background-color: #00143b;
   font-family: Arial, sans-serif;
   margin: 0;
-  display: flex; /* Flexbox for overall layout */
-  justify-content: center; /* Center the content horizontally */
-  align-items: center; /* Center the content vertically */
-  height: 90vh;
 }
 
-.split {
-  position: absolute; /* Remove absolute positioning */
+.container {
+  position: absolute;
   top: 50%;
   left: 50%;
-  width: 800px; /* Adjust width as needed */
+  transform: translate(-50%, -50%);
   padding: 40px;
-  transform: translate(-50%, -50%); /* Remove unnecessary for flexbox */
-  background: rgba(0, 0, 0, 0.4); /* Adjust transparency if needed */
+  width: 400px; /* Adjust width as needed */
+  background: rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
   border-radius: 10px;
-  display: flex; /* Make the split container a flexbox */
-  flex-direction: row; /* Arrange elements side-by-side */
+  text-align: center;
+  color: #fff;
 }
 
-h2 {
-  color: #ffffff;
-  size: 40px; /* Consider using rem or em units for better responsiveness */
-}
-
-.form-group {
+h1 {
+  color: #fff;
+  font-size: 2em;
   margin-bottom: 20px;
 }
 
 label {
-  color: #fff;
-  font-size: 16px;
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 10px; /* Increased spacing */
+  font-weight: bold;
 }
 
-select,
-input[type="text"] {
+input[type="text"],
+select {
   width: 100%;
   padding: 10px;
   font-size: 16px;
-  color: #fff;
-  background: transparent;
   border: 1px solid #fff;
   border-radius: 5px;
-  outline: none;
-}
-
-select:focus,
-input[type="text"]:focus {
-  border: 1px solid #03a9f4;
-}
-
-.submit {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-  outline: none;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
+  margin-bottom: 20px; /* Increased spacing */
+  background: transparent;
   color: #fff;
-  background-color: #282936;
-  border-radius: 5px;
-  margin: 5px;
-  transition: all 0.4s ease;
-}
-
-.submit:hover {
-  background-color: #03a9f4;
-}
-
-h4 {
-  color: #fff;
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-/* Announcement form styling (assuming from a Django form) */
-form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.form-row {
-  margin-bottom: 10px;
-}
-
-.form-row label {
-  margin-bottom: 5px;
-  width: 100%;
 }
 
 input[type="submit"] {
-  align-self: flex-end;
-  width: auto;
+  background-color: #282936;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.4s ease;
 }
 
-/* New styles for left and right side elements */
-.left-side,
-.right-side {
-  flex: 1; /* Make left and right sides equally sized */
-  padding: 20px;
+input[type="submit"]:hover {
+  background-color: #03a9f4;
 }
 
-.left-side {
-  background-color: #1b1b1b; /* Optional background color for left side */
+button {
+  background-color: transparent; /* Inherit from body background */
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.4s ease;
 }
 
-.right-side {
-  background-color: #282936; /* Optional background color for right side */
+button:hover {
+  color: #03a9f4; /* Use same hover color as submit button */
 }
+
+.messages {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.messages li {
+  margin-bottom: 10px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Adjust message colors based on message types (optional) */
+.messages li.error {
+  background-color: #ff0000;
+  color: #fff;
+}
+
+.messages li.success {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+/* Select box styling */
+select {
+  -webkit-appearance: none; /* Remove default dropdown appearance */
+  appearance: none;
+  background-color: transparent; /* Inherit from body background */
+  color: #fff; /* Text color to match other elements */
+  cursor: pointer;
+}
+
+select::-ms-expand {
+  /* Remove default arrow on Internet Explorer */
+  display: none;
+}
+
+/* Downward arrow when the dropdown is closed */
+select:after {
+  content: "\f078"; /* Font Awesome icon for down arrow (replace with desired icon if needed) */
+  font-family: FontAwesome; /* Adjust font family if using a different icon font */
+  color: #fff; /* Match text color */
+  position: absolute;
+  right: 10px; /* Adjust positioning as needed */
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* Upward arrow when the dropdown is open */
+select:focus:after {
+  content: "\f077"; /* Font Awesome icon for up arrow (replace with desired icon if needed) */
+}
+
+/* Change dropdown text color on hover or focus */
