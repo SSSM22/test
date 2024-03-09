@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^7+xhzw=^0l@i$5p2zydl9qbapb-6a@@-2yubk(kohi$!^*v@b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -129,19 +129,24 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
-if DEBUG:
-        STATICFILES_DIRS = [
-            os.path.join(BASE_DIR, 'static')
-       ]
-else:
-        STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+# if DEBUG:
+#         STATICFILES_DIRS = [
+#             os.path.join(BASE_DIR, 'static')
+#        ]
+# else:
+#         STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-CSRF_TRUSTED_ORIGINS=['https://sssm.azurewebsites.net/']
+# CSRF_TRUSTED_ORIGINS=['https://sssm.azurewebsites.net/']
 
-CSRF_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
 
-SESSION_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),  # Change 'static' to 'staticfiles'
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
