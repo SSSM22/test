@@ -144,7 +144,7 @@ STATIC_URL = 'static/'
 # SESSION_COOKIE_SECURE = True
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'staticfiles'),  # Change 'static' to 'staticfiles'
+    os.path.join(BASE_DIR, 'static'),  # Change 'static' to 'staticfiles'
 ]
 
 # Default primary key field type
