@@ -119,7 +119,8 @@ def validate(request):
         return render(request, 'over_view.html', context)
     else:
         students = display_students(request)
-        return render(request, 'over_view.html', {'students': students})
+        s_br=students.filter(roll_no=request.user.username).values_list('branch', flat=True)[0] #getting the branch of the student from queryset
+        return render(request, 'over_view.html', {'students': students.filter(branch=s_br)})
 
 
 def report(request):
@@ -198,7 +199,7 @@ def update(request):
                     # print(f"Student with roll_no {i['roll_no']} does not exist.")
 
                 ans = str(StudentScores.objects.get(roll_no=i['roll_no']).codechef) + ',' + str(i['score'])
-                points = StudentScores.objects.get(roll_no=i['roll_no']).codechef_score + i['score'] * 10
+                points = i['score'] * 10
 
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     codechef=ans)
@@ -213,7 +214,7 @@ def update(request):
                 # except ObjectDoesNotExist:
                 #     print(f"Student with roll_no {i['roll_no']} does not exist.")   
                 ans=str(StudentScores.objects.get(roll_no=i['roll_no']).codeforces)+','+str(i['score'])
-                points=StudentScores.objects.get(roll_no=i['roll_no']).codeforces_score+i['score']*10
+                points=i['score']*10
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     codeforces=ans)
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
@@ -226,35 +227,35 @@ def update(request):
                 # except ObjectDoesNotExist:
                 #     print(f"Student with roll_no {i['roll_no']} does not exist.")
                 ans=str(StudentScores.objects.get(roll_no=i['roll_no']).spoj)+','+str(i['score'])
-                points=StudentScores.objects.get(roll_no=i['roll_no']).spoj_score+i['score']*20
+                points=i['score']*20
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     spoj=ans)
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     spoj_score=points)
             for i in gfg_data:
                 ans=str(StudentScores.objects.get(roll_no=i['roll_no']).gfg)+','+str(i['score'])
-                points=StudentScores.objects.get(roll_no=i['roll_no']).gfg_score+i['score']
+                points=i['score']
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     gfg=ans)
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     gfg_score=points)        
             for i in lc_data:
                 ans=str(StudentScores.objects.get(roll_no=i['roll_no']).leetcode)+','+str(i['score'])
-                points=StudentScores.objects.get(roll_no=i['roll_no']).leetcode_score+i['score']*50
+                points=i['score']*50
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     leetcode=ans)
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     leetcode_score=points)
             for i in ib_data:
                 ans=str(StudentScores.objects.get(roll_no=i['roll_no']).interviewbit)+','+str(i['score']//3)
-                points=StudentScores.objects.get(roll_no=i['roll_no']).interviewbit_score+i['score']//3
+                points=i['score']//3
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     interviewbit=ans)
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     interviewbit_score=points)    
             for i in hackerrank_data:
                 ans=str(StudentScores.objects.get(roll_no=i['roll_no']).hackerrank)+','+str(i['score'])
-                points=StudentScores.objects.get(roll_no=i['roll_no']).hackerrank_score+i['score']
+                points=i['score']
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     hackerrank=ans)
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(

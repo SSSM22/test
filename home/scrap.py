@@ -78,6 +78,7 @@ def leetrate(leetu):
         return 0
     url = f"https://leetcode.com/{leetu}"
     response = requests.get(url)
+    print(response.status_code)
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
         rank_element = soup.find(
@@ -122,9 +123,11 @@ def interviewbit_ranking(username):
         return 0
     url = f"https://www.interviewbit.com/profile/{username}"
     response = requests.get(url)
+    print(response.status_code)
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
-        rank_elements = soup.find_all(class_="txt")
+        rank_elements = soup.find_all(class_="profile-daily-goal__goal-details")
+        print(rank_elements)
         if rank_elements is not None:
             try:
                 rank = int(rank_elements[1].get_text().strip())
@@ -142,11 +145,11 @@ def geeksforgeeks_ranking(username):
     response = requests.get(url)
     if response.status_code == 200:
         soup = BeautifulSoup(response.content, 'html.parser')
-        rank_elements = soup.find_all(class_="score_card_value")
+        rank_elements = soup.find('span',class_="score_card_value").text.strip()
         if rank_elements is not None:
             try:
-                rank = int(rank_elements[1].get_text().strip())
-                return rank
+                
+                return rank_elements
             except:
                 return 0
     else:
@@ -174,10 +177,10 @@ def get(usernames: list, func) -> list: # usernames is a list of dictionaries ha
 
 # Profiles for testing purposes
 
-# print(leetrate('srivandanatalla'))
+# print(leetrate('sssm_2003'))
 # print(coderate("srivandana"))
 # print(forcesrate("srivandanatalla"))
 # print(spojrate("srivandana"))
-# print(geeksforgeeks_ranking('anil bera'))
+#print(geeksforgeeks_ranking('sssm_2003'))
 # print(interviewbit_ranking("sssm_2003"))
 # print(hackerrank_ranking('sssm_2003'))
