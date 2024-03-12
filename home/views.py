@@ -10,11 +10,15 @@ from .scrap import forcesrate, coderate, geeksforgeeks_ranking, interviewbit_ran
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.forms import PasswordChangeForm
 from  datetime import date
+from dotenv import load_dotenv
+import os
 
-
+load_dotenv()
+current_academic_year = os.getenv('CURRENT_ACADEMIC_YEAR')
 
 from .announcementform import AnnouncementForm
 from .models import Announcement
+from django.core.exceptions import ObjectDoesNotExist
 # Create your views here.
 
 dic_branch = {'hodit': 'it',
@@ -22,7 +26,7 @@ dic_branch = {'hodit': 'it',
               'hodece': 'ece',
               'hodeee':'eee',
               'hodcsm':'cse(aiml)',
-              'hodaid':''
+              'hodaid':'aid'
               }
 scraped_dates=['December 25, 2023','December 26, 2023','December 29, 2023']
 
@@ -92,20 +96,31 @@ def display_students_branch(request,branch):
 def validate(request):
     if request.method == 'POST':
         details = request.POST.dict()
-        year = int(details['year'])
+        year = details['year']
         branch = details['branch']
-        print(year, branch)
-
+        # print(year, branch)
         students = display_students(request)
-
-        context = {
-            'students': students.filter(branch=branch, year=year)
-
-        }
+        if(branch == 'all' and year == 'all'):
+            context = {
+                'students': students
+            }
+        elif(branch != 'all' and year != 'all'):
+            context = {
+            'students': students.filter(branch=branch, year=int(year)+int(current_academic_year))
+            }
+        elif(year!='all'):
+            context = {
+            'students': students.filter(year=int(year)+int(current_academic_year))
+            }
+        else:
+            context = {
+            'students': students.filter(branch=branch)
+            }        
         return render(request, 'over_view.html', context)
     else:
         students = display_students(request)
-        return render(request, 'over_view.html', {'students': students})
+        s_br=students.filter(roll_no=request.user.username).values_list('branch', flat=True)[0] #getting the branch of the student from queryset
+        return render(request, 'over_view.html', {'students': students.filter(branch=s_br)})
 
 
 def report(request):
@@ -176,59 +191,80 @@ def update(request):
     try:
         with transaction.atomic():
             for i in cc_data: #roll_no_id is used because the roll_no is a foreign key in StudentScores table
-                ans=str(StudentScores.objects.get(roll_no=i['roll_no']).codechef)+','+str(i['score'])
-                points=StudentScores.objects.get(roll_no=i['roll_no']).codechef_score+i['score']*10
+                # try:
+                #     student_score = StudentScores.objects.get(roll_no=i['roll_no'])
+                #     student_score.codechef = i['score']
+                #     student_score.save()
+                # except ObjectDoesNotExist:
+                    # print(f"Student with roll_no {i['roll_no']} does not exist.")
+
+                ans = str(StudentScores.objects.get(roll_no=i['roll_no']).codechef) + ',' + str(i['score'])
+                points = i['score'] * 10
+
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     codechef=ans)
+                # print(points)
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     codechef_score=points)
             for i in cf_data:
+                # try:
+                #     student_score = StudentScores.objects.get(roll_no=i['roll_no'])
+                #     student_score.codeforces = i['score']
+                #     student_score.save()    
+                # except ObjectDoesNotExist:
+                #     print(f"Student with roll_no {i['roll_no']} does not exist.")   
                 ans=str(StudentScores.objects.get(roll_no=i['roll_no']).codeforces)+','+str(i['score'])
-                points=StudentScores.objects.get(roll_no=i['roll_no']).codeforces_score+i['score']*10
+                points=i['score']*10
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     codeforces=ans)
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     codeforces_score=points)
             for i in sp_data:
+                # try:
+                #     student_score = StudentScores.objects.get(roll_no=i['roll_no'])
+                #     student_score.spoj = i['score']
+                #     student_score.save()
+                # except ObjectDoesNotExist:
+                #     print(f"Student with roll_no {i['roll_no']} does not exist.")
                 ans=str(StudentScores.objects.get(roll_no=i['roll_no']).spoj)+','+str(i['score'])
-                points=StudentScores.objects.get(roll_no=i['roll_no']).spoj_score+i['score']*20
+                points=i['score']*20
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     spoj=ans)
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     spoj_score=points)
             for i in gfg_data:
                 ans=str(StudentScores.objects.get(roll_no=i['roll_no']).gfg)+','+str(i['score'])
-                points=StudentScores.objects.get(roll_no=i['roll_no']).gfg_score+i['score']
+                points=i['score']
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     gfg=ans)
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     gfg_score=points)        
             for i in lc_data:
                 ans=str(StudentScores.objects.get(roll_no=i['roll_no']).leetcode)+','+str(i['score'])
-                points=StudentScores.objects.get(roll_no=i['roll_no']).leetcode_score+i['score']*50
+                points=i['score']*50
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     leetcode=ans)
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     leetcode_score=points)
             for i in ib_data:
                 ans=str(StudentScores.objects.get(roll_no=i['roll_no']).interviewbit)+','+str(i['score']//3)
-                points=StudentScores.objects.get(roll_no=i['roll_no']).interviewbit_score+i['score']//3
+                points=i['score']//3
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     interviewbit=ans)
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     interviewbit_score=points)    
             for i in hackerrank_data:
                 ans=str(StudentScores.objects.get(roll_no=i['roll_no']).hackerrank)+','+str(i['score'])
-                points=StudentScores.objects.get(roll_no=i['roll_no']).hackerrank_score+i['score']
+                points=i['score']
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     hackerrank=ans)
                 StudentScores.objects.filter(roll_no=i['roll_no']).update(
                     hackerrank_score=points) 
-        print("db updated")           
+        print("db updated")               
         with connection.cursor() as cursor:
-            cursor.callproc('overall_score')
+            cursor.callproc('new_procedure')
         #     cursor.callproc('update_rank')
-        #     cursor.close()
+            cursor.close()
 
     except IntegrityError:
         return HttpResponse("DB ERROR")
@@ -302,10 +338,9 @@ def student_view(request, username):
     }
     return render(request, 'student_panel.html', context)
 
-
+@login_required
 def hod_view(request):
     username = request.user.username
-
     if request.method == 'GET':
         roll = request.GET["Roll"]
         students = display_students(request)
@@ -323,10 +358,14 @@ def hod_view(request):
     if request.method == 'POST':
         year = request.POST['year']
         students = display_students(request,)
-        context = {
-            'students': students.filter(year=year,branch=dic_branch[username])
-
-        }
+        if year == 'all':
+            context = {
+                'students': students.filter(branch=dic_branch[username])
+            }
+        else:    
+            context = {
+            'students': students.filter(year=int(year)+int(current_academic_year),branch=dic_branch[username])
+            }
         return render(request, 'over_view.html', context)
 
 

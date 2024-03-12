@@ -1,68 +1,131 @@
-/* CSS for the alternative design */
-
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  background-color: #00143b;
+  font-family: Arial, sans-serif;
+  margin: 0;
 }
 
 .container {
-    text-align: center;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin: 20px;
-    width: 500px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 40px;
+  width: 400px; /* Adjust width as needed */
+  background: rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  text-align: center;
+  color: #fff;
 }
 
 h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+  color: #fff;
+  font-size: 2em;
+  margin-bottom: 20px;
 }
 
 label {
-    display: block;
-    font-weight: bold;
-    margin: 10px 0;
+  display: block;
+  margin-bottom: 10px; /* Increased spacing */
+  font-weight: bold;
 }
 
 input[type="text"],
-select,
-input[type="submit"],
-button {
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-input[type="text"] {
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    width: 300px;
-}
-
-input[type="submit"],
-button {
-    background-color: #007bff;
-    color: #fff;
-    margin-top: 10px;
-}
-
-button {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
 select {
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    width: 300px;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  margin-bottom: 20px; /* Increased spacing */
+  background: transparent;
+  color: #fff;
 }
+
+input[type="submit"] {
+  background-color: #282936;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+input[type="submit"]:hover {
+  background-color: #03a9f4;
+}
+
+button {
+  background-color: transparent; /* Inherit from body background */
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+button:hover {
+  color: #03a9f4; /* Use same hover color as submit button */
+}
+
+.messages {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.messages li {
+  margin-bottom: 10px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Adjust message colors based on message types (optional) */
+.messages li.error {
+  background-color: #ff0000;
+  color: #fff;
+}
+
+.messages li.success {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+/* Select box styling */
+select {
+  -webkit-appearance: none; /* Remove default dropdown appearance */
+  appearance: none;
+  background-color: transparent; /* Inherit from body background */
+  color: #fff; /* Text color to match other elements */
+  cursor: pointer;
+}
+
+select::-ms-expand {
+  /* Remove default arrow on Internet Explorer */
+  display: none;
+}
+
+/* Downward arrow when the dropdown is closed */
+select:after {
+  content: "\f078"; /* Font Awesome icon for down arrow (replace with desired icon if needed) */
+  font-family: FontAwesome; /* Adjust font family if using a different icon font */
+  color: #fff; /* Match text color */
+  position: absolute;
+  right: 10px; /* Adjust positioning as needed */
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* Upward arrow when the dropdown is open */
+select:focus:after {
+  content: "\f077"; /* Font Awesome icon for up arrow (replace with desired icon if needed) */
+}
+
+/* Change dropdown text color on hover or focus */
