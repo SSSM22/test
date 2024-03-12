@@ -244,7 +244,7 @@ def auth_login(request):
     if request.method == 'POST':
         username = request.POST.get("username")
         password = request.POST.get("password")
-        print(username, password)
+        # print(username, password)
         user = authenticate(request, username=username, password=password)
         if user is not None:    
             login(request, user)
@@ -268,7 +268,11 @@ def auth_login(request):
     return render(request, 'login.html')
 
 def student_view(request, username):
-    roll = request.user.username
+    roll = None
+    if(request.user.is_staff and username is not None):
+        roll = username
+    else:
+        roll = request.user.username
     announcement = Announcement.objects.all()
     # scatter_plot(request,roll)
     det = StudentMaster.objects.select_related('roll_no').filter(roll_no=roll)
@@ -283,6 +287,7 @@ def student_view(request, username):
     #end graph
     
     context = {
+        'staff': request.user.is_staff,
         'username': roll,
         'det': det,
         'labels': labels,
@@ -312,7 +317,8 @@ def hod_view(request):
         context = {
             'students': students
         }
-        return render(request, 'report.html', context)
+        # return render(request, 'report.html', context)
+        return redirect('student_view/'+roll)
 
     if request.method == 'POST':
         year = request.POST['year']
@@ -328,7 +334,7 @@ def auth_logout(request):
     logout(request)
     return redirect("/login")
 
-
+@login_required
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)

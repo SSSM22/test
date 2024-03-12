@@ -11,11 +11,15 @@
       <h1>Vardhaman college of Engineering</h1>
       {% for details in det%}
       <div class="welcome-container">
+        {% if staff == False%}
         <h1>Welcome, <span id="student-name">{{ details.name}}</span></h1>
         <a href="/logout"><button class="button">Logout</button> </a>
         <a href="https://discord.gg/jXUkmX7Tvf" target="_blank"><button class="button">Discord Group</button> </a>
         <a href="/change_password"><button class="button">Change Password</button> </a>
         <p>
+          {% else %}
+          <h1>Student name: <span id="student-name">{{ details.name}}</span></h1>
+        {% endif %}
           Roll Number: <span id="roll-number">{{details.roll_no.roll_no}}</span>
         </p>
         <h2>Student Report</h2>
@@ -54,8 +58,10 @@
           </li>
         </ul>
       </div>
+      {% if staff == False%}
       <a href="/overview" target="_blank"><button class="button">View Batch Report</button> </a>
       <a href="/usernames"><button class="button">Usernames</button> </a>
+      {% endif %}
       <h2>Pie Chart</h2>
       {% block content %}
       <div class="chart-container">
