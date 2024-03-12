@@ -140,6 +140,7 @@ var config = {
 
 
   {% comment %} code for announcements display from models {% endcomment %}
+  {% if staff == False%}
   <h1>Announcements</h1>
   <ul>
     {% for i in announcements %}
@@ -155,6 +156,7 @@ var config = {
     <li>No announcements available.</li>
     {% endfor %}
   </ul>
+  {% endif %}
 
 
   <div style="width: 800px; height: 400px;">
