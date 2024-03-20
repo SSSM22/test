@@ -1,0 +1,351 @@
+body {
+  background-color: #f0f0f0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+
+h1{
+  text-decoration: #fff!important;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+/*
+.sidebar {
+          height: 100%;
+          width: 250px;
+          position: fixed;
+          top: 0;
+          left: 0;
+          background-color: #333;
+          padding-top: 20px;
+      }
+      
+      .sidebar a {
+          padding: 10px 15px;
+          text-decoration: none;
+          font-size: 18px;
+          color: #fff;
+          display: block;
+      }
+
+      .sidebar a:hover {
+          background-color: #555;
+      }
+
+      
+
+    .table-container {
+      width: 80%px;
+      height: 90%;
+      overflow: auto;
+      border: 1px solid #ccc;
+      margin: 0px;
+      padding: 10px;
+      box-sizing: border-box;
+      justify-content: center;
+      margin-left: 0px;
+      margin-top: 2%;
+    }
+    .table-container table {
+      width: 450px;
+      border-collapse: collapse;
+    }
+    .table-container th,
+    .table-container td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+      font-size: 15px;
+      width: fit-content; 
+    }
+    .table-container tbody {
+      overflow-x: scroll;
+      overflow-y: scroll;
+    }
+    .table-container th {
+      background-color: #3498db; 
+      color: white;
+      font-weight: bold;
+    }
+    .table-container tbody tr:nth-child(even) {
+      background-color: #f2f2f2; 
+    }
+    .table-container tbody tr:hover {
+      background-color: #e0e0e0; 
+    }
+    .button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 700px;
+  margin-bottom: 10%;
+    }
+    
+
+table td,
+table th {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.card {
+  border-radius: .5rem;
+}
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+*{
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+
+/* Table Styles */
+
+.table-container{
+  margin: 10px 70px 70px;
+  box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+}
+
+.fl-table {
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: normal;
+  border: none;
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 100%;
+  white-space: nowrap;
+  background-color: white;
+}
+
+.fl-table td, .fl-table th {
+  text-align: center;
+  padding: 8px;
+}
+
+.fl-table td {
+  border-right: 1px solid #f8f8f8;
+  font-size: 12px;
+}
+
+.fl-table thead th {
+  color: #ffffff;
+  background: #4FC3A1;
+}
+
+
+.fl-table thead th:nth-child(odd) {
+  color: #ffffff;
+  background: #324960;
+}
+
+.fl-table tr:nth-child(even) {
+  background: #F8F8F8;
+}
+
+/* Responsive */
+
+@media (max-width: 767px) {
+  .fl-table {
+      display: block;
+      width: 100%;
+  }
+  .table-wrapper:before{
+      content: "Scroll horizontally >";
+      display: block;
+      text-align: right;
+      font-size: 11px;
+      color: white;
+      padding: 0 0 10px;
+  }
+  .fl-table thead, .fl-table tbody, .fl-table thead th {
+      display: block;
+  }
+  .fl-table thead th:last-child{
+      border-bottom: none;
+  }
+  .fl-table thead {
+      float: left;
+  }
+  .fl-table tbody {
+      width: auto;
+      position: relative;
+      overflow-x: auto;
+  }
+  .fl-table td, .fl-table th {
+      padding: 20px .625em .625em .625em;
+      height: 60px;
+      vertical-align: middle;
+      box-sizing: border-box;
+      overflow-x: hidden;
+      overflow-y: auto;
+      width: 120px;
+      font-size: 13px;
+      text-overflow: ellipsis;
+  }
+  .fl-table thead th {
+      text-align: left;
+      border-bottom: 1px solid #f7f7f9;
+  }
+  .fl-table tbody tr {
+      display: table-cell;
+  }
+  .fl-table tbody tr:nth-child(odd) {
+      background: none;
+  }
+  .fl-table tr:nth-child(even) {
+      background: transparent;
+  }
+  .fl-table tr td:nth-child(odd) {
+      background: #F8F8F8;
+      border-right: 1px solid #E6E4E4;
+  }
+  .fl-table tr td:nth-child(even) {
+      border-right: 1px solid #E6E4E4;
+  }
+  .fl-table tbody td {
+      display: block;
+      text-align: center;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*Navigation Bar*/
+
+
+.navigationbar {
+  display: grid !important; 
+  grid-template-columns: auto auto 1fr !important; /* Columns for logo, company name, and nav links */
+  align-items: center !important; /* Align items vertically */
+  padding: 10px !important;
+  background-color: #333 !important;
+  color: white!important;
+  
+}
+
+.logo-image img {
+  height: 50px!important;
+  width: auto!important;
+}
+
+.college-name h1 {
+  margin: 0!important;
+}
+
+a.logo{
+  padding-right: 5px!important;
+}
+a {
+  display: inline-block!important;
+  padding: 20px!important;
+  text-decoration: none!important;
+  color: white!important;
+}
+
+a:hover {
+  text-decoration: none!important;
+}
+
+.navigation-items {
+  list-style-type: none!important;
+  margin: 0!important;
+  padding: 0!important;
+  text-align: right!important; /* Align navigation links to the right */
+  grid-column: 3!important;
+  margin-right: 40px!important; /* Set navigation links to span the third column */
+}
+
+
+.navigation-items li {
+  display: inline-block!important;
+  margin-left: 20px!important; /* Adjust spacing between links */
+}
+
+.navigation-items li:first-child {
+  margin-left: 0!important; /* Remove left margin from the first link */
+}
+
+.navigation-items li a {
+  text-decoration: none!important;
+  color: white!important;
+}
+
+.navigation-items li a:hover {
+  opacity: 0.6!important;
+}
+
+.dropdown {
+  position: relative!important;
+}
+
+.dropdown-content {
+  display: none!important;
+  position: absolute!important;
+  background-color: #333!important;
+  min-width: 100px!important;
+  z-index: 1!important;
+  top: 100%!important; /* Position the dropdown below the menu item */
+  left: 0!important;
+}
+
+.dropdown-content a {
+  color: white!important;
+  padding: 12px 16px!important;
+  display: block!important;
+  text-align: center!important;
+  text-decoration: none!important;
+}
+
+.dropdown-content a:hover {
+  background-color: #555!important;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block!important;
+}
+
+.dropdown i {
+  display: block!important;
+  margin-top: 10px!important; /* Adjust margin as needed */
+  font-size: 24px!important; /* Adjust font size as needed */
+}
+
+

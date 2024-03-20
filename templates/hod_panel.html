@@ -3,36 +3,59 @@
 <html>
 <head>
     <title>{{hod}}</title>
-    <link href="{% static 'css/hod_panel.css' %}" rel="stylesheet">
+    <link href="https://bootswatch.com/5/lux/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1>{{hod}} Logged In</h1>
-        {% if messages %}
+    <div class="position-absolute top-50 start-50 translate-middle">
+        <div class="container">
+            <div class="row">
+                <div class="card p-auto">
+                    
+                    <div class="card-header text-center">
+                        <h1>{{hod}}</h1>
+                        <h1> Logged In </h1>
+                        {% if messages %}
         
-            {% for message in messages %}
-                <h1 style="color: aqua;">{{message}}</h1>
-            {% endfor %}
-        {% endif %}
-            
-        <form action="/hod_view" method="get">
-            <label>Roll Number:</label>
-            <input type="text" id="Roll" name="Roll" placeholder="Enter Roll Number of Student"><br>
-            <input type="submit" value="Search">
-        </form>
-        <form action="/hod_view" method="post">
-            {% csrf_token %}
-            <label for="year">Choose year:</label>
-            <select name="year" id="year" class="form-control">
+                                {% for message in messages %}
+                            <h5 style="color: rgb(248, 34, 34);">{{message}}</h5>
+                                {% endfor %}
+                        {% endif %}
+                    </div>
+
+
+                    <div class="card-body">      
+                        <form action="/hod_view" method="get" class="p-4">
+
+                            <label class="form-label mt-2">Roll Number</label>
+                         <input type="text" class="form-control form-control-sm" id="Roll" name="Roll" placeholder="Enter Roll Number of Student"><br>
+                         <input type="submit" value="Search">
+
+                         </form>
+
+
+                        <form action="/hod_view" method="post">
+                            {% csrf_token %}
+                         <label for="year">Choose year:</label>
+                            <select name="year" id="year" class="form-control">
                 <option value="all">All</option>
                 <option value="4">First Year</option>
                 <option value="3">Second Year</option>
                 <option value="2">Third Year</option>
                 <option value="1">Fourth Year</option>
-            </select><br>
+            </select>
+        </div>  
+        <div class="card-footer">
+            <br>
             <input type="submit">
             <button onclick="window.location.href='/logout'" type="button">Logout</button>
         </form>
+
+
+        </div>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 </body>
 </html>

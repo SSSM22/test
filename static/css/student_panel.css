@@ -1,5 +1,4 @@
 
-
 h1,
 h2 {
   margin: 10px 0;
@@ -48,12 +47,20 @@ button.button:hover {
   width: 100%;
 } */
 
-.welcome-container {
-  border: 1px solid #ddd;
-  padding: 20px;
-  margin-bottom: 20px;
-  width: 50%;
+
+.container {
+  color: #b4bdc7;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin:auto; /* Adjust as needed */
 }
+
+/*.welcome-container {
+  width: 100%;
+  text-align: center;
+}*/
+
 
 .score-container {
   border: 1px solid #ddd;
@@ -64,7 +71,7 @@ button.button:hover {
 }
 
 .chart-container {
-  width: 100%;
+  width: 50%;
   height: 300px; /* Adjust height as needed */
 }
 
@@ -73,3 +80,222 @@ button.button:hover {
   padding: 20px;
   margin-bottom: 20px;
 }
+
+
+.report-header{
+  width: 100%;
+  text-align: center;
+  margin: 20px;
+}
+
+
+
+
+
+.report-header { grid-area: report-header; }
+
+.welcome-container {  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-auto-rows: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: column;
+  justify-items: stretch;
+  align-items: center;
+  grid-template-areas:
+    ".";
+  grid-area: welcome-container;
+  margin: 20px;
+}
+
+.graph-area {  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "Pie-chart Line-graph";
+  grid-area: graph-area;
+  border: 2px solid #000;
+}
+
+
+
+.student-container {  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "student-college-details student-platform-details";
+  grid-area: student-container;
+  margin: 40px;
+}
+
+.student-college-details {  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "student-photo"
+    "student-details";
+  grid-area: student-college-details;
+  
+}
+
+.student-photo { grid-area: student-photo; }
+
+.student-details { 
+  grid-area: student-details;
+  margin-left: 10%;
+  margin-top: 30px;
+}
+
+.student-platform-details { grid-area: student-platform-details; }
+
+
+/*.Announcements {  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "announcements-header "
+    "Announcements-details ";
+  grid-area: Announcements;
+  width: 400px;
+  text-align: center;
+
+}
+
+.Announcements-content{
+  text-align: left;
+}
+
+.announcements-header { grid-area: Announcements-header;
+
+ }
+
+.Announcements-details { grid-area: Announcements-details; }
+*/
+
+.Announcements ul {
+  list-style-type: circle;
+   /* Change bullet point style to circle */
+}
+
+.Announcements{
+  justify-content: center;
+  width: 40%;
+  margin: 0 auto;
+}
+
+.announcements-content{
+  padding-left: 20%;
+}
+
+
+
+/*Navigation Bar*/
+
+
+.navbar {
+  display: grid;
+  grid-template-columns: auto auto 1fr; /* Columns for logo, company name, and nav links */
+  align-items: center; /* Align items vertically */
+  padding: 10px;
+  background-color: #333;
+  color: white;
+  
+}
+
+.logo img {
+  height: 50px;
+  width: auto;
+}
+
+.college-name h1 {
+  margin: 0;
+}
+
+a.logo{
+  padding-right: 5px;
+}
+a {
+  display: inline-block;
+  padding: 20px;
+  text-decoration: none;
+  color: white;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.nav-items {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  text-align: right; /* Align navigation links to the right */
+  grid-column: 3;
+  margin-right: 40px; /* Set navigation links to span the third column */
+}
+
+
+.nav-items li {
+  display: inline-block;
+  margin-left: 20px; /* Adjust spacing between links */
+}
+
+.nav-items li:first-child {
+  margin-left: 0; /* Remove left margin from the first link */
+}
+
+.nav-items li a {
+  text-decoration: none;
+  color: white;
+}
+
+.nav-items li a:hover {
+  opacity: 0.6;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #333;
+  min-width: 100px;
+  z-index: 1;
+  top: 100%; /* Position the dropdown below the menu item */
+  left: 0;
+}
+
+.dropdown-content a {
+  color: white;
+  padding: 12px 16px;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}
+
+.dropdown-content a:hover {
+  background-color: #555;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown i {
+  display: block;
+  margin-top: 10px; /* Adjust margin as needed */
+  font-size: 24px; /* Adjust font size as needed */
+}
+
+
+
+

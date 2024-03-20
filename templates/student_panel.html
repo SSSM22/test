@@ -5,79 +5,208 @@
     <link href="{% static 'css/student_panel.css' %}" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  </head>
-  <body>
-    <div class="split">
-      <h1>Vardhaman college of Engineering</h1>
-      {% for details in det%}
-      <div class="welcome-container">
-        {% if staff == False%}
-        <h1>Welcome, <span id="student-name">{{ details.name}}</span></h1>
-        <a href="/logout"><button class="button">Logout</button> </a>
-        <a href="https://discord.gg/jXUkmX7Tvf" target="_blank"><button class="button">Discord Group</button> </a>
-        <a href="/change_password"><button class="button">Change Password</button> </a>
-        <p>
-          {% else %}
-          <h1>Student name: <span id="student-name">{{ details.name}}</span></h1>
-        {% endif %}
-          Roll Number: <span id="roll-number">{{details.roll_no.roll_no}}</span>
-        </p>
-        <h2>Student Report</h2>
+<head>
+  <title>Coding details</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/student_panel.css' %}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+ <!-- <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/lux/bootstrap.min.css">-->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+
+  
+
+</head>
+
+<body>
+
+  
+  <nav class="navbar">
+    
+    <div class="logo">
+      <a href="/student_panel" class="logo"><img src="https://vardhaman.org/wp-content/uploads/2021/08/vardhamanlogo-1.png" alt="college Logo">
       </div>
-      <div class="score-container">
-        <img src="http://studentscorner.vardhaman.org/images/{{image}}/{{username}}.jpg" height="140" width="122" style="border: solid 5px #AAAAAA">
-        <h2>Scores</h2>
+    <div class="college-name">
+      <h1>Vardhamn College of Engineering</h1>
+    </div>
+
+  <ul class="nav-items">
+    <li><a href="/student_panel">Home</a></li>
+    
+    <li class="dropdown">
+      <a >Scoreboard<i class="fa fa-caret-down" style="display: inline; padding-left: 10px;" aria-hidden="true"></i></a>
+      <div class="dropdown-content">
+        <a href="/report">Department rankings</a>
+        <a href="/overview">College rankings</a>
+        
+      </div>
+    </li>
+    <li><a href="#">Usernames</a></li>
+    <li class="dropdown">
+      <a href="#"><i class="fas fa-bars"></i></a>
+      <div class="dropdown-content">
+        <a href="https://discord.gg/jXUkmX7Tvf">Discord Group</a>
+        <a href="/change_password">Change Password</a>
+        <div class="dropdown-divider"></div>
+        <a href="/logout">Logout</a>
+      </div>
+    </li>
+  </ul>
+
+  
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+    {% for details in det%}
+    
+    <div class="welcome-container"><h2>Welcome, <span id="student-name">{{ details.name}}</span></h2>
+    </div>
+
+  
+    <div class="report-header">
+      <h2>Student Report</h2>
+    </div>
+  
+
+
+  <div class="student-container">
+
+    <!--Student details-->
+    <div class="student-college-details">
+      <div class="student-photo" width="50%">
+        <img src="http://studentscorner.vardhaman.org/images/{{image}}/{{username}}.jpg" height="140" width="122"
+        style="border: solid 5px #AAAAAA ;display: block; margin: 0 auto;">
+      </div>
+      <br>
+      <div class="student-details">
         <ul>
-          <li>
-            <strong>Hackerrank:</strong>
-            <span id="Hackerrank-score">{{details.roll_no.hackerrank_score}}</span> 
-            <!-- kept roll_id because of accesing it from other table through join in views.py -->
-          </li>
-          <li>
-            <strong>CodeChef:</strong>
-            <span id="codechef-score">{{details.roll_no.codechef_score}}</span>
-          </li>
-          <li>
-            <strong>LeetCode:</strong> <span id="leetcode-score">85</span>
-          </li>
-          <li>
-            <strong>Codeforces:</strong>
-            <span id="codeforces-score">{{details.roll_no.codeforces_score}}</span>
-          </li>
-          <li>
-            <strong>Spoj:</strong>
-            <span id="spoj-score">{{details.roll_no.spoj_score}}</span>
-          </li>
-          <li>
-            <strong>InterviewBit:</strong>
-            <span id="interviewbit-score">{{details.roll_no.interviewbit_score}}</span>
-          </li>
-          <li>
-            <strong>GeeksForGeeks:</strong>
-            <span id="GeeksForGeeks-score">{{details.roll_no.gfg_score}}</span>
-          </li>
+          <li>Name : </li>
+          <li>Department : </li>
+          <li>Regulation : </li>
         </ul>
+
+
       </div>
-      {% if staff == False%}
-      <a href="/overview" target="_blank"><button class="button">View Batch Report</button> </a>
-      <a href="/usernames"><button class="button">Usernames</button> </a>
-      {% endif %}
-      <h2>Pie Chart</h2>
-      {% block content %}
-      <div class="chart-container">
-        <canvas
-          id="pie-chart"
-          style="height: 25%"
-          width="100"
-          height="100"
-        ></canvas>
-      </div>
-    <div class="chart-container">
-      <canvas id="pie-chart" style="height: 25%" width="10" height="10"></canvas>
+    </div>
+
+    <!--Coding Platform Scores-->
+    <div class="student-platform-details">
+
+      <h2>Scores</h2>
+      <br>
+      <ul>
+        <li>
+          <strong>Hackerrank:</strong>
+          <span id="Hackerrank-score">{{details.roll_no.hackerrank_score}}</span>
+          <!-- kept roll_id because of accesing it from other table through join in views.py -->
+        </li>
+        <li>
+          <strong>CodeChef:</strong>
+          <span id="codechef-score">{{details.roll_no.codechef_score}}</span>
+        </li>
+        <li>
+          <strong>LeetCode:</strong> <span id="leetcode-score">{{details.roll_no.leetcode_score}}</span>
+        </li>
+        <li>
+          <strong>Codeforces:</strong>
+          <span id="codeforces-score">{{details.roll_no.codeforces_score}}</span>
+        </li>
+        <li>
+          <strong>Spoj:</strong>
+          <span id="spoj-score">{{details.roll_no.spoj_score}}</span>
+        </li>
+        <li>
+          <strong>InterviewBit:</strong>
+          <span id="interviewbit-score">{{details.roll_no.interviewbit_score}}</span>
+        </li>
+        <li>
+          <strong>GeeksForGeeks:</strong>
+          <span id="GeeksForGeeks-score">{{details.roll_no.gfg_score}}</span>
+        </li>
+      </ul>
+
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+
+
+  
+
+
+
+
+
+
+  
+
+    <!--Performance Analysis -->
+
+    <!--header-->
+
+    <h1> Performance Analysis</h1>
+    <br>
+        <div class="graph-area">
+          <div class="Pie_representation" style="border: 2px solid #ee0000;">
+            <div class="pie-header">
+              <h2>Pie Chart</h2>
+            </div>
+            
+              {% block content %}
+              <div class="chart-container" style="padding-left: 25%;">
+                <canvas id="pie-chart" width="10" height="10" ></canvas>
+              </div>
+      
+            
+            </div>
+    
+    
+            <div class="Line-representation" style="border: 2px solid #3cf80d;">
+              <div class="line-header">
+                <h2>Line Graph</h2>
+              </div>
+              <div class="line-chart">
+                
+                <div class="chart-container" style="padding-left: 25%;">
+                  <canvas id="pie-chart" style="height: 25%" width="10" height="10"></canvas>
+                </div>
+        
+              </div>
+          </div>
+          </div>
+        
+        </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
 
@@ -88,7 +217,7 @@ var config = {
         datasets: [{
           data: {{ data|safe }},
           backgroundColor: [
-          '#FF0000', '#FFFF00', ' #00FFFF', '#C0C0C0', '#D3D3D3', '#008080', '#006400'
+          '#FF0000', '#FFFF00', '#00FFFF', '#C0C0C0', '#D3D3D3', '#008080', '#006400'
           ],
           label: 'Population'
         }],
@@ -139,28 +268,30 @@ var config = {
   {% endfor %}
 
 
-  {% comment %} code for announcements display from models {% endcomment %}
-  {% if staff == False%}
-  <h1>Announcements</h1>
-  <ul>
-    {% for i in announcements %}
-    <li>
-      {% if "https://" in i.text_input or "www." in i.text_input %}
-      <a href="{{ i.text_input }}">{{ i.text_input }}</a>
-      {% else %}
-      <p>{{ i.text_input }}</p>
-      {% endif %}
-      <p><strong>Date Published:</strong> {{ i.date_input }}</p>
-    </li>
-    {% empty %}
-    <li>No announcements available.</li>
-    {% endfor %}
-  </ul>
-  {% endif %}
 
+  <div class="Announcements" style="border: 2px solid #000;">  
 
-  <div style="width: 800px; height: 400px;">
-    <canvas id="myChart"></canvas>
+    {% comment %} code for announcements display from models {% endcomment %}
+    <div class="announcements-header"><h1><i class="fa fa-bullhorn" aria-hidden="true"></i> Announcements</h1></div>
+    <br>
+    <div class="announcements-content">
+    <ul>
+      {% for i in announcements %}
+      <li>
+        {% if "https://" in i.text_input or "www." in i.text_input %}
+        <a href="{{ i.text_input }}"> {{ i.text_input }}</a>
+        {% else %}
+        <p>{{ i.text_input }}</p>
+        {% endif %}
+        <p><b><u><strong>Date Published:</strong> {{ i.date_input }} </u></b> </p>
+      </li>
+      {% empty %}
+      <li>No announcements available.</li>
+      {% endfor %}
+    </ul>
+  </div>
+  
+  
   </div>
 
   <!-- <script>

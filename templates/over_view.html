@@ -3,95 +3,66 @@
 <html>
 <head>
     <title>Student Rankings</title>
-    <style>
-        body {
-    background-color: #f0f0f0;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    display: block;
-    justify-content: center;
-    align-items: center;
-    height: 90vh;
-}
-.sidebar {
-            height: 100%;
-            width: 250px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #333;
-            padding-top: 20px;
-        }
-        
-        .sidebar a {
-            padding: 10px 15px;
-            text-decoration: none;
-            font-size: 18px;
-            color: #fff;
-            display: block;
-        }
-
-        .sidebar a:hover {
-            background-color: #555;
-        }
-      .table-container {
-        width: 500px;
-        height: 400px;
-        overflow: auto;
-        border: 1px solid #ccc;
-        margin: 100px;
-        padding: 10px;
-        box-sizing: border-box;
-        justify-content: center;
-        margin-left: 340px;
-        margin-top: 2%;
-      }
-      .table-container table {
-        width: 450px;
-        border-collapse: collapse;
-      }
-      .table-container th,
-      .table-container td {
-        border: 1px solid #ccc;
-        padding: 8px;
-        text-align: left;
-        font-size: 15px; 
-      }
-      .table-container tbody {
-        overflow-x: scroll;
-        overflow-y: scroll;
-      }
-      .table-container th {
-        background-color: #3498db; 
-        color: white;
-        font-weight: bold;
-      }
-      .table-container tbody tr:nth-child(even) {
-        background-color: #f2f2f2; 
-      }
-      .table-container tbody tr:hover {
-        background-color: #e0e0e0; 
-      }
-      .button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: 700px;
-    margin-bottom: 10%;
-      }
-    </style>
+    
+   
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+ 
+  
+    <link rel="stylesheet" type="text/css" href="/static/css/overview.css">
+    <script src="/static/home/table-asc-dsc.js"></script>
+    
     <script></script>
 </head>
 <body>
-<div class="sidebar">
+ <!-- <div class="sidebar">
     <a href="#">Overview</a>
     <a href="/report">Report</a>
 </div>
+-->
+
+
+<nav class="navigationbar">
+    
+  <div class="logo-image">
+    <a href="/student_panel" class="logo"><img src="https://vardhaman.org/wp-content/uploads/2021/08/vardhamanlogo-1.png" alt="college Logo">
+      
+    </div>
+  <div class="logoname">
+    <h1>Vardhamn College of Engineering</h1>
+  </div>
+
+<ul class="navigation-items">
+  <li><a href="/student_panel">Home</a></li>
+  
+  <li class="dropdown">
+    <a >Scoreboard<i class="fa fa-caret-down" style="display: inline !important; padding-left: 10px;" aria-hidden="true"></i></a>
+    <div class="dropdown-content">
+      <a href="/report">Department rankings</a>
+      <a href="/overview">College rankings</a>
+      <a href="#"></a>
+    </div>
+  </li>
+  <li><a href="#">Usernames</a></li>
+  <li class="dropdown">
+    <a href="#"><i class="fas fa-bars"></i></a>
+    <div class="dropdown-content">
+      <a href="https://discord.gg/jXUkmX7Tvf">Discord Group</a>
+      <a href="/change_password">Change Password</a>
+      <div class="dropdown-divider"></div>
+      <a href="/logout">Logout</a>
+    </div>
+  </li>
+</ul>
+
+
+</nav>
+
+
+
 
 <h1 style="color: black;text-align:center;">Vardhaman Student Rankings</h1>
+
+<!--
 <div class="table-container">
     <table>
         <thead>
@@ -120,6 +91,80 @@
         </tbody>
     </table>
 </div>
+
+-->
+
+
+
+
+
+
+
+<div class="table-container">
+    <table class="fl-table">
+        <thead>
+        <tr>
+          <th>Rank<br />(Global_rank)</th>
+          <th>Roll_Number</th>
+          <th>Name</th>
+
+          <th>Overall Score</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tb>
+            {% for student in students %}
+            <tr>
+              <td>{{forloop.counter}}<br />({{student.rank}})</td>
+              <td class="roll">{{ student.roll_no.roll_no }}</td>
+              <td>{{ student.name}}</td>
+
+
+              <td>{{ student.overall_score }}</td>
+
+          </tr>
+          {% endfor %}
+      </tb>
+        <tbody>
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <a href="/report"><button class="button">View</button> </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

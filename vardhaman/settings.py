@@ -43,7 +43,9 @@ INSTALLED_APPS = [
     'django_htmx',
     'rest_framework',
     'corsheaders',
+
 ]
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
