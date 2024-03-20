@@ -1,27 +1,51 @@
-{% load static %}
+
+<!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Coding details</title>
-        <link href="{% static 'css/index.css' %}" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/lux/bootstrap.min.css">
+
+
+        <style>
+            /* Define background image */
+            body {
+              background-image: url('static/images/bg-index.jpeg');
+              background-size: cover; /* Cover the entire viewport */
+              background-position: center; /* Center the background image */
+              background-repeat: no-repeat; /* Do not repeat the background image */
+              background-attachment: fixed;
+            }
+           
+          </style>
+
+        <style>
+            .padded-card-title {
+             padding: 20px; /* Adjust the padding value as needed */
+            }
+  </style>
+
     </head>
     <body>
-        
-        <div class="centered"><ul>Vardhaman College of Engineering</ul></div>
-        <div class="login-box">
-        <form>
-            <div class="split-first">
+
+
+        <h1 class="text-center mt-5">Vardhaman College of Engineering</h1>
+        <div class="position-absolute top-50 start-50 translate-middle">
+            <div class="container shadow">
+                <div class="row justify-content-center">
+                    <div class="card rounded">
+                        <div class="card-body">
+                            <h2 class="card-title padded-card-title">Career Development Cell</h2>
+                            <div class="container text-center">
+                                <button onclick="window.location.href='/login'" type="button" class="btn btn-primary rounded-pill">
+                                    <span class="button-text">Log In</span>
+                                </button>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="split-second">
-                <h2>Career Development Cell</h2>
-                
-                <button onclick="window.location.href='/login'"type="button" class="button" class="btn btn-primary">
-                    <span class="circle" aria-hidden="true">
-                        <span class="icon arrow"></span>
-                        </span>
-                        <span class="button-text">Log In</span>
-                    </button>
-            </div>
-        </form>
-    </div>
+        </div>
     </body>
 </html>

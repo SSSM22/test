@@ -3,100 +3,8 @@
 <html>
   <head>
     <title>Student Rankings</title>
-    <style>
-      .table-container {
-        width: 100%;
-        height: 87vh;
-        overflow: scroll;
-        border: 1px solid #ccc;
-        margin: 0;
-        padding: 10px;
-        box-sizing: border-box;
-      }
-      .table-container table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      .table-container th,
-      .table-container td {
-        border: 1px solid #ccc;
-        padding: 8px;
-        text-align: left;
-        font-size: 18px;
-      }
-      .table-container th {
-        background-color: #3498db;
-        color: white;
-        font-weight: bold;
-      }
-      .table-container tbody tr:nth-child(even) {
-        background-color: #f2f2f2;
-      }
-      .table-container tbody tr:hover {
-        background-color: #e0e0e0;
-      }
-      .switch {
-        position: relative;
-        display: inline-block;
-        width: 60px;
-        height: 34px;
-      }
-
-      /* Hide default HTML checkbox */
-      .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-      }
-
-      /* The slider */
-      .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        -webkit-transition: 0.4s;
-        transition: 0.4s;
-      }
-
-      .slider:before {
-        position: absolute;
-        content: "";
-        height: 26px;
-        width: 26px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        -webkit-transition: 0.4s;
-        transition: 0.4s;
-      }
-
-      input:checked + .slider {
-        background-color: #2196f3;
-      }
-
-      input:focus + .slider {
-        box-shadow: 0 0 1px #2196f3;
-      }
-
-      input:checked + .slider:before {
-        -webkit-transform: translateX(26px);
-        -ms-transform: translateX(26px);
-        transform: translateX(26px);
-      }
-
-      /* Rounded sliders */
-      .slider.round {
-        border-radius: 34px;
-      }
-
-      .slider.round:before {
-        border-radius: 50%;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/static/css/report.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script type="text/javascript" src="{% static 'home/htmx.js' %}"></script>
 
     <script>
@@ -106,6 +14,45 @@
     </script>
   </head>
   <body>
+
+
+
+    <nav class="navigationbar">
+    
+      <div class="logo-image">
+        <a href="/student_panel" class="logo"><img src="https://vardhaman.org/wp-content/uploads/2021/08/vardhamanlogo-1.png" alt="college Logo">
+          
+        </div>
+      <div class="logoname">
+        <h1>Vardhamn College of Engineering</h1>
+      </div>
+    
+    <ul class="navigation-items">
+      <li><a href="/student_panel">Home</a></li>
+      
+      <li class="dropdown">
+        <a >Scoreboard<i class="fa fa-caret-down" style="display: inline !important; padding-left: 10px;" aria-hidden="true"></i></a>
+        <div class="dropdown-content">
+          <a href="/report">Department rankings</a>
+          <a href="/overview">College rankings</a>
+          <a href="#"></a>
+        </div>
+      </li>
+      <li><a href="#">Usernames</a></li>
+      <li class="dropdown">
+        <a href="#"><i class="fas fa-bars"></i></a>
+        <div class="dropdown-content">
+          <a href="https://discord.gg/jXUkmX7Tvf">Discord Group</a>
+          <a href="/change_password">Change Password</a>
+          <div class="dropdown-divider"></div>
+          <a href="/logout">Logout</a>
+        </div>
+      </li>
+    </ul>
+    
+    
+    </nav>
+    
     <div style="display: flex; justify-content: space-between">
       <h1 style="color: black; text-align: center">
         Vardhaman Student Rankings
@@ -143,6 +90,7 @@
       </div>
     </div>
 
+    
     <div class="table-container">
       <table name="table_body" id="table_body">
         <tr>
@@ -179,5 +127,6 @@
         </tb>
       </table>
     </div>
+ 
   </body>
 </html>
