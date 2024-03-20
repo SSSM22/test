@@ -4,3 +4,5 @@ __pycache__/
 venv/
 .env
 home/migrations/__pycache__/
+static/css/login12.css
+static/home/table-asc-dsc.js
