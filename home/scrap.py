@@ -77,23 +77,26 @@ def leetrate(leetu):
         return 0
     
     try:
-        conn = http.client.HTTPSConnection("leetcode.com")
-        payload = (
-        '{"query":"    query userProblemsSolved($username: String!) {  allQuestionsCount {    difficulty    count  }  matchedUser(username: $username) {    problemsSolvedBeatsStats {      difficulty      percentage    }    submitStatsGlobal {      acSubmissionNum {        difficulty        count      }    }  }}    ","variables":{"username":'
-        + '"'
-        + leetu
-        + '"'
-        + '},"operationName":"userProblemsSolved"}'
-        )
-        headers = {
-            "Content-Type": "application/json",
-        }
-        conn.request("POST", "/graphql", payload, headers)
-        res = conn.getresponse()
-        data = res.read()
-        data=json.loads(data)
-        ans=data['data']['matchedUser']['submitStatsGlobal']['acSubmissionNum'][0]['count']
-        return ans    
+        url=f'https://leetcode-api-faisalshohag.vercel.app/{leetu}/'
+        ans=requests.get(url)
+        return json.loads(ans.text)['totalSolved']
+        # conn = http.client.HTTPSConnection("leetcode.com")
+        # payload = (
+        # '{"query":"    query userProblemsSolved($username: String!) {  allQuestionsCount {    difficulty    count  }  matchedUser(username: $username) {    problemsSolvedBeatsStats {      difficulty      percentage    }    submitStatsGlobal {      acSubmissionNum {        difficulty        count      }    }  }}    ","variables":{"username":'
+        # + '"'
+        # + leetu
+        # + '"'
+        # + '},"operationName":"userProblemsSolved"}'
+        # )
+        # headers = {
+        #     "Content-Type": "application/json",
+        # }
+        # conn.request("POST", "/graphql", payload, headers)
+        # res = conn.getresponse()
+        # data = res.read()
+        # data=json.loads(data)
+        # ans=data['data']['matchedUser']['submitStatsGlobal']['acSubmissionNum'][0]['count']
+        # return ans    
     except: 
         return 0
 
@@ -172,10 +175,10 @@ def get(usernames: list, func) -> list: # usernames is a list of dictionaries ha
 
 # Profiles for testing purposes
 # leetrate('sssm_2003')
-# print(leetrate('sssm_2003'))
+print(leetrate('srivandanatalla'))
 # print(coderate("srivandana"))
 # print(forcesrate("srivandanatalla"))
 # print(spojrate("srivandana"))
 #print(geeksforgeeks_ranking('sssm_2003'))
-print(interviewbit_ranking("sssm_2003"))
+# print(interviewbit_ranking("sssm_2003"))
 # print(hackerrank_ranking('sssm_2003'))

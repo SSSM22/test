@@ -86,12 +86,12 @@ WSGI_APPLICATION = 'vardhaman.wsgi.application'
 DATABASES = {
     'default': {
 
-        'ENGINE':  'mysql.connector.django', #'django.db.backends.mysql',
+        'ENGINE':  'django.db.backends.mysql',#'mysql.connector.django', #
         'NAME': 'cdc',
-        'USER': 'sssm', #root
-        'HOST': 'vardhamanstudent-data.mysql.database.azure.com',#localhost 
+        'USER': 'root', #sssm
+        'HOST': 'localhost',#vardhamanstudent-data.mysql.database.azure.com', 
         'PORT': 3306,
-        'PASSWORD': 'abcd1234!@', #root
+        'PASSWORD': 'root',#'abcd1234!@', #root
     }
 }
 
