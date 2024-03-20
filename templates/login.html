@@ -16,10 +16,23 @@
 </style>
 <body>
   </head>
+<<<<<<< HEAD
   <body>
     <div class="position-absolute top-50 start-50 translate-middle">
       <div class="container" style="width: 350px;">
         
+=======
+  <body bgcolor="#00143b">
+    <div class="split">
+      <!-- Displays a message if user is not logged in -->
+      {% if messages %}
+      <ul type = "none"class="messages">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %} style="color: aqua;">{{ message }}</li>
+      {% endfor %}
+      </ul>
+      {% endif %}
+>>>>>>> 5d9cb40fad32f73d24c984141628d03cf5b6fb1a
 
            
               <img src="static\images\bg-index.jpeg" alt="User-logo" class="img-fluid mx-auto d-block p-2"  style="width: 100px; height: 100px;">

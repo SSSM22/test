@@ -12,7 +12,6 @@ from django.contrib.auth.forms import PasswordChangeForm
 from  datetime import date
 from dotenv import load_dotenv
 import os
-
 load_dotenv()
 current_academic_year = os.getenv('CURRENT_ACADEMIC_YEAR')
 
@@ -36,15 +35,16 @@ def index(request):
 
 
 def admin_panel(request):
-    form= AnnouncementForm()
-    if request.method == 'POST':
-        form =AnnouncementForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('adminpanel')
-    context= {'form':form}
-    return render(request, 'admin_panel1.html',context)
-
+    if request.user.is_authenticated:
+        form=AnnouncementForm()
+        if request.method == 'POST':
+            form =AnnouncementForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('adminpanel')
+        context= {'form':form}
+        return render(request, 'admin_panel1.html',context)
+    return redirect('/login')
 
 def student_panel(request):
     return render(request, 'student_panel.html')
@@ -280,7 +280,7 @@ def auth_login(request):
     if request.method == 'POST':
         username = request.POST.get("username")
         password = request.POST.get("password")
-        print(username, password)
+        # print(username, password)
         user = authenticate(request, username=username, password=password)
         if user is not None:    
             login(request, user)
@@ -303,71 +303,81 @@ def auth_login(request):
             return redirect("/login")
     return render(request, 'login.html')
 
+@login_required
 def student_view(request, username):
-    roll = request.user.username
-    announcement = Announcement.objects.all()
-    # scatter_plot(request,roll)
-    det = StudentMaster.objects.select_related('roll_no').filter(roll_no=roll)
-    print(det)
-    labels, data = pie_chart(request, roll)
-    xvalues, yvalues =scatter_plot(request,roll)
-    print(xvalues,yvalues)
-    # below code for graph below is the samlpe data
-    data_string = "10,20,30,40,52,68,78,80,90,100,100,100,100,110,115,125,130,140,150,150,150,190,200,210,211,215,215,215,220,220";
-    Gdata = [int(x.strip()) for x in data_string.split(',')]
-    Glabels = [str(i+1) for i in range(30)]
-    #end graph
+    if(request.user.is_authenticated):
+        if(request.user.is_staff and username is not None):
+            roll = username
+        else:
+            roll = request.user.username
+        announcement = Announcement.objects.all()
+        # scatter_plot(request,roll)
+        det = StudentMaster.objects.select_related('roll_no').filter(roll_no=roll)
+        print(det)
+        labels, data = pie_chart(request, roll)
+        xvalues, yvalues =scatter_plot(request,roll)
+        print(xvalues,yvalues)
+        # below code for graph below is the samlpe data
+        data_string = "10,20,30,40,52,68,78,80,90,100,100,100,100,110,115,125,130,140,150,150,150,190,200,210,211,215,215,215,220,220";
+        Gdata = [int(x.strip()) for x in data_string.split(',')]
+        Glabels = [str(i+1) for i in range(30)]
+        #end graph
+        
+        context = {
+            'staff': request.user.is_staff,
+            'username': roll,
+            'det': det,
+            'labels': labels,
+            'data': data,
+            'students': det,
+            'xValues':xvalues,
+            'yValues':yvalues,
+            'image':det.values_list('branch')[0][0],#getting the branch of the student from queryset
+            'announcements': announcement,
+            'Glabels': Glabels,
+            'Gdata': Gdata
+        }
+        return render(request, 'student_panel.html', context)
     
-    context = {
-        'username': roll,
-        'det': det,
-        'labels': labels,
-        'data': data,
-        'students': det,
-        'xValues':xvalues,
-        'yValues':yvalues,
-        'image':det.values_list('branch')[0][0],#getting the branch of the student from queryset
-        'announcements': announcement,
-        'Glabels': Glabels,
-        'Gdata': Gdata
-    }
-    return render(request, 'student_panel.html', context)
-
+    return redirect('/login')
 @login_required
 def hod_view(request):
-    username = request.user.username
-    if request.method == 'GET':
-        roll = request.GET["Roll"]
+    if request.user.is_authenticated:
+        username = request.user.username
         students = display_students(request)
+        if request.method == 'GET':
+            roll = request.GET["Roll"]
+            students = display_students(request)
 
-        students = students.filter(roll_no=roll)
-        if(students.count()==0):
-            messages.info(request, 'No students found')
-            return redirect('hod')
-        context = {
-            'students': students
-        }
-        return render(request, 'report.html', context)
-
-    if request.method == 'POST':
-        year = request.POST['year']
-        students = display_students(request,)
-        if year == 'all':
+            students = students.filter(roll_no=roll)
+            if(students.count()==0):
+                messages.info(request, 'No students found')
+                return redirect('hod')
             context = {
-                'students': students.filter(branch=dic_branch[username])
+                'students': students
             }
-        else:    
-            context = {
-            'students': students.filter(year=int(year)+int(current_academic_year),branch=dic_branch[username])
-            }
-        return render(request, 'over_view.html', context)
-
+            # return render(request, 'report.html', context)
+            return redirect('student_view/'+roll)
+        if request.method == 'POST':
+            year = request.POST['year']
+            students = display_students(request)
+            if year == 'all':
+                context = {
+                    'students': students.filter(branch=dic_branch[username])
+                }
+            else:
+                context = {
+                    'students': students.filter(year=int(year)+int(current_academic_year),branch=dic_branch[username])
+                }
+            return render(request, 'over_view.html', context)
+    return redirect('/login')
 
 def auth_logout(request):
     logout(request)
+    print("logged out")
     return redirect("/login")
 
-
+@login_required
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)

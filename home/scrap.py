@@ -5,7 +5,6 @@ from concurrent.futures import ThreadPoolExecutor
 import http.client
 import json
 import math
-
 def hackerrank_ranking(username):
     if(username == 'None'):
         return 0
@@ -76,25 +75,27 @@ def coderate(chefu):
 def leetrate(leetu):
     if(leetu == 'None'):
         return 0
-    url = f"https://leetcode.com/{leetu}"
-    response = requests.get(url)
-    print(response.status_code)
-    if response.status_code == 200:
-        soup = BeautifulSoup(response.content, 'html.parser')
-        rank_element = soup.find(
-            class_="text-[24px] font-medium text-label-1 dark:text-dark-label-1")
-        if rank_element:
-            try:
-                rank = int(rank_element.get_text().strip())
-                return rank
-            except:
-                return 0
-
-        else:
-            return 0
-    else:
+    
+    try:
+        conn = http.client.HTTPSConnection("leetcode.com")
+        payload = (
+        '{"query":"    query userProblemsSolved($username: String!) {  allQuestionsCount {    difficulty    count  }  matchedUser(username: $username) {    problemsSolvedBeatsStats {      difficulty      percentage    }    submitStatsGlobal {      acSubmissionNum {        difficulty        count      }    }  }}    ","variables":{"username":'
+        + '"'
+        + leetu
+        + '"'
+        + '},"operationName":"userProblemsSolved"}'
+        )
+        headers = {
+            "Content-Type": "application/json",
+        }
+        conn.request("POST", "/graphql", payload, headers)
+        res = conn.getresponse()
+        data = res.read()
+        data=json.loads(data)
+        ans=data['data']['matchedUser']['submitStatsGlobal']['acSubmissionNum'][0]['count']
+        return ans    
+    except: 
         return 0
-
 
 def spojrate(spo):
     if(spo == 'None'):
@@ -121,22 +122,16 @@ def spojrate(spo):
 def interviewbit_ranking(username):
     if(username == 'None'):
         return 0
-    url = f"https://www.interviewbit.com/profile/{username}"
-    response = requests.get(url)
-    print(response.status_code)
-    if response.status_code == 200:
-        soup = BeautifulSoup(response.content, 'html.parser')
-        rank_elements = soup.find_all(class_="profile-daily-goal__goal-details")
-        print(rank_elements)
-        if rank_elements is not None:
-            try:
-                rank = int(rank_elements[1].get_text().strip())
-                return rank
-            except:
-                return 0
-    else:
+    try:
+        conn = http.client.HTTPSConnection("www.interviewbit.com")
+        link="/v2/profile/username/streak/?id="+username+""
+        conn.request("GET", link)
+        res = conn.getresponse()
+        data = res.read()
+        data = json.loads(data)
+        return data["score"]
+    except:
         return 0
-
 
 def geeksforgeeks_ranking(username):
     if(username == 'None'):
@@ -176,11 +171,11 @@ def get(usernames: list, func) -> list: # usernames is a list of dictionaries ha
     return usernames
 
 # Profiles for testing purposes
-
+# leetrate('sssm_2003')
 # print(leetrate('sssm_2003'))
 # print(coderate("srivandana"))
 # print(forcesrate("srivandanatalla"))
 # print(spojrate("srivandana"))
 #print(geeksforgeeks_ranking('sssm_2003'))
-# print(interviewbit_ranking("sssm_2003"))
+print(interviewbit_ranking("sssm_2003"))
 # print(hackerrank_ranking('sssm_2003'))
