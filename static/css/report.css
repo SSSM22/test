@@ -8,7 +8,11 @@ body {
     height: 90vh;
   }
 
-
+  h1{
+    text-decoration: #fff!important;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+  }
 
 /*Navigation Bar*/
 
@@ -184,7 +188,7 @@ body {
   }
 
   .fixed-column:nth-child(2) {
-    left: 100px; /* Adjust as needed */
+    left: 80px; /* Adjust as needed */
   }
   
   .fixed-column:nth-child(3) {
