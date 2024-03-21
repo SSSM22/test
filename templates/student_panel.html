@@ -4,11 +4,10 @@
     <title>Coding details</title>
     <link href="{% static 'css/student_panel.css' %}" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<head>
-  <title>Coding details</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
   <link rel="stylesheet" type="text/css" href="{% static 'css/student_panel.css' %}" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  
  <!-- <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/lux/bootstrap.min.css">-->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
@@ -19,19 +18,19 @@
 
 <body>
 
-  
+  {% for details in det%}
   <nav class="navbar">
     
     <div class="logo">
-      <a href="/student_panel" class="logo"><img src="https://vardhaman.org/wp-content/uploads/2021/08/vardhamanlogo-1.png" alt="college Logo">
+      <a href="/student_view/{{details.roll_no.roll_no}}" class="logo"><img src="https://vardhaman.org/wp-content/uploads/2021/08/vardhamanlogo-1.png" alt="college Logo">
       </div>
     <div class="college-name">
       <h1>Vardhamn College of Engineering</h1>
     </div>
-
-  <ul class="nav-items">
-    <li><a href="/student_panel">Home</a></li>
     
+  <ul class="nav-items">
+    <li><a href="/student_view/{{details.roll_no.roll_no}}">Home</a></li>
+    {%endfor%}
     <li class="dropdown">
       <a >Scoreboard<i class="fa fa-caret-down" style="display: inline; padding-left: 10px;" aria-hidden="true"></i></a>
       <div class="dropdown-content">
@@ -54,21 +53,6 @@
 
   
 </nav>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
 
 
   
@@ -96,9 +80,9 @@
       <br>
       <div class="student-details">
         <ul>
-          <li>Name : </li>
-          <li>Department : </li>
-          <li>Regulation : </li>
+          <li><b>Name :</b>{{details.name}} </li>
+          <li><b>Department :</b>{{details.branch}} </li>
+          <li><b>Roll Number :</b>{{details.roll_no.roll_no}} </li>
         </ul>
 
 
@@ -144,18 +128,6 @@
     </div>
   </div>
 
-
-
-
-  
-
-
-
-
-
-
-  
-
     <!--Performance Analysis -->
 
     <!--header-->
@@ -179,12 +151,15 @@
     
             <div class="Line-representation" style="border: 2px solid #3cf80d;">
               <div class="line-header">
-                <h2>Line Graph</h2>
+                <h2>Bar Graph</h2>
               </div>
               <div class="line-chart">
                 
-                <div class="chart-container" style="padding-left: 25%;">
-                  <canvas id="pie-chart" style="height: 25%" width="10" height="10"></canvas>
+                <div class="chart-container" style="padding-left: 15%; padding-top: 5%; height: 300px; width: 500px;">
+                  <div>
+                    <canvas id="bargraph" ></canvas>
+                  </div>
+                
                 </div>
         
               </div>
@@ -192,19 +167,6 @@
           </div>
         
         </div>
-    
-
-
-
-
-
-
-
-
-
-
-
-
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -265,9 +227,46 @@ var config = {
       });
     </script> -->
 
+
+
+  <script>
+    var platforms = {{platforms|safe}}; // ALl platforms 
+    var average_scores = {{average_scores|safe}}; 
+    var student_scores = [{{details.roll_no.codechef_score}},{{details.roll_no.codeforces_score}},{{details.roll_no.spoj_score}},{{details.roll_no.hackerrank_score}},
+    {{details.roll_no.interviewbit_score}},{{details.roll_no.leetcode_score}},{{details.roll_no.gfg_score}}]; 
+
+    var ctx = document.getElementById('bargraph').getContext('2d');
+    var chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: platforms,
+        datasets: [{
+          label: 'Average Score',
+          data: average_scores,
+          backgroundColor: 'rgba(255, 0, 0, 1)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'Student Score',
+          data: student_scores,
+          backgroundColor: 'rgba(87, 183, 235, 1) ',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+  </script>
   {% endfor %}
-
-
 
   <div class="Announcements" style="border: 2px solid #000;">  
 

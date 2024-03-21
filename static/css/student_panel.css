@@ -1,29 +1,22 @@
-
-h1,
-h2 {
+h1,h2 {
   margin: 10px 0;
   text-align: center;
 } */
-
 ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-
 li {
   margin-bottom: 10px;
 }
-
 a {
   text-decoration: none;
   color: #000;
 }
-
 a:hover {
   color: #007bff;
 }
-
 button.button {
   background-color: #007bff;
   color: #fff;
@@ -38,16 +31,6 @@ button.button:hover {
   background-color: #0069d9;
 }
 
-/* Specific styles for different sections */
-
-/* .split {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-} */
-
-
 .container {
   color: #b4bdc7;
   display: flex;
@@ -55,13 +38,6 @@ button.button:hover {
   justify-content: center;
   margin:auto; /* Adjust as needed */
 }
-
-/*.welcome-container {
-  width: 100%;
-  text-align: center;
-}*/
-
-
 .score-container {
   border: 1px solid #ddd;
   padding: 20px;
@@ -87,11 +63,6 @@ button.button:hover {
   text-align: center;
   margin: 20px;
 }
-
-
-
-
-
 .report-header { grid-area: report-header; }
 
 .welcome-container {  display: grid;
@@ -152,33 +123,6 @@ button.button:hover {
 }
 
 .student-platform-details { grid-area: student-platform-details; }
-
-
-/*.Announcements {  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto auto;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "announcements-header "
-    "Announcements-details ";
-  grid-area: Announcements;
-  width: 400px;
-  text-align: center;
-
-}
-
-.Announcements-content{
-  text-align: left;
-}
-
-.announcements-header { grid-area: Announcements-header;
-
- }
-
-.Announcements-details { grid-area: Announcements-details; }
-*/
-
 .Announcements ul {
   list-style-type: circle;
    /* Change bullet point style to circle */
@@ -193,12 +137,6 @@ button.button:hover {
 .announcements-content{
   padding-left: 20%;
 }
-
-
-
-/*Navigation Bar*/
-
-
 .navbar {
   display: grid;
   grid-template-columns: auto auto 1fr; /* Columns for logo, company name, and nav links */
@@ -295,7 +233,3 @@ a:hover {
   margin-top: 10px; /* Adjust margin as needed */
   font-size: 24px; /* Adjust font size as needed */
 }
-
-
-
-
