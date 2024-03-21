@@ -1,3 +1,12 @@
+body {
+  background-color: #f0f0f0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
 
 h1,
 h2 {
@@ -38,16 +47,6 @@ button.button:hover {
   background-color: #0069d9;
 }
 
-/* Specific styles for different sections */
-
-/* .split {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-} */
-
-
 .container {
   color: #b4bdc7;
   display: flex;
@@ -55,11 +54,6 @@ button.button:hover {
   justify-content: center;
   margin:auto; /* Adjust as needed */
 }
-
-/*.welcome-container {
-  width: 100%;
-  text-align: center;
-}*/
 
 
 .score-container {
@@ -87,10 +81,6 @@ button.button:hover {
   text-align: center;
   margin: 20px;
 }
-
-
-
-
 
 .report-header { grid-area: report-header; }
 
@@ -154,31 +144,6 @@ button.button:hover {
 .student-platform-details { grid-area: student-platform-details; }
 
 
-/*.Announcements {  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto auto;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "announcements-header "
-    "Announcements-details ";
-  grid-area: Announcements;
-  width: 400px;
-  text-align: center;
-
-}
-
-.Announcements-content{
-  text-align: left;
-}
-
-.announcements-header { grid-area: Announcements-header;
-
- }
-
-.Announcements-details { grid-area: Announcements-details; }
-*/
-
 .Announcements ul {
   list-style-type: circle;
    /* Change bullet point style to circle */
@@ -194,10 +159,7 @@ button.button:hover {
   padding-left: 20%;
 }
 
-
-
 /*Navigation Bar*/
-
 
 .navbar {
   display: grid;
