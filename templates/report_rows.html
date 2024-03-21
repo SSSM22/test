@@ -1,24 +1,27 @@
+<thead class="fixed-headers">
 <tr>
-  <th>Rank<br />(Global_rank)</th>
-  <th>Roll_Number</th>
-  <th>Name</th>
-  <th>Branch</th>
-  <th>Algorithms</th>
-  <th>Codechef_Problems*10</th>
-  <th>Codeforces_Problems*10</th>
-  <th>Spoj_problems_Solved*20</th>
-  <th>GeeksForGeeks_score</th>
-  <th>Leetcode_score*50</th>
-  <th>InterViewBit_Score</th>
-  <th>Overall Score</th>
+  <th class="fixed-column fixed-left-column" scope="col">Rank<br />(Global_rank)</th>
+  <th class="fixed-column fixed-left-column" scope="col">Roll_Number</th>
+  <th class="fixed-column fixed-left-column" scope="col">Name</th>
+  <th class="fixed-column fixed-left-column" scope="col">Branch</th>
+  <th class="fixed-column fixed-left-column" scope="col">Algorithms</th>
+  <th scope="col">Codechef_Problems*10</th>
+  <th scope="col">Codeforces_Problems*10</th>
+  <th scope="col">Spoj_problems_Solved*20</th>
+  <th scope="col">GeeksForGeeks_score</th>
+  <th scope="col">Leetcode_score*50</th>
+  <th scope="col">InterViewBit_Score</th>
+  <th scope="col">Overall Score</th>
 </tr>
-
+</thead>
 {% for student in students %}
+<tbody>
+  <tb>
 <tr>
-  <td>{{forloop.counter}}<br />({{student.rank}})</td>
-  <td class="roll">{{ student.roll_no.roll_no }}</td>
-  <td>{{ student.name}}</td>
-  <td>{{ student.branch}}</td>
+  <td class="fixed-column fixed-left-column">{{forloop.counter}}<br />({{student.rank}})</td>
+  <td class="fixed-column fixed-left-column" class="roll">{{ student.roll_no.roll_no }}</td>
+  <td class="fixed-column fixed-left-column">{{ student.name}}</td>
+  <td class="fixed-column fixed-left-column">{{ student.branch}}</td>
   <td>{{ student.roll_no.hackerrank_score }}</td>
 
   <td>{{ student.roll_no.codechef_score }}</td>
@@ -30,3 +33,5 @@
   <td>{{ student.overall_score }}</td>
 </tr>
 {% endfor %}
+</tb>
+</tbody>

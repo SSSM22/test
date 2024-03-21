@@ -113,11 +113,11 @@ select::-ms-expand {
 
 /* Downward arrow when the dropdown is closed */
 select:after {
-  content: "\f078"; /* Font Awesome icon for down arrow (replace with desired icon if needed) */
-  font-family: FontAwesome; /* Adjust font family if using a different icon font */
-  color: #fff; /* Match text color */
+  content: "\f078"; 
+  font-family: FontAwesome; 
+  color: #fff;
   position: absolute;
-  right: 10px; /* Adjust positioning as needed */
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
@@ -128,4 +128,3 @@ select:focus:after {
   content: "\f077"; /* Font Awesome icon for up arrow (replace with desired icon if needed) */
 }
 
-/* Change dropdown text color on hover or focus */

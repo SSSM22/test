@@ -5,6 +5,7 @@
     <title>Student Rankings</title>
     <link rel="stylesheet" type="text/css" href="/static/css/report.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
     <script type="text/javascript" src="{% static 'home/htmx.js' %}"></script>
 
     <script>
@@ -53,46 +54,57 @@
     
     </nav>
     
-    <div style="display: flex; justify-content: space-between">
+
+
+
+    
       <h1 style="color: black; text-align: center">
         Vardhaman Student Rankings
       </h1>
-      <form action="{% url 'report' %}" method="GET">
-        <select name="q" id="branchDropdown">
-          <option value="">Select Branch</option>
-          {% for branch in branches %}
-          <option value="{{ branch }}">{{ branch }}</option>
-          {% endfor %}
-        </select>
-        <input type="number" name="score_gt" placeholder="Score Greater Than" />
-        <input type="number" name="score_lt" placeholder="Score Less Than" />
-        <input type="submit" value="Search" />
-      </form>
-      <div style="margin: 10px; display: flex">
-        {% if branch != None %}
-        <h2>Branch filter</h2>
-        <form method="POST">
-          {% csrf_token %}
-          <label class="switch" style="margin: 15px">
-            <input
-              type="checkbox"
-              name="checks"
-              id="check "
-              value="{{branch}}"
-              hx-get="load_rows"
-              hx-target="#table_body"
-            />
-            <span class="slider round"></span>
-          </label>
+      
+   
+      
+
+        <form action="{% url 'report' %}" method="GET">
+
+          <div class="table-filters">
+          
+          <select name="q" id="branchDropdown" class="custom-dropdown">
+            <option value="">All Branches</option>
+            {% for branch in branches %}
+            <option value="{{ branch }}">{{ branch }}</option>
+            {% endfor %}
+          </select>
+        
+          <input type="number" name="score_gt" placeholder="Score Greater Than" class="score"/>
+          <input type="number" name="score_lt" placeholder="Score Less Than" class="score"/>
+          <input type="submit" value="Search" class="score"/>
         </form>
+        <div style="margin: 10px; display: flex">
+          {% if branch != None %}
+          <h2>Branch filter</h2>
+          <form method="POST">
+            {% csrf_token %}
+            <label class="switch" style="margin: 15px">
+              <input
+                type="checkbox"
+                name="checks"
+                id="check "
+                value="{{branch}}"
+                hx-get="load_rows"
+                hx-target="#table_body"
+              />
+              <span class="slider round"></span>
+            </label>
+          </form>
+  
+          {% endif %}
+        </div>
 
-        {% endif %}
       </div>
-    </div>
-
     
-    <div class="table-container">
-      <table name="table_body" id="table_body">
+    <div class="table-container" >
+      <table class="tablebody"  name="table_body" id="table_body">
         {% include "report_rows.html" %}
         </tb>
       </table>

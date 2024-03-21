@@ -25,10 +25,14 @@
       <a href="/student_view/{{details.roll_no.roll_no}}" class="logo"><img src="https://vardhaman.org/wp-content/uploads/2021/08/vardhamanlogo-1.png" alt="college Logo">
       </div>
     <div class="college-name">
-      <h1>Vardhamn College of Engineering</h1>
+      <h1 style="text-decoration: #fff!important;
+    text-transform: uppercase;
+    letter-spacing: 3px;">Vardhamn College of Engineering</h1>
     </div>
     
   <ul class="nav-items">
+    <li><a href="/student_view/{{details.roll_no.roll_no}}">Home</a></li>
+    {%endfor%}
     <li><a href="/student_view/{{details.roll_no.roll_no}}">Home</a></li>
     {%endfor%}
     <li class="dropdown">
@@ -39,7 +43,7 @@
         
       </div>
     </li>
-    <li><a href="#">Usernames</a></li>
+    <li><a href="/usernames">Usernames</a></li>
     <li class="dropdown">
       <a href="#"><i class="fas fa-bars"></i></a>
       <div class="dropdown-content">
@@ -64,7 +68,7 @@
 
   
     <div class="report-header">
-      <h2>Student Report</h2>
+      <h1>Student Report</h1>
     </div>
   
 
@@ -94,6 +98,7 @@
 
       <h2>Scores</h2>
       <br>
+      <div class="student-scores">
       <ul>
         <li>
           <strong>Hackerrank:</strong>
@@ -131,11 +136,11 @@
     <!--Performance Analysis -->
 
     <!--header-->
-
+<br>
     <h1> Performance Analysis</h1>
     <br>
         <div class="graph-area">
-          <div class="Pie_representation" style="border: 2px solid #ee0000;">
+          <div class="Pie_representation">
             <div class="pie-header">
               <h2>Pie Chart</h2>
             </div>
@@ -149,7 +154,7 @@
             </div>
     
     
-            <div class="Line-representation" style="border: 2px solid #3cf80d;">
+            <div class="Line-representation" >
               <div class="line-header">
                 <h2>Bar Graph</h2>
               </div>

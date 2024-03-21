@@ -51,12 +51,6 @@ button.button:hover {
   height: 300px; /* Adjust height as needed */
 }
 
-.announcements {
-  border: 1px solid #ddd;
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
 
 .report-header{
   width: 100%;
@@ -81,36 +75,62 @@ button.button:hover {
 
 .graph-area {  display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0px 0px;
+  gap: 0px 10px;
   grid-auto-flow: row;
   grid-template-areas:
     "Pie-chart Line-graph";
   grid-area: graph-area;
-  border: 2px solid #000;
+  padding: 20px;
 }
 
+.Pie_representation{
+  /*container styling*/
+  background-color: #fff;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  box-shadow: 0 0px 25px rgba(0,0,0,0.4);
+}
+
+.Line-representation{
+  /*container styling*/
+  background-color: #fff;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  box-shadow: 0 0px 25px rgba(0,0,0,0.4);
+}
 
 
 .student-container {  display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr;
-  gap: 0px 0px;
+  gap: 0px 10px;
   grid-auto-flow: row;
   grid-template-areas:
     "student-college-details student-platform-details";
   grid-area: student-container;
-  margin: 40px;
+  padding: 20px;
 }
+
+
+
 
 .student-college-details {  display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 1fr;
-  gap: 0px 0px;
+  gap: 10px 0px;
   grid-auto-flow: row;
   grid-template-areas:
     "student-photo"
     "student-details";
   grid-area: student-college-details;
+
+  /*container styling*/
+  background-color: #fff;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  box-shadow: 0 0px 25px rgba(0,0,0,0.4);
+  padding: 20px;
+  
   
 }
 
@@ -130,8 +150,14 @@ button.button:hover {
 
 .Announcements{
   justify-content: center;
-  width: 40%;
+  width: 30%;
   margin: 0 auto;
+  /*container styling*/
+  background-color: #fff;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  box-shadow: 0 0px 25px rgba(0,0,0,0.4);
+  padding: 20px;
 }
 
 .announcements-content{
