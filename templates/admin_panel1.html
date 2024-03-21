@@ -7,14 +7,24 @@
 </head>
 
 <body>
+  
+
+  <h1>Admin Panel</h1>
+ 
+
+<br>
+
+  <div class="view-container">
   <form action="/overview" method="post">
     <div class="split">
+      
       <form action="/overview" method="post">
         {% csrf_token %}
         <div class="form-group">
-          <h2>Vardhaman College of Engineering</h2>
+          <h2>View Rankings</h2>
+          
           <label for="year">Choose year</label>
-          <select name="year" id="year" class="form-control">
+          <select name="year" id="year" class="custom-dropdown">
             <option value="all">All</option>
             <option value="4">first Year</option>
             <option value="3">Second Year</option>
@@ -23,9 +33,9 @@
           </select>
         </div>
         <br />
-        <div class="form-group">
+        <div class="form-group" >
           <label>Choose Branch</label>
-          <select name="branch" id="branch" class="form-control">
+          <select name="branch" id="branch" class="custom-dropdown">
             <option value="all">All</option>
             <option value="IT">IT</option>
             <option value="CSE">CSE</option>
@@ -52,12 +62,25 @@
       </form>
     </div>
   </form>
+</div>
 
+
+<div class="announcement-container">
   <form action="" method="POST">
     <h4>Announcement form</h4>
     {% csrf_token %} {{form.as_p}}
     <input type="submit" value="Submit" />
   </form>
+</div>
+
+
+
+
+
+
+
+
+
 </body>
 
 </html>

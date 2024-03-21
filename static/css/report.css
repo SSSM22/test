@@ -159,7 +159,7 @@ body {
 
 .tablebody thead th {
   color: #ffffff;
-  background: #4FC3A1;
+  background: #2b8a28;
 }
 
 
@@ -188,7 +188,7 @@ body {
   }
 
   .fixed-column:nth-child(2) {
-    left: 80px; /* Adjust as needed */
+    left: 100px; /* Adjust as needed */
   }
   
   .fixed-column:nth-child(3) {
@@ -196,7 +196,7 @@ body {
   }
 
   .fixed-column:nth-child(4) {
-    left: 490px; /* Adjust as needed */
+    left: 493px; /* Adjust as needed */
   }
 
   .fixed-headers th {

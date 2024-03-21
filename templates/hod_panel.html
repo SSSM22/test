@@ -4,31 +4,54 @@
 <head>
     <title>{{hod}}</title>
     <link href="https://bootswatch.com/5/lux/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+
+        .custom-box{
+            width: 50%;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.5);
+            padding: 40px;
+        }
+
+        .custom-button-1{
+            margin-left:150px;
+        }
+
+        .custom-button{
+            margin: 20px;
+        }
+
+    </style>
 </head>
 <body>
     <div class="position-absolute top-50 start-50 translate-middle">
-        <div class="container">
+        <div class="container custom-box">
             <div class="row">
-                <div class="card p-auto">
+                
                     
-                    <div class="card-header text-center">
-                        <h1>{{hod}}</h1>
-                        <h1> Logged In </h1>
+                    
+                        <h1 class="card-title text-center mb-4">{{hod}}</h1>
+                        <h1 class="card-title text-center mb-4"> Logged In </h1>
                         {% if messages %}
         
                                 {% for message in messages %}
                             <h5 style="color: rgb(248, 34, 34);">{{message}}</h5>
                                 {% endfor %}
                         {% endif %}
-                    </div>
+                    
 
-
-                    <div class="card-body">      
+                
+                          
                         <form action="/hod_view" method="get" class="p-4">
+                            
 
-                            <label class="form-label mt-2">Roll Number</label>
-                         <input type="text" class="form-control form-control-sm" id="Roll" name="Roll" placeholder="Enter Roll Number of Student"><br>
-                         <input type="submit" value="Search">
+
+                            
+                            <label class="form-label mt-4">Roll Number</label>
+                         <input type="text" class="form-control" id="Roll" name="Roll" placeholder="Enter Roll Number of Student">
+                         
+                         
+                         <input class="btn btn-primary  btn-block rounded-pill mt-4 custom-button-1" type="submit" value="Search">
 
                          </form>
 
@@ -43,19 +66,18 @@
                 <option value="2">Third Year</option>
                 <option value="1">Fourth Year</option>
             </select>
-        </div>  
-        <div class="card-footer">
+          
+        
             <br>
-            <input type="submit">
-            <button onclick="window.location.href='/logout'" type="button">Logout</button>
+            <input class="btn btn-primary  btn-block rounded-pill mt-4 custom-button" type="submit">
+            <button class="btn btn-primary  btn-block rounded-pill mt-4 custom-button" onclick="window.location.href='/logout'" type="button">Logout</button>
         </form>
 
 
-        </div>
+        
                 </div>
             </div>
-        </div>
-    </div>
+       
 </div>
 </body>
 </html>

@@ -2,9 +2,9 @@ body {
   font-family: Arial, sans-serif;
   background-color: #f0f0f0;
   margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  
+ /* justify-content: center;
+  align-items: center;*/
   min-height: 100vh;
 }
 
@@ -16,21 +16,27 @@ form {
   text-align: center;
 }
 
-.split {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 20px;
-}
 
+
+h1,
 h2 {
-  color: black;
-}
+  margin: 10px 0;
+  text-align: center;
+  
+  
+    text-decoration: #fff!important;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+  
+} 
+
+
 label {
   font-weight: bold;
 }
 .form-group {
-  text-align: left;
+  text-align: center;
+
 }
 select.form-control {
   width: 500px;
@@ -52,6 +58,7 @@ select.form-control {
 .submit:hover {
   background-color: #0056b3;
 }
+
 button {
   background-color: #007bff;
   color: #fff;
@@ -59,4 +66,46 @@ button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+
+.custom-dropdown {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  background-color: #fff;
+  color: #333;
+  width: 200px;
+  margin-top: 20px;
+  
+}
+
+.custom-dropdown option {
+  padding: 10px;
+  font-size: 16px;
+  background-color: #fff; /* Background color of options */
+  color: #333; /* Text color of options */
+}
+
+.custom-dropdown option:hover {
+  background-color: #f2f2f2;
+   /* Background color of options on hover */
+}
+
+
+.view-container{
+  text-align: center;
+  justify-content: center;
+  width: 50%;
+  margin: 0 auto;
+  box-shadow: 0 0px 25px rgba(0,0,0,0.4);
+}
+
+.announcement-container{
+  margin: 0 auto;
+  text-align: center;
+  justify-content: center;
+  width: 50%;
+  box-shadow: 0 0px 25px rgba(0,0,0,0.4);
 }

@@ -18,18 +18,18 @@
 
 <body>
 
-  
+  {% for details in det%}
   <nav class="navbar">
     
     <div class="logo">
-      <a href="/student_panel" class="logo"><img src="https://vardhaman.org/wp-content/uploads/2021/08/vardhamanlogo-1.png" alt="college Logo">
+      <a href="/student_view/{{details.roll_no.roll_no}}" class="logo"><img src="https://vardhaman.org/wp-content/uploads/2021/08/vardhamanlogo-1.png" alt="college Logo">
       </div>
     <div class="college-name">
       <h1 style="text-decoration: #fff!important;
     text-transform: uppercase;
     letter-spacing: 3px;">Vardhamn College of Engineering</h1>
     </div>
-    {% for details in det%}
+    
   <ul class="nav-items">
     <li><a href="/student_view/{{details.roll_no.roll_no}}">Home</a></li>
     {%endfor%}
@@ -82,9 +82,9 @@
       <br>
       <div class="student-details">
         <ul>
-          <li><strong> Name : </strong></li>
-          <li><strong>Department : </strong></li>
-          <li><strong>Regulation : </strong></li>
+          <li><b>Name :&nbsp;&nbsp;</b>{{details.name}} </li>
+          <li><b>Department :&nbsp;&nbsp;</b>{{details.branch}} </li>
+          <li><b>Roll Number :&nbsp;&nbsp;</b>{{details.roll_no.roll_no}} </li>
         </ul>
 
 
@@ -136,7 +136,7 @@
 
     <!--header-->
 <br>
-    <h1> Performance Analysis</h1>
+<h1> Performance Analysis</h1>
     <br>
         <div class="graph-area">
           <div class="Pie_representation">
@@ -155,13 +155,13 @@
     
             <div class="Line-representation" >
               <div class="line-header">
-                <h2>Line Graph</h2>
+                <h2>Bar Graph</h2>
               </div>
               <div class="line-chart">
                 
                 <div class="chart-container" style="padding-left: 15%; padding-top: 5%; height: 300px; width: 500px;">
                   <div>
-                    <canvas id="productSalesChart"></canvas>
+                    <canvas id="bargraph" ></canvas>
                   </div>
                 
                 </div>
@@ -231,29 +231,30 @@ var config = {
       });
     </script> -->
 
-  {% endfor %}
+
 
   <script>
-    var productLabels = ["Product 1", "Product 2", "Product 3"]; // Replace with your actual product names
-    var averageSalesData = [10, 15, 20]; // Replace with your average sales data
-    var todaysSalesData = [12, 18, 25]; // Replace with your today's sales data
+    var platforms = {{platforms|safe}}; // ALl platforms 
+    var average_scores = {{average_scores|safe}}; 
+    var student_scores = [{{details.roll_no.codechef_score}},{{details.roll_no.codeforces_score}},{{details.roll_no.spoj_score}},{{details.roll_no.hackerrank_score}},
+    {{details.roll_no.interviewbit_score}},{{details.roll_no.leetcode_score}},{{details.roll_no.gfg_score}}]; 
 
-    var ctx = document.getElementById('productSalesChart').getContext('2d');
+    var ctx = document.getElementById('bargraph').getContext('2d');
     var chart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: productLabels,
+        labels: platforms,
         datasets: [{
-          label: 'Average Sales',
-          data: averageSalesData,
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          label: 'Average Score',
+          data: average_scores,
+          backgroundColor: 'rgba(255, 0, 0, 1)',
           borderColor: 'rgba(255, 99, 132, 1)',
           borderWidth: 1
         },
         {
-          label: 'Today\'s Sales',
-          data: todaysSalesData,
-          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          label: 'Student Score',
+          data: student_scores,
+          backgroundColor: 'rgba(87, 183, 235, 1) ',
           borderColor: 'rgba(54, 162, 235, 1)',
           borderWidth: 1
         }]
@@ -269,10 +270,9 @@ var config = {
       }
     });
   </script>
+  {% endfor %}
 
-<br>
-<br>
-  <div class="Announcements" style="border: 2px solid #000;">  
+  <div class="Announcements">  
 
     {% comment %} code for announcements display from models {% endcomment %}
     <div class="announcements-header"><h1><i class="fa fa-bullhorn" aria-hidden="true"></i> Announcements</h1></div>
