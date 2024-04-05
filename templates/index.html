@@ -24,13 +24,34 @@
             .padded-card-title {
              padding: 20px; /* Adjust the padding value as needed */
             }
+
+            h1 {
+  margin: 10px 0;
+  text-align: center;
+  color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    padding-top: 50px;
+    font-family: Arial, sans-serif;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
+} 
+
+.custom-button:hover{
+  background: #fff;
+  color: #000;
+  transition: ease-in-out;
+  box-shadow: 0px 5px 10px rgba( 0, 0, 0, 0.5 );
+}
   </style>
 
     </head>
     <body>
 
 
-        <h1 class="text-center mt-5">Vardhaman College of Engineering</h1>
+        <h1 >Vardhaman College of Engineering</h1>
         <div class="position-absolute top-50 start-50 translate-middle">
             <div class="container shadow">
                 <div class="row justify-content-center">
@@ -38,7 +59,7 @@
                         <div class="card-body">
                             <h2 class="card-title padded-card-title">Career Development Cell</h2>
                             <div class="container text-center">
-                                <button onclick="window.location.href='/login'" type="button" class="btn btn-primary rounded-pill">
+                                <button onclick="window.location.href='/login'" type="button" class="btn btn-primary rounded-pill custom-button">
                                     <span class="button-text">Log In</span>
                                 </button>
                                 

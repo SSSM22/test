@@ -4,18 +4,20 @@
 <head>
   <title>Admin</title>
   <link href="{% static 'css/admin_panel1.css' %}" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"><!--For icons-->
+  
 </head>
 
 <body>
   
-
+<nav class="navbar">
   <h1>Admin Panel</h1>
- 
+</nav>
 
 <br>
 
   <div class="view-container">
-  <form action="/overview" method="post">
+  <form class="form-box" action="/overview" method="post">
     <div class="split">
       
       <form action="/overview" method="post">
@@ -49,16 +51,18 @@
           </select>
         </div>
         <br />
-        <input type="submit" class="submit" />
-        &nbsp;
-        <button class="submit" onclick="window.location.href='/logout'" type="button">
+        <button class="submit button" onclick="window.location.href='/logout'" type="button">
           LogOut
         </button>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="submit" class="submit button" />
+        
+        
         <!-- <button onclick="window.location.href='/overview'"type="button" class="submit">Submit</button> -->
       </form>
       <form action="/update" method="post">
         {%csrf_token%}
-        <input type="submit" class="submit" value="Update" />
+        <input type="submit" class="submit button" value="Update" />
       </form>
     </div>
   </form>
@@ -67,9 +71,9 @@
 
 <div class="announcement-container">
   <form action="" method="POST">
-    <h4>Announcement form</h4>
+    <div class="announcements-header"><h2><i class="fa fa-bullhorn" aria-hidden="true"></i> Announcements</h2></div>
     {% csrf_token %} {{form.as_p}}
-    <input type="submit" value="Submit" />
+    <input class="button" type="submit" value="Submit" />
   </form>
 </div>
 

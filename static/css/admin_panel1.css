@@ -10,7 +10,7 @@ body {
 
 form {
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 20px;
   text-align: center;
@@ -99,13 +99,54 @@ button {
   justify-content: center;
   width: 50%;
   margin: 0 auto;
-  box-shadow: 0 0px 25px rgba(0,0,0,0.4);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  border-radius: 15px;
+  
 }
+
+
 
 .announcement-container{
   margin: 0 auto;
   text-align: center;
   justify-content: center;
   width: 50%;
-  box-shadow: 0 0px 25px rgba(0,0,0,0.4);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  border-radius: 15px;
+}
+
+.announcements-header{
+  padding: 10px;
+}
+
+.button{
+  color: #fff;
+  font-weight: bold;
+  background-color: #333;
+  box-shadow: 0px 5px 10px rgba( 0, 0, 0, 0.3 );
+  border: 2px;
+  border-radius: 20px;
+  width: 100px;
+  height: 40px;
+  cursor: pointer;
+
+}
+
+.button:hover{
+  background: #fff;
+  color: #000;
+  transition: ease-in-out;
+  box-shadow: 0px 5px 10px rgba( 0, 0, 0, 0.5 );
+}
+
+.navbar{
+  background-color: #000;
+  color: #fff;
+  height: 50px;
+  display: grid
+}
+
+.navbar h1{
+  margin: 0px;
+  padding-top: 10px;
 }

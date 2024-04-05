@@ -9,6 +9,14 @@
     <script type="text/javascript" src="{% static 'home/htmx.js' %}"></script>
 
   </head>
+  <style>
+    .submit-button:hover{
+    background: #fff;
+    color: #000;
+    transition: ease-in-out;
+    box-shadow: 0px 5px 10px rgba( 0, 0, 0, 0.2 );
+  }
+  </style>
   
   <body>
 
@@ -25,7 +33,7 @@
       </div>
     
     <ul class="navigation-items">
-      <li><a href="#">Home</a></li>
+      <li><a href="/student_panel">Home</a></li>
       
       <li class="dropdown">
         <a>Scoreboard<i class="fa fa-caret-down" style="display: inline !important; padding-left: 10px;" aria-hidden="true"></i></a>

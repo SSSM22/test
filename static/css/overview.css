@@ -5,14 +5,13 @@ body {
   display: block;
   justify-content: center;
   align-items: center;
-  height: 90vh;
 }
 
 h1{
   text-decoration: #fff!important;
   text-transform: uppercase;
   letter-spacing: 3px;
-  margin: 0;
+  
 }
 
 /* Table Styles */
@@ -21,7 +20,7 @@ h1{
   margin: 10px 70px 70px;
   box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
   overflow-y: auto;
-  max-height: 1000px;
+  max-height: 700px;
 }
 
 .fl-table {
@@ -48,7 +47,7 @@ h1{
 
 .fl-table thead th {
   color: #ffffff;
-  background: #4FC3A1;
+  background: #46bb56;
 }
 
 
@@ -143,11 +142,6 @@ h1{
 
 
 
-
-
-
-
-
 .navigationbar {
   display: grid;
   grid-template-columns: auto auto 1fr; /* Columns for logo, company name, and nav links */
@@ -187,13 +181,14 @@ h1{
     padding: 0;
     text-align: right; /* Align navigation links to the right */
     grid-column: 3;
-    margin-right: 40px; /* Set navigation links to span the third column */
+    margin-right: 20px; /* Set navigation links to span the third column */
   }
   
   
   .navigation-items li {
     display: inline-block;
     margin-left: 10px; /* Adjust spacing between links */
+    text-transform: uppercase;
   }
   
   .navigation-items li:first-child {
