@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-^7+xhzw=^0l@i$5p2zydl9qbapb-6a@@-2yubk(kohi$!^*v@b
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*','34.238.80.107']
 
 
 
@@ -93,7 +93,7 @@ DATABASES = {
         'USER': 'root', #sssm
         'HOST': 'localhost',#vardhamanstudent-data.mysql.database.azure.com', 
         'PORT': 3306,
-        'PASSWORD': 'Pranav_001',#'abcd1234!@', #root
+        'PASSWORD': 'root',#'abcd1234!@', #root
     }
 }
 
