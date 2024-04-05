@@ -12,6 +12,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from  datetime import date
 from dotenv import load_dotenv
 import os
+import numpy as np
 load_dotenv()
 current_academic_year = os.getenv('CURRENT_ACADEMIC_YEAR')
 
@@ -323,7 +324,22 @@ def student_view(request, username):
         Gdata = [int(x.strip()) for x in data_string.split(',')]
         Glabels = [str(i+1) for i in range(30)]
         #end graph
-        
+        platforms = ['CodeChef', 'CodeForce', 'Spoj','Hackerrank','Interviewbit','Leetcode','Geeksforgeeks']
+        average_scores=[]
+        codechef_average = StudentScores.objects.values_list('codechef_score')
+        average_scores.append(round(np.mean(list(codechef_average)),2))
+        codeforces_average = StudentScores.objects.values_list('codeforces_score')
+        average_scores.append(round(np.mean(list(codeforces_average)),2))
+        spoj_average = StudentScores.objects.values_list('spoj_score')
+        average_scores.append(round(np.mean(list(spoj_average)),2))
+        hackerrank_average = StudentScores.objects.values_list('hackerrank_score')
+        average_scores.append(round(np.mean(list(hackerrank_average)),2))
+        interviewbit_average = StudentScores.objects.values_list('interviewbit_score')
+        average_scores.append(round(np.mean(list(interviewbit_average)),2))
+        leetcode_average = StudentScores.objects.values_list('leetcode_score')
+        average_scores.append(round(np.mean(list(leetcode_average)),2))
+        gfg_average = StudentScores.objects.values_list('gfg_score')
+        average_scores.append(round(np.mean(list(gfg_average)),2))
         context = {
             'staff': request.user.is_staff,
             'username': roll,
@@ -336,7 +352,10 @@ def student_view(request, username):
             'image':det.values_list('branch')[0][0],#getting the branch of the student from queryset
             'announcements': announcement,
             'Glabels': Glabels,
-            'Gdata': Gdata
+            'Gdata': Gdata,
+            'platforms': platforms,
+            'average_scores':average_scores,
+
         }
         return render(request, 'student_panel.html', context)
     
@@ -437,8 +456,10 @@ def update_usernames(request):
 
 @login_required(login_url='/login')
 def profile(request):
-    username = None
-    if request.user.is_authenticated:
-        username = request.user.username
-        students = display_students(request, 3, "IT")
-    return render(request, "student_panel.html", {'username': username})
+    # username = None
+    # if request.user.is_authenticated:
+    #     username = request.user.username
+    #     students = display_students(request, 3, "IT")
+    return render(request, "random.html", {'platforms': ['CodeChef', 'CodeForce', 'Spoj','Hackerrank','Interviewbit','Leetcode','Geeksforgeeks'],
+                                           'average_score_data':[100,200,300,400,500,600,700],
+                                           'student_score_data': [50,100,150,200,250,300,350]})

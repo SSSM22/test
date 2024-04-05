@@ -6,7 +6,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
   <link rel="stylesheet" type="text/css" href="{% static 'css/student_panel.css' %}" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"><!--For icons-->
   
  <!-- <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/lux/bootstrap.min.css">-->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -25,17 +25,17 @@
       <a href="/student_view/{{details.roll_no.roll_no}}" class="logo"><img src="https://vardhaman.org/wp-content/uploads/2021/08/vardhamanlogo-1.png" alt="college Logo">
       </div>
     <div class="college-name">
-      <h1 style="text-decoration: #fff!important;
-    text-transform: uppercase;
-    letter-spacing: 3px;">Vardhamn College of Engineering</h1>
+      <h1>Vardhaman College of Engineering</h1>
     </div>
     
   <ul class="nav-items">
-    <li><a href="/student_view/{{details.roll_no.roll_no}}">Home</a></li>
+    
+   
+   <!-- <li><a href="/student_view/{{details.roll_no.roll_no}}">Home</a></li>-->
     {%endfor%}
     <li class="dropdown">
       <a >Scoreboard<i class="fa fa-caret-down" style="display: inline; padding-left: 10px;" aria-hidden="true"></i></a>
-      <div class="dropdown-content">
+      <div class="dropdown-content" style="left: 20;">
         <a href="/report">Department rankings</a>
         <a href="/overview">College rankings</a>
         
@@ -44,7 +44,7 @@
     <li><a href="/usernames">Usernames</a></li>
     <li class="dropdown">
       <a href="#"><i class="fas fa-bars"></i></a>
-      <div class="dropdown-content">
+      <div class="dropdown-content" style="left: -25;">
         <a href="https://discord.gg/jXUkmX7Tvf">Discord Group</a>
         <a href="/change_password">Change Password</a>
         <div class="dropdown-divider"></div>
@@ -83,7 +83,7 @@
       <div class="student-details">
         <ul>
           <li><b>Name :&nbsp;&nbsp;</b>{{details.name}} </li>
-          <li><b>Department :&nbsp;&nbsp;</b>{{details.branch}} </li>
+          <li><b>Department :&nbsp;&nbsp;</b><span style="text-transform: uppercase;">{{details.branch}} </span></li>
           <li><b>Roll Number :&nbsp;&nbsp;</b>{{details.roll_no.roll_no}} </li>
         </ul>
 
@@ -99,31 +99,31 @@
       <div class="student-scores">
       <ul>
         <li>
-          <strong>Hackerrank:</strong>
+          <strong>Hackerrank&nbsp;:</strong>
           <span id="Hackerrank-score">{{details.roll_no.hackerrank_score}}</span>
           <!-- kept roll_id because of accesing it from other table through join in views.py -->
         </li>
         <li>
-          <strong>CodeChef:</strong>
+          <strong>CodeChef&nbsp;:</strong>
           <span id="codechef-score">{{details.roll_no.codechef_score}}</span>
         </li>
         <li>
-          <strong>LeetCode:</strong> <span id="leetcode-score">{{details.roll_no.leetcode_score}}</span>
+          <strong>LeetCode&nbsp;:</strong> <span id="leetcode-score">{{details.roll_no.leetcode_score}}</span>
         </li>
         <li>
-          <strong>Codeforces:</strong>
+          <strong>Codeforces&nbsp;:</strong>
           <span id="codeforces-score">{{details.roll_no.codeforces_score}}</span>
         </li>
         <li>
-          <strong>Spoj:</strong>
+          <strong>Spoj&nbsp;:</strong>
           <span id="spoj-score">{{details.roll_no.spoj_score}}</span>
         </li>
         <li>
-          <strong>InterviewBit:</strong>
+          <strong>InterviewBit&nbsp;:</strong>
           <span id="interviewbit-score">{{details.roll_no.interviewbit_score}}</span>
         </li>
         <li>
-          <strong>GeeksForGeeks:</strong>
+          <strong>GeeksForGeeks&nbsp;:</strong>
           <span id="GeeksForGeeks-score">{{details.roll_no.gfg_score}}</span>
         </li>
       </ul>
@@ -131,6 +131,7 @@
     </div>
   </div>
   </div>
+  
 
     <!--Performance Analysis -->
 
@@ -145,7 +146,7 @@
             </div>
             
               {% block content %}
-              <div class="chart-container" style="padding-left: 25%;">
+              <div class="chart-container" style="padding-left: 25%; height: auto;">
                 <canvas id="pie-chart" width="10" height="10" ></canvas>
               </div>
       
@@ -159,7 +160,7 @@
               </div>
               <div class="line-chart">
                 
-                <div class="chart-container" style="padding-left: 15%; padding-top: 5%; height: 300px; width: 500px;">
+                <div class="chart-container" style="padding-left: 15%; padding-top: 5%; padding-right: 10%; height: 100%; width: auto;">
                   <div>
                     <canvas id="bargraph" ></canvas>
                   </div>
@@ -272,6 +273,8 @@ var config = {
   </script>
   {% endfor %}
 
+
+  
   <div class="Announcements">  
 
     {% comment %} code for announcements display from models {% endcomment %}
@@ -282,7 +285,7 @@ var config = {
       {% for i in announcements %}
       <li>
         {% if "https://" in i.text_input or "www." in i.text_input %}
-        <a href="{{ i.text_input }}"> {{ i.text_input }}</a>
+        <a href="{{ i.text_input }}" style="color: black;"> {{ i.text_input }}</a>
         {% else %}
         <p>{{ i.text_input }}</p>
         {% endif %}
@@ -293,8 +296,6 @@ var config = {
       {% endfor %}
     </ul>
   </div>
-  
-  
   </div>
 
   <!-- <script>
