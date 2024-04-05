@@ -12,21 +12,16 @@ h1{
   text-decoration: #fff!important;
   text-transform: uppercase;
   letter-spacing: 3px;
+  margin: 0;
 }
-
-
-*{
-  box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-}
-
 
 /* Table Styles */
 
 .table-container{
   margin: 10px 70px 70px;
   box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+  overflow-y: auto;
+  max-height: 1000px;
 }
 
 .fl-table {
@@ -64,6 +59,13 @@ h1{
 
 .fl-table tr:nth-child(even) {
   background: #F8F8F8;
+}
+
+.fixed-headers th {
+  position: sticky;
+  top: 0; /* Fix the headers at the top */
+  background-color: #f2f2f2; /* Optional: Add background color */
+  z-index: 2; /* Ensure they stay above other elements */
 }
 
 /* Responsive */
@@ -146,108 +148,114 @@ h1{
 
 
 
-
-
-
-
-/*Navigation Bar*/
-
-
 .navigationbar {
-  display: grid !important; 
-  grid-template-columns: auto auto 1fr !important; /* Columns for logo, company name, and nav links */
-  align-items: center !important; /* Align items vertically */
-  padding: 10px !important;
-  background-color: #333 !important;
-  color: white!important;
+  display: grid;
+  grid-template-columns: auto auto 1fr; /* Columns for logo, company name, and nav links */
+  align-items: center; /* Align items vertically */
+  padding: 10px;
+  background-color: #333;
+  color: white;
+    
+  }
   
+  .logo-image img {
+    height: 50px;
+    width: auto;
+  }
+  
+  .college-name h1 {
+    margin: 0;
+  }
+  
+  .logo{
+    padding-right: 5px;
+  }
+  .navigationbar a {
+    display: inline-block;
+    padding: 10px;
+    text-decoration: none;
+    color: white;
+  }
+  
+  a:hover {
+    text-decoration: none;
+  }
+  
+  .navigation-items {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: right; /* Align navigation links to the right */
+    grid-column: 3;
+    margin-right: 40px; /* Set navigation links to span the third column */
+  }
+  
+  
+  .navigation-items li {
+    display: inline-block;
+    margin-left: 10px; /* Adjust spacing between links */
+  }
+  
+  .navigation-items li:first-child {
+    margin-left: 0; /* Remove left margin from the first link */
+  }
+  
+  .navigation-items li a {
+    text-decoration: none;
+    color: white;
+    padding-top: 0px;
+  }
+  
+  .navigation-items li a:hover {
+    opacity: 0.6;
+  }
+  
+
+
+  .dropdown {
+    position: relative;
+  }
+  
+.navigation-items .dropdown-content a{
+  padding: 10px;
 }
 
-.logo-image img {
-  height: 50px!important;
-  width: auto!important;
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    min-width: 100px;
+    z-index: 1;
+    top: 100%; /* Position the dropdown below the menu item */
+    left: 0;
+  }
+  
+  .dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #555;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  .dropdown i {
+    display: block;
+    margin-top: 10px; /* Adjust margin as needed */
+    font-size: 24px; /* Adjust font size as needed */
+  }
+  
+  
+  
+*{
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
 }
-
-.college-name h1 {
-  margin: 0!important;
-}
-
-a.logo{
-  padding-right: 5px!important;
-}
-a {
-  display: inline-block!important;
-  padding: 20px!important;
-  text-decoration: none!important;
-  color: white!important;
-}
-
-a:hover {
-  text-decoration: none!important;
-}
-
-.navigation-items {
-  list-style-type: none!important;
-  margin: 0!important;
-  padding: 0!important;
-  text-align: right!important; /* Align navigation links to the right */
-  grid-column: 3!important;
-  margin-right: 40px!important; /* Set navigation links to span the third column */
-}
-
-
-.navigation-items li {
-  display: inline-block!important;
-  margin-left: 20px!important; /* Adjust spacing between links */
-}
-
-.navigation-items li:first-child {
-  margin-left: 0!important; /* Remove left margin from the first link */
-}
-
-.navigation-items li a {
-  text-decoration: none!important;
-  color: white!important;
-}
-
-.navigation-items li a:hover {
-  opacity: 0.6!important;
-}
-
-.dropdown {
-  position: relative!important;
-}
-
-.dropdown-content {
-  display: none!important;
-  position: absolute!important;
-  background-color: #333!important;
-  min-width: 100px!important;
-  z-index: 1!important;
-  top: 100%!important; /* Position the dropdown below the menu item */
-  left: 0!important;
-}
-
-.dropdown-content a {
-  color: white!important;
-  padding: 12px 16px!important;
-  display: block!important;
-  text-align: center!important;
-  text-decoration: none!important;
-}
-
-.dropdown-content a:hover {
-  background-color: #555!important;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block!important;
-}
-
-.dropdown i {
-  display: block!important;
-  margin-top: 10px!important; /* Adjust margin as needed */
-  font-size: 24px!important; /* Adjust font size as needed */
-}
-
-

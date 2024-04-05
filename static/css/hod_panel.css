@@ -12,3 +12,11 @@ body {
   width: 50%;
   box-shadow: 0 0px 25px rgba(0,0,0,0.4);
 }
+
+
+.footer{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  text-align: center;
+}

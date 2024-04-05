@@ -1,6 +1,16 @@
+body {
+  background-color: #f0f0f0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+
+}
+
 h1,h2 {
   margin: 10px 0;
   text-align: center;
+  text-decoration: #fff!important;
+    text-transform: uppercase;
+    letter-spacing: 3px;
 } */
 ul {
   list-style: none;
@@ -111,7 +121,16 @@ button.button:hover {
   padding: 20px;
 }
 
+.student-scores{
+  padding-top: 50px;
+  padding: 20px;
+  letter-spacing: 1px;
+  column-count: 2; 
+}
 
+.student-scores li{
+  padding: 5px;
+}
 
 
 .student-college-details {  display: grid;
@@ -122,7 +141,7 @@ button.button:hover {
   grid-template-areas:
     "student-photo"
     "student-details";
-  grid-area: student-college-details;
+  grid-area: student-college-details ;
 
   /*container styling*/
   background-color: #fff;
@@ -139,30 +158,23 @@ button.button:hover {
 .student-details { 
   grid-area: student-details;
   margin-left: 10%;
-  margin-top: 30px;
+  
+  padding: 20px;
+  
 }
 
-.student-platform-details { grid-area: student-platform-details; }
-.Announcements ul {
-  list-style-type: circle;
-   /* Change bullet point style to circle */
-}
-
-.Announcements{
-  justify-content: center;
-  width: 30%;
-  margin: 0 auto;
+.student-platform-details { 
+  grid-area: student-platform-details;
   /*container styling*/
   background-color: #fff;
   border: 2px solid #fff;
   border-radius: 10px;
   box-shadow: 0 0px 25px rgba(0,0,0,0.4);
   padding: 20px;
+  
+
 }
 
-.announcements-content{
-  padding-left: 20%;
-}
 .navbar {
   display: grid;
   grid-template-columns: auto auto 1fr; /* Columns for logo, company name, and nav links */
@@ -185,9 +197,9 @@ button.button:hover {
 a.logo{
   padding-right: 5px;
 }
-a {
+.navbar a {
   display: inline-block;
-  padding: 20px;
+  padding: 10px;
   text-decoration: none;
   color: white;
 }
@@ -202,13 +214,20 @@ a:hover {
   padding: 0;
   text-align: right; /* Align navigation links to the right */
   grid-column: 3;
-  margin-right: 40px; /* Set navigation links to span the third column */
+  margin-right: 20px; /* Set navigation links to span the third column */
+  cursor: pointer;
 }
 
 
 .nav-items li {
   display: inline-block;
-  margin-left: 20px; /* Adjust spacing between links */
+  margin-left: 20px;
+  text-decoration: #fff!important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    
+    
+   /* Adjust spacing between links */
 }
 
 .nav-items li:first-child {
@@ -218,6 +237,7 @@ a:hover {
 .nav-items li a {
   text-decoration: none;
   color: white;
+  padding-top: 5px;
 }
 
 .nav-items li a:hover {
@@ -236,6 +256,7 @@ a:hover {
   z-index: 1;
   top: 100%; /* Position the dropdown below the menu item */
   left: 0;
+  text-transform: capitalize;
 }
 
 .dropdown-content a {
@@ -244,6 +265,7 @@ a:hover {
   display: block;
   text-align: center;
   text-decoration: none;
+  
 }
 
 .dropdown-content a:hover {
@@ -258,4 +280,20 @@ a:hover {
   display: block;
   margin-top: 10px; /* Adjust margin as needed */
   font-size: 24px; /* Adjust font size as needed */
+}
+
+
+.announcements{
+  width: 500px;
+  margin: 0 auto;
+  /*container styling*/
+  background-color: #fff;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  box-shadow: 0 0px 25px rgba(0,0,0,0.4);
+  padding: 20px;
+}
+
+.announcements-content{
+  padding-left: 20%;
 }

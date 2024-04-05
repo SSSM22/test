@@ -9,109 +9,129 @@ body {
   }
 
   h1{
-    text-decoration: #fff!important;
+    text-decoration: #fff;
     text-transform: uppercase;
     letter-spacing: 3px;
+
+  }
+
+  .submit-button{
+    color: #fff;
+    font-weight: bold;
+    background-color: #333;
+    box-shadow: 0px 5px 10px rgba( 0, 0, 0, 0.3 );
+    border: 2px;
+    border-radius: 20px;
+    width: 100px;
+    cursor: pointer;
+
   }
 
 /*Navigation Bar*/
 
 
 .navigationbar {
-    display: grid !important; 
-    grid-template-columns: auto auto 1fr !important; /* Columns for logo, company name, and nav links */
-    align-items: center !important; /* Align items vertically */
-    padding: 10px !important;
-    background-color: #333 !important;
-    color: white!important;
+  display: grid;
+  grid-template-columns: auto auto 1fr; /* Columns for logo, company name, and nav links */
+  align-items: center; /* Align items vertically */
+  padding: 10px;
+  background-color: #333;
+  color: white;
     
   }
   
   .logo-image img {
-    height: 50px!important;
-    width: auto!important;
+    height: 50px;
+    width: auto;
   }
   
   .college-name h1 {
-    margin: 0!important;
+    margin: 0;
   }
   
-  a.logo{
-    padding-right: 5px!important;
+  .logo{
+    padding-right: 5px;
   }
-  a {
-    display: inline-block!important;
-    padding: 20px!important;
-    text-decoration: none!important;
-    color: white!important;
+  .navigationbar a {
+    display: inline-block;
+    padding: 10px;
+    text-decoration: none;
+    color: white;
   }
   
   a:hover {
-    text-decoration: none!important;
+    text-decoration: none;
   }
   
   .navigation-items {
-    list-style-type: none!important;
-    margin: 0!important;
-    padding: 0!important;
-    text-align: right!important; /* Align navigation links to the right */
-    grid-column: 3!important;
-    margin-right: 40px!important; /* Set navigation links to span the third column */
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: right; /* Align navigation links to the right */
+    grid-column: 3;
+    margin-right: 20px; /* Set navigation links to span the third column */
   }
   
   
   .navigation-items li {
-    display: inline-block!important;
-    margin-left: 20px!important; /* Adjust spacing between links */
+    display: inline-block;
+    margin-left: 10px; /* Adjust spacing between links */
   }
   
   .navigation-items li:first-child {
-    margin-left: 0!important; /* Remove left margin from the first link */
+    margin-left: 0; /* Remove left margin from the first link */
   }
   
   .navigation-items li a {
-    text-decoration: none!important;
-    color: white!important;
+    text-decoration: none;
+    color: white;
+    padding-top: 0px;
   }
   
   .navigation-items li a:hover {
-    opacity: 0.6!important;
+    opacity: 0.6;
   }
   
+
+
   .dropdown {
-    position: relative!important;
+    position: relative;
   }
   
+.navigation-items .dropdown-content a{
+  padding: 10px;
+}
+
   .dropdown-content {
-    display: none!important;
-    position: absolute!important;
-    background-color: #333!important;
-    min-width: 100px!important;
-    z-index: 1!important;
-    top: 100%!important; /* Position the dropdown below the menu item */
-    left: 0!important;
+    display: none;
+    position: absolute;
+    background-color: #333;
+    min-width: 100px;
+    z-index: 1;
+    top: 100%; /* Position the dropdown below the menu item */
+    left: 0;
   }
   
   .dropdown-content a {
-    color: white!important;
-    padding: 12px 16px!important;
-    display: block!important;
-    text-align: center!important;
-    text-decoration: none!important;
+    color: white;
+    padding: 12px 16px;
+    display: block;
+    text-align: center;
+    text-decoration: none;
   }
   
   .dropdown-content a:hover {
-    background-color: #555!important;
+    background-color: #555;
   }
   
   .dropdown:hover .dropdown-content {
-    display: block!important;
+    display: block;
   }
   
   .dropdown i {
-    display: block!important;
-    margin-top: 10px!important; /* Adjust margin as needed */
-    font-size: 24px!important; /* Adjust font size as needed */
+    display: block;
+    margin-top: 10px; /* Adjust margin as needed */
+    font-size: 24px; /* Adjust font size as needed */
   }
   
   
@@ -129,7 +149,7 @@ body {
   margin: 10px 70px 70px;
   box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
   overflow-x: auto;
-  max-height: 1000px;
+  max-height: 600px;
 }
 
 .tablebody {
@@ -182,21 +202,17 @@ body {
     background-color: white;
   }
 
-  .fixed-left-column {
-    left: 0;
-    z-index: 1;
-  }
 
   .fixed-column:nth-child(2) {
-    left: 100px; /* Adjust as needed */
+    left: 94px; /* Adjust as needed */
   }
   
   .fixed-column:nth-child(3) {
-    left: 185px; /* Adjust as needed */
+    left: 182px; /* Adjust as needed */
   }
 
   .fixed-column:nth-child(4) {
-    left: 493px; /* Adjust as needed */
+    left: 490px; /* Adjust as needed */
   }
 
   .fixed-headers th {
@@ -205,6 +221,8 @@ body {
     background-color: #f2f2f2; /* Optional: Add background color */
     z-index: 2; /* Ensure they stay above other elements */
   }
+
+
 
 
 /* Responsive */
