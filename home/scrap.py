@@ -175,7 +175,7 @@ def get(usernames: list, func) -> list: # usernames is a list of dictionaries ha
 
 # Profiles for testing purposes
 # leetrate('sssm_2003')
-print(leetrate('srivandanatalla'))
+# print(leetrate('srivandanatalla'))
 # print(coderate("srivandana"))
 # print(forcesrate("srivandanatalla"))
 # print(spojrate("srivandana"))
