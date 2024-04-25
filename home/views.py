@@ -123,7 +123,7 @@ def validate(request):
         s_br=students.filter(roll_no=request.user.username).values_list('branch', flat=True)[0] #getting the branch of the student from queryset
         return render(request, 'over_view.html', {'students': students.filter(branch=s_br)})
 
-
+@login_required
 def report(request):
     q=request.GET.get('q') if request.GET.get('q') != None else ''
     score_gt = request.GET.get('score_gt', '')  # Score greater than
@@ -144,7 +144,7 @@ def report(request):
         context['branch'] = dic_branch[request.user.username]
     return render(request, 'report.html', context)
 
-
+@login_required
 def load_rows(request):
     checks = request.GET.get("checks")
     print(checks)
@@ -368,8 +368,8 @@ def hod_view(request):
         if request.method == 'GET':
             roll = request.GET["Roll"]
             students = display_students(request)
-
-            students = students.filter(roll_no=roll)
+            students = students.filter(roll_no=roll,branch=dic_branch[username])
+            request.session['search_roll'] = roll
             if(students.count()==0):
                 messages.info(request, 'No students found')
                 return redirect('hod')
@@ -416,22 +416,13 @@ def change_password(request):
         'form': form
     })
 
-
-# class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
-#     template_name = 'password_reset.html'
-#     email_template_name = 'password_reset_email.html'
-#     subject_template_name = 'users/password_reset_subject'
-#     success_message = "We've emailed you instructions for setting your password, " \
-#                       "if an account exists with the email you entered. You should receive them shortly." \
-#                       " If you don't receive an email, " \
-#                       "please make sure you've entered the address you registered with, and check your spam folder."
-#     success_url = reverse_lazy('login')
-
-# views.py
-
 @login_required
 def usernames(request):
-    roll = request.user.username 
+    if(request.user.is_staff):
+        roll =request.session['search_roll']
+        print(roll)
+    else:
+        roll = request.user.username
     un = StudentMaster.objects.all().filter(roll_no=roll)
     context = {
         'un': un     

@@ -287,7 +287,7 @@ var config = {
       {% for i in announcements %}
       <li>
         {% if "https://" in i.text_input or "www." in i.text_input %}
-        <a href="{{ i.text_input }}" style="color: black;"> {{ i.text_input }}</a>
+        <a href="{{ i.text_input }}" style="color: black;" target=”_blank”> {{ i.text_input }}</a>
         {% else %}
         <p>{{ i.text_input }}</p>
         {% endif %}

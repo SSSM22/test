@@ -42,14 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_htmx',
     'rest_framework',
-    'corsheaders',
 
 ]
 
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',   #whitenoise is used to serve static files on production
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -93,7 +90,7 @@ DATABASES = {
         'USER': 'root', #sssm
         'HOST': 'localhost',#vardhamanstudent-data.mysql.database.azure.com', 
         'PORT': 3306,
-        'PASSWORD': 'Pranav_001',#'abcd1234!@', #root
+        'PASSWORD': 'root',#'abcd1234!@', #root
     }
 }
 
