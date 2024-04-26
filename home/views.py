@@ -369,7 +369,7 @@ def hod_view(request):
             roll = request.GET["Roll"]
             students = display_students(request)
             students = students.filter(roll_no=roll,branch=dic_branch[username])
-            request.session['search_roll'] = roll
+            request.session['search_roll'] = roll #saving into session variable to access it in the next view
             if(students.count()==0):
                 messages.info(request, 'No students found')
                 return redirect('hod')
