@@ -53,18 +53,17 @@ def student_panel(request):
 
 def hod_panel(request):
     dept=request.session['department']
-    # print(dept)
+    # print(len(dept))
     avgs=Averages.objects.values()
-    dept_avg = []
+    overall_avg = {'cse':[],'it':[],'ece':[],'eee':[],'csm':[],'aids':[],'aiml':[],'mec':[],'civ':[],'college':[]} #dictionary to store the averages of each department
     for i in avgs:
-        dept_avg.append({i['averages']:float(i[dept])})
-    # print(dept_avg)
-    avgs=Averages.objects.values()
-    clg_avg = []
-    for i in avgs:
-        clg_avg.append({i['averages']:float(i['college'])})
+        if i['averages'] != 'dept':
+            for j in i:
+                if j != 'averages':
+                    overall_avg[j].append(float(i[j]))
+    # print(overall_avg)
 
-    return render(request, 'hod_panel.html', {'hod': request.user.username ,"dept_avg": dept_avg,"clg_avg":clg_avg,'platforms': ['CodeChef', 'CodeForce', 'Spoj','Hackerrank','Interviewbit','Leetcode','Geeksforgeeks'], })
+    return render(request, 'hod_panel.html', {'hod': request.user.username ,"overall_avg": overall_avg,'platforms': ['CodeChef', 'CodeForce', 'Geeksforgeeks','Hackerrank','Interviewbit','Leetcode','Spoj'],'dept':str(dept) })
 
 
 def scatter_plot(request,roll):
