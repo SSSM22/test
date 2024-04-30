@@ -44,6 +44,14 @@
     </style>
 </head>
 <body>
+    <ul>
+        {% for avg in dept_avg %}
+            {{ avg|safe }}
+        {% endfor %}
+        {% for avg in clg_avg %}
+            {{ avg|safe }}
+        {% endfor %}
+        </ul>
     <div class="position-absolute top-50 start-50 translate-middle">
         <div class="container custom-box">
             <div class="row">
@@ -95,11 +103,46 @@
             <button class="btn btn-primary  btn-block rounded-pill mt-2 custom-button" onclick="window.location.href='/logout'" type="button">Logout</button>
         </div>
             </form>
-
-
-        
                 </div>
             </div>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+                var platforms = {{platforms|safe}}; // ALl platforms 
+                var dept_avg = {{dept_avg|safe}}; 
+                var clg_avg = {{clg_avg|safe}}; 
+            
+                var ctx = document.getElementById('bargraph').getContext('2d');
+                var chart = new Chart(ctx, {
+                  type: 'bar',
+                  data: {
+                    labels: platforms,
+                    datasets: [{
+                      label: ' Department Average Score',
+                      data: dept_avg,
+                      backgroundColor: 'rgba(255, 0, 0, 1)',
+                      borderColor: 'rgba(255, 99, 132, 1)',
+                      borderWidth: 1
+                    },
+                    {
+                      label: 'College Average Score',
+                      data: clg_avg,
+                      backgroundColor: 'rgba(87, 183, 235, 1) ',
+                      borderColor: 'rgba(54, 162, 235, 1)',
+                      borderWidth: 1
+                    }]
+                  },
+                  options: {
+                    scales: {
+                      yAxes: [{
+                        ticks: {
+                          beginAtZero: true
+                        }
+                      }]
+                    }
+                  }
+                });
+              </script>
        
 </div>
 </body>
