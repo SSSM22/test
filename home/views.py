@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.db import connection, transaction, IntegrityError
 from django.db.models import F
-from .models import  StudentMaster, StudentScores
+from .models import  Averages, StudentMaster, StudentScores
 from django.contrib.auth import authenticate, login, logout,update_session_auth_hash
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -52,7 +52,18 @@ def student_panel(request):
 
 
 def hod_panel(request):
-    return render(request, 'hod_panel.html', {'hod': request.user.username})
+    dept=request.session['department']
+    # print(len(dept))
+    avgs=Averages.objects.values()
+    overall_avg = {'cse':[],'it':[],'ece':[],'eee':[],'csm':[],'aids':[],'aiml':[],'mec':[],'civ':[],'college':[]} #dictionary to store the averages of each department
+    for i in avgs:
+        if i['averages'] != 'dept':
+            for j in i:
+                if j != 'averages':
+                    overall_avg[j].append(float(i[j]))
+    # print(overall_avg)
+
+    return render(request, 'hod_panel.html', {'hod': request.user.username ,"overall_avg": overall_avg,'platforms': ['CodeChef', 'CodeForce', 'Geeksforgeeks','Hackerrank','Interviewbit','Leetcode','Spoj'],'dept':str(dept) })
 
 
 def scatter_plot(request,roll):
@@ -289,6 +300,7 @@ def auth_login(request):
             if user.is_superuser:
                 return redirect("/admin_panel")
             if user.is_staff:
+                request.session['department']=dic_branch[username] #storing department of the HOD logged in, to 
                 return redirect('/hod_panel')
             st=StudentMaster.objects.get(roll_no=username)
             if user.last_login is None: #if user is logging in for the first time then he will be redirected to change password page
@@ -439,11 +451,22 @@ def update_usernames(request):
         ib = request.POST['interviewbit_username']
         lc = request.POST['leetcode_username']
         gfg = request.POST['gfg_username']
+<<<<<<< HEAD
         try:
             StudentMaster.objects.filter(roll_no=request.user.username).update(hackerrank_username=hu, codeforces_username=cf,codechef_username=cc, spoj_username=sp, interviewbit_username=ib, leetcode_username=lc, gfg_username=gfg)
             messages.success(request, "Sucessfully Updated")
         except:
             messages.error("Couldn't Update")
+=======
+        if(request.user.is_staff):
+            roll =request.session['search_roll']
+            print(roll)
+        else:
+                roll = request.user.username  # change this when student doesnt require editing usernames
+        StudentMaster.objects.filter(roll_no=roll).update(hackerrank_username=hu, codeforces_username=cf,codechef_username=cc, spoj_username=sp, interviewbit_username=ib, leetcode_username=lc, gfg_username=gfg)
+        messages.success(request, "Sucessfully Upated")
+
+>>>>>>> 9d00b25368ea931ac05c094a61a8d489b3f50da4
     return redirect('/usernames')
 
 
