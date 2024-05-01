@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 import os
 import numpy as np
 load_dotenv()
-current_academic_year = os.getenv('CURRENT_ACADEMIC_YEAR')
+current_academic_year = 2024
 
 from .announcementform import AnnouncementForm
 from .models import Announcement
@@ -66,22 +66,26 @@ def hod_panel(request):
     profiles = StudentMaster.objects.filter(branch=dept)
     # print(profiles)
     profile_details = {"codechef_username":{"registered":0,"unregistered":0},"codeforces_username":{"registered":0,"unregistered":0},"spoj_username":{"registered":0,"unregistered":0},"hackerrank_username":{"registered":0,"unregistered":0},"interviewbit_username":{"registered":0,"unregistered":0},"leetcode_username":{"registered":0,"unregistered":0},"gfg_username":{"registered":0,"unregistered":0}}
-
+    
+    year_wise_profiles = {1:{"codechef_username":{"registered":0,"unregistered":0},"codeforces_username":{"registered":0,"unregistered":0},"gfg_username":{"registered":0,"unregistered":0},"hackerrank_username":{"registered":0,"unregistered":0},"interviewbit_username":{"registered":0,"unregistered":0},"leetcode_username":{"registered":0,"unregistered":0},"spoj_username":{"registered":0,"unregistered":0}},
+                          2:{"codechef_username":{"registered":0,"unregistered":0},"codeforces_username":{"registered":0,"unregistered":0},"gfg_username":{"registered":0,"unregistered":0},"hackerrank_username":{"registered":0,"unregistered":0},"interviewbit_username":{"registered":0,"unregistered":0},"leetcode_username":{"registered":0,"unregistered":0},"spoj_username":{"registered":0,"unregistered":0}},
+                          3:{"codechef_username":{"registered":0,"unregistered":0},"codeforces_username":{"registered":0,"unregistered":0},"gfg_username":{"registered":0,"unregistered":0},"hackerrank_username":{"registered":0,"unregistered":0},"interviewbit_username":{"registered":0,"unregistered":0},"leetcode_username":{"registered":0,"unregistered":0},"spoj_username":{"registered":0,"unregistered":0}},
+                          4:{"codechef_username":{"registered":0,"unregistered":0},"codeforces_username":{"registered":0,"unregistered":0},"gfg_username":{"registered":0,"unregistered":0},"hackerrank_username":{"registered":0,"unregistered":0},"interviewbit_username":{"registered":0,"unregistered":0},"leetcode_username":{"registered":0,"unregistered":0},"spoj_username":{"registered":0,"unregistered":0}}  }
     for profile in profiles:
+        
         for platform in ['codechef_username', 'codeforces_username', 'spoj_username', 'hackerrank_username', 'interviewbit_username', 'leetcode_username', 'gfg_username']:
-            registered = 0
-            unregistered = 0
 
             if(getattr(profile,platform) == "None"):
-                unregistered += 1
+                year_wise_profiles[current_academic_year-profile.year+4][platform]["unregistered"] += 1
             else:
-                registered += 1
-            profile_details[platform]["registered"] += registered
-            profile_details[platform]["unregistered"] += unregistered
-    
-    print(profile_details)
+                year_wise_profiles[current_academic_year-profile.year+4][platform]["registered"] += 1
 
-    return render(request, 'hod_panel.html', {'hod': request.user.username ,"overall_avg": overall_avg,'platforms': ['CodeChef', 'CodeForce', 'Geeksforgeeks','Hackerrank','Interviewbit','Leetcode','Spoj'],'dept':str(dept) })
+    # print(year_wise_profiles)
+
+    return render(request, 'hod_panel.html', {'hod': request.user.username ,"overall_avg": overall_avg,
+                                              'platforms': ['CodeChef', 'CodeForce', 'Geeksforgeeks','Hackerrank','Interviewbit','Leetcode','Spoj'],
+                                              'dept':str(dept),
+                                              'year_wise_profiles':year_wise_profiles })
 
 
 def scatter_plot(request,roll):
