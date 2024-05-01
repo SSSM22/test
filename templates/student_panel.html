@@ -168,7 +168,17 @@
                   </div>
                 
                 </div>
+
         
+              </div>
+          </div>
+          <div>
+            <div class="line-header">
+              <h2>Department Average</h2>
+            </div>
+            <div class="chart-container" style="padding-left: 15%; padding-top: 5%; padding-right: 10%; height: 100%; width: auto;">
+              <div>
+                <canvas id="deptavg" ></canvas>
               </div>
           </div>
           </div>
@@ -186,7 +196,7 @@ var config = {
         datasets: [{
           data: {{ data|safe }},
           backgroundColor: [
-          '#FF0000', '#FFFF00', '#00FFFF', '#C0C0C0', '#D3D3D3', '#008080', '#006400'
+          '#FF0000', '#0000FF', '#00FFFF', '#00FF00', '#FFFF00', '#008080', '#006400'
           ],
           label: 'Population'
         }],
@@ -234,11 +244,78 @@ var config = {
       });
     </script> -->
 
+ <script>
+    let platforms = {{platforms|safe}}; // ALl platforms 
+    let average_scores_college = {{average_scores|safe}}['college'];
+    let average_scores_dept = {{average_scores|safe}}['{{image}}'];
+    var student_scores = [{{details.roll_no.codechef_score}},{{details.roll_no.codeforces_score}},{{details.roll_no.spoj_score}},{{details.roll_no.hackerrank_score}},
+    {{details.roll_no.interviewbit_score}},{{details.roll_no.leetcode_score}},{{details.roll_no.gfg_score}}]; 
 
+    var ctx = document.getElementById('bargraph').getContext('2d');
+    var rtx=document.getElementById('deptavg').getContext('2d');
+    var chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: platforms,
+        datasets: [{
+          label: 'Average Score',
+          data: average_scores_college,
+          backgroundColor: 'rgba(255, 0, 0, 1)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'Student Score',
+          data: student_scores,
+          backgroundColor: 'rgba(87, 183, 235, 1) ',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+    var chart1=new Chart(rtx,{
+      type:'bar',
+      data: {
+        labels: platforms,
+        datasets: [{
+          label: 'Average Score',
+          data: average_scores_dept,
+          backgroundColor: 'rgba(255, 0, 0, 1)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'Student Score',
+          data: student_scores,
+          backgroundColor: 'rgba(87, 183, 235, 1) ',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+  </script>
 
   <script>
-    var platforms = {{platforms|safe}}; // ALl platforms 
-    var average_scores = {{average_scores|safe}}; 
+    let platforms = {{platforms|safe}}; // ALl platforms 
+    let average_scores = {{average_scores|safe}}['college'];;
     var student_scores = [{{details.roll_no.codechef_score}},{{details.roll_no.codeforces_score}},{{details.roll_no.spoj_score}},{{details.roll_no.hackerrank_score}},
     {{details.roll_no.interviewbit_score}},{{details.roll_no.leetcode_score}},{{details.roll_no.gfg_score}}]; 
 
@@ -299,7 +376,10 @@ var config = {
     </ul>
   </div>
   </div>
-
+  <div class="chart-container" style="padding-left: 15%; padding-top: 5%; padding-right: 10%; height: 100%; width: auto;">
+    <div>
+      <canvas id="deptavg" ></canvas>
+    </div>
   <!-- <script>
       // Get the data from Django view
       var labels = {{ Glabels| safe }};
@@ -312,27 +392,7 @@ var config = {
         data: {
           labels: labels,
           datasets: [{
-            label: 'Sample Data',
-            data: data,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-          }]
-        },
-        options: {
-          scales: {
-            x: {
-              display: false,
-              ticks: {
-                display: false // This will hide the x-axis labels
-              }
-            },
-            y: {
-            }
-          }
-        }
-      });
-    </script> -->
+            lab
 
 </body>
 

@@ -327,7 +327,6 @@ def student_view(request, username):
         announcement = Announcement.objects.all()
         # scatter_plot(request,roll)
         det = StudentMaster.objects.select_related('roll_no').filter(roll_no=roll)
-        print(det)
         labels, data = pie_chart(request, roll)
         xvalues, yvalues =scatter_plot(request,roll)
         print(xvalues,yvalues)
@@ -336,22 +335,13 @@ def student_view(request, username):
         Gdata = [int(x.strip()) for x in data_string.split(',')]
         Glabels = [str(i+1) for i in range(30)]
         #end graph
-        platforms = ['CodeChef', 'CodeForce', 'Spoj','Hackerrank','Interviewbit','Leetcode','Geeksforgeeks']
-        average_scores=[]
-        codechef_average = StudentScores.objects.values_list('codechef_score')
-        average_scores.append(round(np.mean(list(codechef_average)),2))
-        codeforces_average = StudentScores.objects.values_list('codeforces_score')
-        average_scores.append(round(np.mean(list(codeforces_average)),2))
-        spoj_average = StudentScores.objects.values_list('spoj_score')
-        average_scores.append(round(np.mean(list(spoj_average)),2))
-        hackerrank_average = StudentScores.objects.values_list('hackerrank_score')
-        average_scores.append(round(np.mean(list(hackerrank_average)),2))
-        interviewbit_average = StudentScores.objects.values_list('interviewbit_score')
-        average_scores.append(round(np.mean(list(interviewbit_average)),2))
-        leetcode_average = StudentScores.objects.values_list('leetcode_score')
-        average_scores.append(round(np.mean(list(leetcode_average)),2))
-        gfg_average = StudentScores.objects.values_list('gfg_score')
-        average_scores.append(round(np.mean(list(gfg_average)),2))
+        overall_avg = {'cse':[],'it':[],'ece':[],'eee':[],'csm':[],'aids':[],'aiml':[],'mec':[],'civ':[],'college':[]} #dictionary to store the averages of each department
+        avgs=Averages.objects.values()
+        for i in avgs:
+            if i['averages'] != 'dept':
+                for j in i:
+                    if j != 'averages':
+                        overall_avg[j].append(float(i[j]))
         context = {
             'staff': request.user.is_staff,
             'username': roll,
@@ -365,8 +355,8 @@ def student_view(request, username):
             'announcements': announcement,
             'Glabels': Glabels,
             'Gdata': Gdata,
-            'platforms': platforms,
-            'average_scores':average_scores,
+            'platforms': ['CodeChef', 'CodeForce', 'Geeksforgeeks','Hackerrank','Interviewbit','Leetcode','Spoj'],
+            'average_scores':overall_avg,
 
         }
         return render(request, 'student_panel.html', context)
