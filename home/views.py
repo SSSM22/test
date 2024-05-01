@@ -336,13 +336,13 @@ def student_view(request, username):
         Gdata = [int(x.strip()) for x in data_string.split(',')]
         Glabels = [str(i+1) for i in range(30)]
         #end graph
-        platforms = ['CodeChef', 'CodeForce', 'Geeksforgeeks','Hackerrank','Interviewbit','Leetcode','Spoj']
-        average_scores={"dept":[],"college":[]}
+        platforms = ['CodeChef', 'CodeForce', 'Spoj','Hackerrank','Interviewbit','Leetcode','Geeksforgeeks']
+        average_scores={"dept":[], "college":[]}
         # codechef_average = StudentScores.objects.values_list('codechef_score')
         # average_scores.append(round(np.mean(list(codechef_average)),2))
         # codeforces_average = StudentScores.objects.values_list('codeforces_score')
         # average_scores.append(round(np.mean(list(codeforces_average)),2))
-        # spoj_average = StudentScores.objects.values_list('gfg_score')
+        # spoj_average = StudentScores.objects.values_list('spoj_score')
         # average_scores.append(round(np.mean(list(spoj_average)),2))
         # hackerrank_average = StudentScores.objects.values_list('hackerrank_score')
         # average_scores.append(round(np.mean(list(hackerrank_average)),2))
@@ -350,19 +350,18 @@ def student_view(request, username):
         # average_scores.append(round(np.mean(list(interviewbit_average)),2))
         # leetcode_average = StudentScores.objects.values_list('leetcode_score')
         # average_scores.append(round(np.mean(list(leetcode_average)),2))
-        # gfg_average = StudentScores.objects.values_list('spoj_score')
+        # gfg_average = StudentScores.objects.values_list('gfg_score')
         # average_scores.append(round(np.mean(list(gfg_average)),2))
+
         avgs = Averages.objects.values()
         for i in avgs:
-            if i['averages'] != "dept":
+            if i['averages'] != 'dept':
                 for j in i:
                     if j == det[0].branch:
                         average_scores["dept"].append(float(i[j]))
                     if j == "college":
                         average_scores["college"].append(float(i[j]))
-        
-        print(average_scores)
-
+            
         context = {
             'staff': request.user.is_staff,
             'username': roll,
@@ -376,7 +375,7 @@ def student_view(request, username):
             'announcements': announcement,
             'Glabels': Glabels,
             'Gdata': Gdata,
-            'platforms': platforms,
+            'platforms': ['CodeChef', 'CodeForce', 'Geeksforgeeks','Hackerrank','Interviewbit','Leetcode','Spoj'],
             'average_scores':average_scores,
 
         }
