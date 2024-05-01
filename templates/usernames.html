@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <title>Update Usernames</title>
     <style>
         body {
@@ -12,6 +14,9 @@
             background-color: #f4f4f4;
             margin: 20px;
             padding: 20px;
+            margin-left: auto;
+  margin-right: auto;
+            
         }
 
         h2 {
@@ -20,17 +25,28 @@
         }
 
         form {
+            
+            width: 800px;
             margin-bottom: 20px;
             padding: 15px;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-left: auto;
+  margin-right: auto;
         }
 
         label {
             display: block;
             margin: 10px 0;
         }
+
+        hr {
+        border: none;
+        height: 1px;
+        background-color: rgba(255, 255, 255, 0.24); /* Change "gray" to your desired color */
+        }
+
 
         input {
             width: 100%;
@@ -41,13 +57,17 @@
             border-radius: 4px;
         }
 
+        
+
         button {
             background-color: #4caf50;
             color: #fff;
             padding: 10px 15px;
             border: none;
-            border-radius: 4px;
+            border-radius: 10px;
             cursor: pointer;
+            margin: 20px;
+            
         }
 
         button:hover {
@@ -74,6 +94,56 @@
         .logout-button:hover {
             background-color: #e64a19;
         }
+
+        .username_container input{
+            min-width: 300px;
+            height: 45px;
+            border-radius: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            padding-left: 20px;
+        }
+        
+        .username_container li{
+            width: 95%;
+            display: grid;
+            grid-template-columns: 0.45fr 0.45fr 0.45fr;
+            padding: 10px;
+            padding-left: 20px;
+            border-radius: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .username_container label{
+            color: #333;
+            font-weight: bold; 
+            display: inline;
+               
+        }
+
+
+        .info-icon {
+        position: relative;
+        display: inline-block;
+        margin-left: 30px;
+        margin-top: 10px;
+        cursor: pointer;
+        }
+        .info-icon .tooltip {
+        display: none;
+        position: absolute;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -60px;
+        }
+        .info-icon:hover .tooltip {
+        display: block;
+        }
     </style>
 </head>
 
@@ -81,7 +151,7 @@
     <h2>Update Usernames</h2>
 
     {% if messages %}
-    <ul class="messages">
+    <ul class="messages" style="color: #4caf50;">
         {% for message in messages %}
         <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
             {% endfor %}
@@ -89,47 +159,86 @@
     {% endif %}
 
     {% for u in un %}
-    <form method="post" action="{% url 'update_usernames' %}">
+    <form method="post" action="{% url 'update_usernames' %}" class="username_container">
         {% csrf_token %}
-
+        <ul>
         <!-- Username 1 -->
-        <label for="hackerrank_username">Hackerrank Username</label>
+        <li><label for="hackerrank_username">Hackerrank Username</label>
         <input type="text" name="hackerrank_username" id="hackerrank_username" value="{{ u.hackerrank_username }}"
             required>
         <!-- <button type="submit" name="submit_username_1">Update Username 1</button> -->
-
+        <div class="info-icon">
+            <img src="/static/images/information-button.png" alt="" height="20px" width="20px">
+            <span class="tooltip">Additional information goes here.</span>
+          </div>
+    </li>
+    <hr>
         <!-- Username 2 -->
-        <label for="codeforces_username">Codeforces Username</label>
+    <li><label for="codeforces_username">Codeforces Username</label>
         <input type="text" name="codeforces_username" id="codeforces_username" value="{{ u.codeforces_username }}"
             required>
         <!-- <button type="submit" name="submit_username_2">Update Username 2</button> -->
-
+        <div class="info-icon">
+            <img src="/static/images/information-button.png" alt="" height="20px" width="20px">
+            <span class="tooltip">Additional information goes here.</span>
+          </div>
+    </li>
+    <hr>
         <!-- Username 3 -->
-        <label for="codechef_username">Codechef Username</label>
+    <li>  <label for="codechef_username">Codechef Username</label>
         <input type="text" name="codechef_username" id="codechef_username" value="{{ u.codechef_username }}" required>
         <!-- <button type="submit" name="submit_username_3">Update Username 3</button> -->
-
+        <div class="info-icon">
+            <img src="/static/images/information-button.png" alt="" height="20px" width="20px">
+            <span class="tooltip">Additional information goes here.</span>
+          </div>
+    </li>
+    <hr>
         <!-- Username 4 -->
-        <label for="spoj_username">Spoj Username</label>
+    <li><label for="spoj_username">Spoj Username</label>
         <input type="text" name="spoj_username" id="spoj_username" value="{{ u.spoj_username }}" required>
         <!-- <button type="submit" name="submit_username_4">Update Username 4</button> -->
-
-        <!-- Username 5 -->
+        <div class="info-icon">
+            <img src="/static/images/information-button.png" alt="" height="20px" width="20px">
+            <span class="tooltip">Additional information goes here.</span>
+          </div>
+    </li>
+    <hr>
+    <li> <!-- Username 5 -->
         <label for="interviewbit_username">Interviewbit Username</label>
         <input type="text" name="interviewbit_username" id="interviewbit_username" value="{{ u.interviewbit_username }}"
             required>
         <!-- <button type="submit" name="submit_username_5">Update Username 5</button> -->
-
+        <div class="info-icon">
+            <img src="/static/images/information-button.png" alt="" height="20px" width="20px">
+            <span class="tooltip">Additional information goes here.</span>
+          </div>
+    </li>
+    <hr>
         <!-- Username 6 -->
-        <label for="leetcode_username">Leetcode Username</label>
+    <li> <label for="leetcode_username">Leetcode Username</label>
         <input type="text" name="leetcode_username" id="leetcode_username" value="{{ u.leetcode_username }}" required>
         <!-- <button type="submit" name="submit_username_6">Update Username 6</button> -->
-
+        <div class="info-icon">
+            <img src="/static/images/information-button.png" alt="" height="20px" width="20px">
+            <span class="tooltip">Additional information goes here.</span>
+          </div>
+    </li>
+    <hr>
         <!-- Username 7 -->
+    <li>  
         <label for="gfg_username">GFG Username</label>
         <input type="text" name="gfg_username" id="gfg_username" value="{{ u.gfg_username }}" required>
+        <div class="info-icon">
+            <img src="/static/images/information-button.png" alt="" height="20px" width="20px">
+            <span class="tooltip">Additional information goes here.</span>
+          </div>
+    </li>
+    <hr>
+    
         <button type="submit" name="submit_username_7">Update Usernames</button>
-
+    
+    </ul>
     </form>
     <center><button class="logout-button" onclick="window.location.href='/logout'">Login again </button></center>
     {% endfor %}
