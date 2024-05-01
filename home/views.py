@@ -72,16 +72,16 @@ def scatter_plot(request,roll):
     return(scraped_dates, y_values)
 
 def pie_chart(request, roll):
-    labels = ['CodeChef', 'CodeForce', 'Spoj','Hackerrank','Interviewbit','Leetcode','Geeksforgeeks']
+    labels = ['CodeChef', 'CodeForce', 'Geeksforgeeks','Hackerrank','Interviewbit','Leetcode','Spoj']
     data = []
     scores =StudentMaster.objects.select_related('roll_no').get(roll_no=roll)#joining tables studentMaster table has foreign key roll_no
     data.append(scores.roll_no.codechef_score) #accessing the score of codechef of a particular student syntax
     data.append(scores.roll_no.codeforces_score)
-    data.append(scores.roll_no.spoj_score)
+    data.append(scores.roll_no.gfg_score)
     data.append(scores.roll_no.hackerrank_score)
     data.append(scores.roll_no.interviewbit_score)
     data.append(scores.roll_no.leetcode_score)
-    data.append(scores.roll_no.gfg_score)
+    data.append(scores.roll_no.spoj_score)  
     print(data)
     return (labels, data)
 
@@ -336,22 +336,8 @@ def student_view(request, username):
         Gdata = [int(x.strip()) for x in data_string.split(',')]
         Glabels = [str(i+1) for i in range(30)]
         #end graph
-        platforms = ['CodeChef', 'CodeForce', 'Spoj','Hackerrank','Interviewbit','Leetcode','Geeksforgeeks']
         average_scores={"dept":[], "college":[]}
         # codechef_average = StudentScores.objects.values_list('codechef_score')
-        # average_scores.append(round(np.mean(list(codechef_average)),2))
-        # codeforces_average = StudentScores.objects.values_list('codeforces_score')
-        # average_scores.append(round(np.mean(list(codeforces_average)),2))
-        # spoj_average = StudentScores.objects.values_list('spoj_score')
-        # average_scores.append(round(np.mean(list(spoj_average)),2))
-        # hackerrank_average = StudentScores.objects.values_list('hackerrank_score')
-        # average_scores.append(round(np.mean(list(hackerrank_average)),2))
-        # interviewbit_average = StudentScores.objects.values_list('interviewbit_score')
-        # average_scores.append(round(np.mean(list(interviewbit_average)),2))
-        # leetcode_average = StudentScores.objects.values_list('leetcode_score')
-        # average_scores.append(round(np.mean(list(leetcode_average)),2))
-        # gfg_average = StudentScores.objects.values_list('gfg_score')
-        # average_scores.append(round(np.mean(list(gfg_average)),2))
 
         avgs = Averages.objects.values()
         for i in avgs:
