@@ -253,6 +253,30 @@
             });
           </script>
         </div>
+        <div style="margin: 50px">
+          <table>
+            <tr>
+              <td>year</td>
+              <td>codechef</td>
+              <td>codeforces</td>
+              <td>geeks</td>
+              <td>hackerrank</td>
+              <td>interviewbit</td>
+              <td>leet</td>
+              <td>spoj</td>
+            </tr>
+
+            {% for key, values in year_wise_profiles.items %}
+            <tr>
+              <td>{{key}}</td>
+
+              {% for k, v in values.items %} {% for kf, vf in v.items %}
+              <td>{{vf}}</td>
+              {% endfor %} {% endfor %}
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
       </div>
     </div>
   </body>

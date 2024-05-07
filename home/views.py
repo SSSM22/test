@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 import os
 import numpy as np
 load_dotenv()
-current_academic_year = os.getenv('CURRENT_ACADEMIC_YEAR')
+current_academic_year = 2024
 
 from .announcementform import AnnouncementForm
 from .models import Announcement
@@ -63,7 +63,29 @@ def hod_panel(request):
                     overall_avg[j].append(float(i[j]))
     # print(overall_avg)
 
-    return render(request, 'hod_panel.html', {'hod': request.user.username ,"overall_avg": overall_avg,'platforms': ['CodeChef', 'CodeForce', 'Geeksforgeeks','Hackerrank','Interviewbit','Leetcode','Spoj'],'dept':str(dept) })
+    profiles = StudentMaster.objects.filter(branch=dept)
+    # print(profiles)
+    profile_details = {"codechef_username":{"registered":0,"unregistered":0},"codeforces_username":{"registered":0,"unregistered":0},"spoj_username":{"registered":0,"unregistered":0},"hackerrank_username":{"registered":0,"unregistered":0},"interviewbit_username":{"registered":0,"unregistered":0},"leetcode_username":{"registered":0,"unregistered":0},"gfg_username":{"registered":0,"unregistered":0}}
+    
+    year_wise_profiles = {1:{"codechef_username":{"registered":0,"unregistered":0},"codeforces_username":{"registered":0,"unregistered":0},"gfg_username":{"registered":0,"unregistered":0},"hackerrank_username":{"registered":0,"unregistered":0},"interviewbit_username":{"registered":0,"unregistered":0},"leetcode_username":{"registered":0,"unregistered":0},"spoj_username":{"registered":0,"unregistered":0}},
+                          2:{"codechef_username":{"registered":0,"unregistered":0},"codeforces_username":{"registered":0,"unregistered":0},"gfg_username":{"registered":0,"unregistered":0},"hackerrank_username":{"registered":0,"unregistered":0},"interviewbit_username":{"registered":0,"unregistered":0},"leetcode_username":{"registered":0,"unregistered":0},"spoj_username":{"registered":0,"unregistered":0}},
+                          3:{"codechef_username":{"registered":0,"unregistered":0},"codeforces_username":{"registered":0,"unregistered":0},"gfg_username":{"registered":0,"unregistered":0},"hackerrank_username":{"registered":0,"unregistered":0},"interviewbit_username":{"registered":0,"unregistered":0},"leetcode_username":{"registered":0,"unregistered":0},"spoj_username":{"registered":0,"unregistered":0}},
+                          4:{"codechef_username":{"registered":0,"unregistered":0},"codeforces_username":{"registered":0,"unregistered":0},"gfg_username":{"registered":0,"unregistered":0},"hackerrank_username":{"registered":0,"unregistered":0},"interviewbit_username":{"registered":0,"unregistered":0},"leetcode_username":{"registered":0,"unregistered":0},"spoj_username":{"registered":0,"unregistered":0}}  }
+    for profile in profiles:
+        
+        for platform in ['codechef_username', 'codeforces_username', 'spoj_username', 'hackerrank_username', 'interviewbit_username', 'leetcode_username', 'gfg_username']:
+
+            if(getattr(profile,platform) == "None"):
+                year_wise_profiles[current_academic_year-profile.year+4][platform]["unregistered"] += 1
+            else:
+                year_wise_profiles[current_academic_year-profile.year+4][platform]["registered"] += 1
+
+    # print(year_wise_profiles)
+
+    return render(request, 'hod_panel.html', {'hod': request.user.username ,"overall_avg": overall_avg,
+                                              'platforms': ['CodeChef', 'CodeForce', 'Geeksforgeeks','Hackerrank','Interviewbit','Leetcode','Spoj'],
+                                              'dept':str(dept),
+                                              'year_wise_profiles':year_wise_profiles })
 
 
 def scatter_plot(request,roll):
@@ -72,16 +94,16 @@ def scatter_plot(request,roll):
     return(scraped_dates, y_values)
 
 def pie_chart(request, roll):
-    labels = ['CodeChef', 'CodeForce', 'Spoj','Hackerrank','Interviewbit','Leetcode','Geeksforgeeks']
+    labels = ['CodeChef', 'CodeForce', 'Geeksforgeeks','Hackerrank','Interviewbit','Leetcode','Spoj']
     data = []
     scores =StudentMaster.objects.select_related('roll_no').get(roll_no=roll)#joining tables studentMaster table has foreign key roll_no
     data.append(scores.roll_no.codechef_score) #accessing the score of codechef of a particular student syntax
     data.append(scores.roll_no.codeforces_score)
-    data.append(scores.roll_no.spoj_score)
+    data.append(scores.roll_no.gfg_score)
     data.append(scores.roll_no.hackerrank_score)
     data.append(scores.roll_no.interviewbit_score)
     data.append(scores.roll_no.leetcode_score)
-    data.append(scores.roll_no.gfg_score)
+    data.append(scores.roll_no.spoj_score)  
     print(data)
     return (labels, data)
 
@@ -327,7 +349,7 @@ def student_view(request, username):
         announcement = Announcement.objects.all()
         # scatter_plot(request,roll)
         det = StudentMaster.objects.select_related('roll_no').filter(roll_no=roll)
-        print(det)
+        print(det[0].branch)
         labels, data = pie_chart(request, roll)
         xvalues, yvalues =scatter_plot(request,roll)
         print(xvalues,yvalues)
@@ -336,22 +358,18 @@ def student_view(request, username):
         Gdata = [int(x.strip()) for x in data_string.split(',')]
         Glabels = [str(i+1) for i in range(30)]
         #end graph
-        platforms = ['CodeChef', 'CodeForce', 'Spoj','Hackerrank','Interviewbit','Leetcode','Geeksforgeeks']
-        average_scores=[]
-        codechef_average = StudentScores.objects.values_list('codechef_score')
-        average_scores.append(round(np.mean(list(codechef_average)),2))
-        codeforces_average = StudentScores.objects.values_list('codeforces_score')
-        average_scores.append(round(np.mean(list(codeforces_average)),2))
-        spoj_average = StudentScores.objects.values_list('spoj_score')
-        average_scores.append(round(np.mean(list(spoj_average)),2))
-        hackerrank_average = StudentScores.objects.values_list('hackerrank_score')
-        average_scores.append(round(np.mean(list(hackerrank_average)),2))
-        interviewbit_average = StudentScores.objects.values_list('interviewbit_score')
-        average_scores.append(round(np.mean(list(interviewbit_average)),2))
-        leetcode_average = StudentScores.objects.values_list('leetcode_score')
-        average_scores.append(round(np.mean(list(leetcode_average)),2))
-        gfg_average = StudentScores.objects.values_list('gfg_score')
-        average_scores.append(round(np.mean(list(gfg_average)),2))
+        average_scores={"dept":[], "college":[]}
+        # codechef_average = StudentScores.objects.values_list('codechef_score')
+
+        avgs = Averages.objects.values()
+        for i in avgs:
+            if i['averages'] != 'dept':
+                for j in i:
+                    if j == det[0].branch:
+                        average_scores["dept"].append(float(i[j]))
+                    if j == "college":
+                        average_scores["college"].append(float(i[j]))
+            
         context = {
             'staff': request.user.is_staff,
             'username': roll,
@@ -365,7 +383,7 @@ def student_view(request, username):
             'announcements': announcement,
             'Glabels': Glabels,
             'Gdata': Gdata,
-            'platforms': platforms,
+            'platforms': ['CodeChef', 'CodeForce', 'Geeksforgeeks','Hackerrank','Interviewbit','Leetcode','Spoj'],
             'average_scores':average_scores,
 
         }
