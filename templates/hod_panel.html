@@ -13,6 +13,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 
     <style>
+      
+      body{
+        margin: 0;
+      }
+
       .custom-box {
         width: 380px;
         box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
@@ -21,7 +26,9 @@
       }
 
       .custom-button-1 {
-        margin-left: 150px;
+        margin-left: 20px;
+        padding-top: 8px;
+        padding-bottom: 8px;
       }
 
       .custom-button {
@@ -44,27 +51,90 @@
       .custom-padding {
         padding-top: 0px;
       }
+
+      .container{
+        margin: 30px;
+        margin-left: 6%;
+        margin-right: 4%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr;
+        column-gap: 30px;
+
+      }
+
+      .get_student_details{
+        /*container styling*/
+        background-color: #fff;
+        border: 2px solid #fff;
+        border-radius: 10px;
+        box-shadow: 0 0px 25px rgba(0,0,0,0.4);
+        padding: 20px;
+      }
+
+      .comparision_graph{
+        margin: 0px;
+        width: 600px;
+        height: 500px;
+        /*container styling*/
+        background-color: #fff;
+        border: 2px solid #fff;
+        border-radius: 10px;
+        box-shadow: 0 0px 25px rgba(0,0,0,0.4);
+        padding: 60px;
+        padding-bottom: 90px;
+      }
+
+      .row-box{
+        display: grid;
+        grid-template-columns: auto auto;
+        grid-template-rows: 1fr;
+      }
+
+      p{
+        margin: 10px 0;
+  text-align: center;
+    text-transform: uppercase;
+    font-weight: bolder;
+    letter-spacing: 3px;
+    padding-left: 500px;
+      }
+
+      
+    
     </style>
   </head>
   <body>
+
+    <nav class="navbar">
+      <p><h1>{{hod}}</h1></p>
+      <button
+                  class="btn btn-primary btn-block rounded-pill mt-2 custom-button"
+                  onclick="window.location.href='/logout'"
+                  type="button"
+                >
+                  Logout
+                </button>
+    </nav>
+
     <ul>
       <!-- {% for avg in dept_avg %} {{ avg|safe }} {% endfor %} 
         {% for avg in clg_avg %} {{ avg|safe }} {% endfor %} -->
     </ul>
-    <div class="position-absolute top-50 start-50 translate-middle">
-      <div style="display: flex; justify-content: space-between">
-        <div class="container custom-box" style="margin: 50px">
-          <div class="row">
-            <h1 class="card-title text-center mb-4">{{hod}}</h1>
-            <h1 class="card-title text-center mb-4">Logged In</h1>
+    <div class="container">
+      <div class="get_student_details">
+            <h1 class="card-title text-center mb-4">Get Student Details</h1>
+            
             {% if messages %} {% for message in messages %}
             <h5 style="color: rgb(248, 34, 34)">{{message}}</h5>
             {% endfor %} {% endif %}
 
             <form action="/hod_view" method="get" class="p-4">
+              
               <label class="form-label mt-2 custom-padding"
-                ><b> Roll Number</b></label
-              >
+                ><b>Choose Roll Number</b></label>
+                <div class="row-box">
+                <div class="roll_input">
               <input
                 type="text"
                 class="form-control"
@@ -72,43 +142,49 @@
                 name="Roll"
                 placeholder="Enter Roll Number of Student"
               />
-
+            </div>
+           <div class="search_button">
               <input
-                class="btn btn-primary btn-block rounded-pill mt-4 custom-button-1"
+                class="btn btn-primary btn-block rounded-pill mt-7 custom-button-1"
                 type="submit"
                 value="Search"
               />
             </form>
+          </div>
+          </div>
+
+<div style="margin-top: 60px;">
+  
+</div>
 
             <form action="/hod_view" method="post">
               {% csrf_token %}
               <label for="year"><b>&nbsp;&nbsp;&nbsp;Choose year:</b></label>
-              <select name="year" id="year" class="form-control">
+              <div class="row-box">
+                <div class="roll_input">
+              <select name="year" id="year" class="form-control" style="margin-left: 25px;">
                 <option value="all">All</option>
                 <option value="4">First Year</option>
                 <option value="3">Second Year</option>
                 <option value="2">Third Year</option>
                 <option value="1">Fourth Year</option>
               </select>
-
-              <br />
-              <div class="footer">
+            </div>
+              
+              <div class="search_button">
                 <input
-                  class="btn btn-primary btn-block rounded-pill mt-2 custom-button"
+                  class="btn btn-primary btn-block rounded-pill mt-2 custom-button-1" style="margin-left: 90px;"
                   type="submit"
                 />
-                <button
-                  class="btn btn-primary btn-block rounded-pill mt-2 custom-button"
-                  onclick="window.location.href='/logout'"
-                  type="button"
-                >
-                  Logout
-                </button>
+                </div>
+                
               </div>
             </form>
           </div>
-        </div>
-        <div style="margin: 50px">
+        
+
+
+        <div class="comparision_graph">
           <h3 class="text-center">Average Comparison</h3>
           <select name="department" id="department">
             <option value="college">college</option>
@@ -122,7 +198,10 @@
             <option value="mec">mec</option>
             <option value="civ">civ</option>
           </select>
-          <canvas id="bargraph" width="400" height="400"></canvas>
+          <canvas id="bargraph" width="900" height="600"></canvas>
+          </div>
+
+        </div>
           <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
           <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
           <script>

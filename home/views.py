@@ -451,13 +451,6 @@ def update_usernames(request):
         ib = request.POST['interviewbit_username']
         lc = request.POST['leetcode_username']
         gfg = request.POST['gfg_username']
-<<<<<<< HEAD
-        try:
-            StudentMaster.objects.filter(roll_no=request.user.username).update(hackerrank_username=hu, codeforces_username=cf,codechef_username=cc, spoj_username=sp, interviewbit_username=ib, leetcode_username=lc, gfg_username=gfg)
-            messages.success(request, "Sucessfully Updated")
-        except:
-            messages.error("Couldn't Update")
-=======
         if(request.user.is_staff):
             roll =request.session['search_roll']
             print(roll)
@@ -466,7 +459,6 @@ def update_usernames(request):
         StudentMaster.objects.filter(roll_no=roll).update(hackerrank_username=hu, codeforces_username=cf,codechef_username=cc, spoj_username=sp, interviewbit_username=ib, leetcode_username=lc, gfg_username=gfg)
         messages.success(request, "Sucessfully Upated")
 
->>>>>>> 9d00b25368ea931ac05c094a61a8d489b3f50da4
     return redirect('/usernames')
 
 
