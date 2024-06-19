@@ -34,9 +34,7 @@
         <h1>Vardhaman College of Engineering</h1>
       </div>
     
-    <ul class="navigation-items">
-      <li><a href="/student_panel">Home</a></li>
-      
+    <ul class="navigation-items">      
       <li class="dropdown">
         <a>Scoreboard<i class="fa fa-caret-down" style="display: inline !important; padding-left: 10px;" aria-hidden="true"></i></a>
         <div class="dropdown-content" style=" text-transform: capitalize;">
@@ -44,7 +42,9 @@
           <a href="/overview">College rankings</a>
         </div>
       </li>
+      {% if request.user.username != "vceprincipal" %}
       <li><a href="/usernames">Usernames</a></li>
+      {% endif %}
       <li class="dropdown">
         <a href="#"><i class="fas fa-bars"></i></a>
         <div class="dropdown-content" style="left: -25px; text-transform: capitalize;">
@@ -57,19 +57,10 @@
     </ul>
     
     
-    </nav>
-    
-
-
-
-    
+    </nav>   
       <h1 style="color: black; text-align: center">
         Vardhaman Student Rankings
       </h1>
-      
-   
-      
-
         <form action="{% url 'report' %}" method="GET">
 
           <div class="table-filters">

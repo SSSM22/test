@@ -168,14 +168,9 @@
                   </div>
                 
                 </div>
-
-        
               </div>
           </div>
           <div>
-            <div class="line-header">
-              <h2>Department Average</h2>
-            </div>
             <div class="chart-container" style="padding-left: 15%; padding-top: 5%; padding-right: 10%; height: 100%; width: auto;">
               <div>
                 <canvas id="deptavg" ></canvas>
@@ -212,38 +207,6 @@ var config = {
     };
   </script> 
 {% endblock %}
-<!-- 
-  <h1>Graph</h1>
-
-
-  <div class="chart-container">
-    <canvas id="myChart" style="height: 25%" width="10" height="10"></canvas>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-    <script>
-      myChart = document.getElementById("myChart").getContext("2d");
-      new Chart("myChart", {
-        type: "scatter",
-        data: {
-          labels: xValues,
-          datasets: [{
-            fill: false,
-            pointRadius: 1,
-            borderColor: "rgba(255,0,0,0.5)",
-            data: yValues
-          }]
-        },
-        options: {
-          legend: { display: false },
-          title: {
-            display: true,
-            text: "y = x * 2 + 7",
-            fontSize: 16
-          }
-        }
-      });
-    </script> -->
-
  <script>
     let platforms = {{platforms|safe}}; // ALl platforms 
     let average_scores = {{average_scores|safe}};
@@ -337,9 +300,6 @@ var config = {
     });
   </script>
   {% endfor %}
-
-
-  
   <div class="Announcements">  
 
     {% comment %} code for announcements display from models {% endcomment %}

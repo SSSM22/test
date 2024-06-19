@@ -11,7 +11,6 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.forms import PasswordChangeForm
 from  datetime import date
 from dotenv import load_dotenv
-import os
 import numpy as np
 load_dotenv()
 current_academic_year = 2024
@@ -28,7 +27,6 @@ dic_branch = {'hodit': 'it',
               'hodcsm':'cse(aiml)',
               'hodaid':'aid'
               }
-scraped_dates=['December 25, 2023','December 26, 2023','December 29, 2023']
 
 
 def index(request):
@@ -135,11 +133,6 @@ def principal_view(request):
                                               
                                               'year_wise_profiles':year_wise_profiles })
 
-
-def scatter_plot(request,roll):
-    # Assuming you have obtained x_values and y_values in your view
-    y_values =list(map(int,StudentScores.objects.all().get(roll_no=roll).daily_scores.split(',')))
-    return(scraped_dates, y_values)
 
 def pie_chart(request, roll):
     labels = ['CodeChef', 'CodeForce', 'Geeksforgeeks','Hackerrank','Interviewbit','Leetcode','Spoj']
@@ -407,8 +400,6 @@ def student_view(request, username):
         det = StudentMaster.objects.select_related('roll_no').filter(roll_no=roll)
         print(det[0].branch)
         labels, data = pie_chart(request, roll)
-        xvalues, yvalues =scatter_plot(request,roll)
-        print(xvalues,yvalues)
         # below code for graph below is the samlpe data
         data_string = "10,20,30,40,52,68,78,80,90,100,100,100,100,110,115,125,130,140,150,150,150,190,200,210,211,215,215,215,220,220";
         Gdata = [int(x.strip()) for x in data_string.split(',')]
@@ -433,8 +424,6 @@ def student_view(request, username):
             'labels': labels,
             'data': data,
             'students': det,
-            'xValues':xvalues,
-            'yValues':yvalues,
             'image':det.values_list('branch')[0][0],#getting the branch of the student from queryset
             'announcements': announcement,
             'Glabels': Glabels,
@@ -454,7 +443,7 @@ def hod_view(request):
         if request.method == 'GET':
             roll = request.GET["Roll"]
             students = display_students(request)
-            students = students.filter(roll_no=roll,branch=dic_branch[username])
+            students = students.filter(roll_no=roll)
             request.session['search_roll'] = roll #saving into session variable to access it in the next view
             if(students.count()==0):
                 messages.info(request, 'No students found')
@@ -468,13 +457,23 @@ def hod_view(request):
             year = request.POST['year']
             students = display_students(request)
             if year == 'all':
-                context = {
-                    'students': students.filter(branch=dic_branch[username])
-                }
+                if username == 'vceprincipal':
+                    context = {
+                        'students': students
+                    }
+                else:
+                    context = {
+                        'students': students.filter(branch=dic_branch[username])
+                    }   
             else:
-                context = {
-                    'students': students.filter(year=int(year)+int(current_academic_year),branch=dic_branch[username])
-                }
+                if username == 'vceprincipal':
+                    context = {
+                        'students': students.filter(year=int(year)+int(current_academic_year))
+                    }
+                else:    
+                    context = {
+                        'students': students.filter(year=int(year)+int(current_academic_year),branch=dic_branch[username])
+                    }
             return render(request, 'over_view.html', context)
     return redirect('/login')
 
