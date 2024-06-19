@@ -86,6 +86,54 @@ def hod_panel(request):
                                               'platforms': ['CodeChef', 'CodeForce', 'Geeksforgeeks','Hackerrank','Interviewbit','Leetcode','Spoj'],
                                               'dept':str(dept),
                                               'year_wise_profiles':year_wise_profiles })
+def principal_view(request):
+    #dept=request.session['department']
+    # print(len(dept))
+    
+    if request.method == 'POST':
+        year = request.POST['year']
+        students = display_students(request)
+        if year == 'all':
+            context = {
+                'students': students
+            }
+        else:
+            context = {
+                'students': students
+            }
+        return render(request, 'over_view.html', context)
+    avgs=Averages.objects.values()
+    overall_avg = {'cse':[],'it':[],'ece':[],'eee':[],'csm':[],'aids':[],'aiml':[],'mec':[],'civ':[],'college':[]} #dictionary to store the averages of each department
+    for i in avgs:
+        if i['averages'] != 'dept':
+            for j in i:
+                if j != 'averages':
+                    overall_avg[j].append(float(i[j]))
+    # print(overall_avg)
+
+    profiles = StudentMaster.objects.all()
+    # print(profiles)
+    profile_details = {"codechef_username":{"registered":0,"unregistered":0},"codeforces_username":{"registered":0,"unregistered":0},"spoj_username":{"registered":0,"unregistered":0},"hackerrank_username":{"registered":0,"unregistered":0},"interviewbit_username":{"registered":0,"unregistered":0},"leetcode_username":{"registered":0,"unregistered":0},"gfg_username":{"registered":0,"unregistered":0}}
+    
+    year_wise_profiles = {1:{"codechef_username":{"registered":0,"unregistered":0},"codeforces_username":{"registered":0,"unregistered":0},"gfg_username":{"registered":0,"unregistered":0},"hackerrank_username":{"registered":0,"unregistered":0},"interviewbit_username":{"registered":0,"unregistered":0},"leetcode_username":{"registered":0,"unregistered":0},"spoj_username":{"registered":0,"unregistered":0}},
+                          2:{"codechef_username":{"registered":0,"unregistered":0},"codeforces_username":{"registered":0,"unregistered":0},"gfg_username":{"registered":0,"unregistered":0},"hackerrank_username":{"registered":0,"unregistered":0},"interviewbit_username":{"registered":0,"unregistered":0},"leetcode_username":{"registered":0,"unregistered":0},"spoj_username":{"registered":0,"unregistered":0}},
+                          3:{"codechef_username":{"registered":0,"unregistered":0},"codeforces_username":{"registered":0,"unregistered":0},"gfg_username":{"registered":0,"unregistered":0},"hackerrank_username":{"registered":0,"unregistered":0},"interviewbit_username":{"registered":0,"unregistered":0},"leetcode_username":{"registered":0,"unregistered":0},"spoj_username":{"registered":0,"unregistered":0}},
+                          4:{"codechef_username":{"registered":0,"unregistered":0},"codeforces_username":{"registered":0,"unregistered":0},"gfg_username":{"registered":0,"unregistered":0},"hackerrank_username":{"registered":0,"unregistered":0},"interviewbit_username":{"registered":0,"unregistered":0},"leetcode_username":{"registered":0,"unregistered":0},"spoj_username":{"registered":0,"unregistered":0}}  }
+    for profile in profiles:
+        
+        for platform in ['codechef_username', 'codeforces_username', 'spoj_username', 'hackerrank_username', 'interviewbit_username', 'leetcode_username', 'gfg_username']:
+
+            if(getattr(profile,platform) == "None"):
+                year_wise_profiles[current_academic_year-profile.year+4][platform]["unregistered"] += 1
+            else:
+                year_wise_profiles[current_academic_year-profile.year+4][platform]["registered"] += 1
+
+    # print(year_wise_profiles)
+
+    return render(request, 'principal_view.html', {'principal': request.user.username ,"overall_avg": overall_avg,
+                                              'platforms': ['CodeChef', 'CodeForce', 'Geeksforgeeks','Hackerrank','Interviewbit','Leetcode','Spoj'],
+                                              
+                                              'year_wise_profiles':year_wise_profiles })
 
 
 def scatter_plot(request,roll):
@@ -318,21 +366,29 @@ def auth_login(request):
         # print(username, password)
         user = authenticate(request, username=username, password=password)
         if user is not None:    
+            group = ""
+            if len(user.groups.all()):
+                group = str(user.groups.all()[0])
+            print(group)
             login(request, user)
-            if user.is_superuser:
-                return redirect("/admin_panel")
-            if user.is_staff:
+            
+            if group=="hods":
                 request.session['department']=dic_branch[username] #storing department of the HOD logged in, to 
                 return redirect('/hod_panel')
-            st=StudentMaster.objects.get(roll_no=username)
-            if user.last_login is None: #if user is logging in for the first time then he will be redirected to change password page
-                login(request, user)   
-                return redirect('/change_password')
-            if(st.hackerrank_username=='None' or st.codechef_username=='None' or st.codeforces_username=='None' or st.spoj_username=='None' or st.interviewbit_username=='None' or st.leetcode_username=='None' or st.gfg_username=='None'):
-                messages.info(request, 'Please fill in all your usernames and login again to view your profile')
-                return redirect('/usernames')
+            if group=="principal":
+                return redirect('/principal_view')
+            if user.is_superuser:
+                return redirect("/admin_panel")
+            else:
+                st=StudentMaster.objects.get(roll_no=username)
+                if user.last_login is None: #if user is logging in for the first time then he will be redirected to change password page
+                    login(request, user)   
+                    return redirect('/change_password')
+                if(st.hackerrank_username=='None' or st.codechef_username=='None' or st.codeforces_username=='None' or st.spoj_username=='None' or st.interviewbit_username=='None' or st.leetcode_username=='None' or st.gfg_username=='None'):
+                    messages.info(request, 'Please fill in all your usernames and login again to view your profile')
+                    return redirect('/usernames')
             
-            return redirect('/student_view/'+username)
+                return redirect('/student_view/'+username)
 
         else:
             messages.warning(request, 'Enter correct credentials')

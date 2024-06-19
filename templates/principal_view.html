@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{{hod}}</title>
+    <title>principal</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
@@ -106,8 +106,8 @@
   </head>
   <body>
 
-    <nav class="navbar">
-      <p><h1>{{hod}}</h1></p>
+    <nav class="navbar" style="display: flex;justify-content:space-between;">
+      <h1 style="margin-left: 100px;">Welcome Dr. J V R Ravindra</h1>
       <button
                   class="btn btn-primary btn-block rounded-pill mt-2 custom-button"
                   onclick="window.location.href='/logout'"
@@ -186,7 +186,19 @@
 
         <div class="comparision_graph">
           <h3 class="text-center">Average Comparison</h3>
-          <select name="department" id="department">
+          <select name="department" id="one">
+            <option value="college">college</option>
+            <option value="cse">cse</option>
+            <option value="it">it</option>
+            <option value="eee">eee</option>
+            <option value="ece">ece</option>
+            <option value="csm">csm</option>
+            <option value="aids">aids</option>
+            <option value="aiml">aiml</option>
+            <option value="mec">mec</option>
+            <option value="civ">civ</option>
+          </select>
+          <select name="department" id="two">
             <option value="college">college</option>
             <option value="cse">cse</option>
             <option value="it">it</option>
@@ -206,24 +218,25 @@
           <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
           <script>
                 let ctx = document.getElementById('bargraph').getContext('2d');
-                let selected = document.getElementById('department');
-                let platforms = {{platforms|safe}}; // All platforms
-                let dept = '{{dept|safe}}';
-                let dept_avg = {{overall_avg|safe}}[dept];
-                let clg_avg = {{overall_avg|safe}}[selected.value];
+                let selected1 = document.getElementById('one');
+                let selected2 = document.getElementById('two');
+                let platform = {{platforms|safe}}; // All platforms
+                // let dept = '{{dept|safe}}';
+                let first = {{overall_avg|safe}}[selected1.value];
+                let second = {{overall_avg|safe}}[selected2.value];
 
                 let chartData = {
-                    labels: platforms,
+                    labels: platform,
                     datasets: [{
-                      label: ` ${dept}`,
-                      data: dept_avg,
+                      label: `${selected1.value}`,
+                      data: first,
                       backgroundColor: 'rgba(255, 0, 0, 1)',
                       borderColor: 'rgba(255, 99, 132, 1)',
                       borderWidth: 1
                     },
                     {
-                      label: `${selected.value}`,
-                      data: clg_avg,
+                      label: `${selected2.value}`,
+                      data: second,
                       backgroundColor: 'rgba(87, 183, 235, 1) ',
                       borderColor: 'rgba(54, 162, 235, 1)',
                       borderWidth: 1
@@ -244,16 +257,31 @@
                 });
 
 
-            selected.addEventListener('change', (event) => {
-              const selectedValue = event.target.value;
-                chartData.datasets[1].data = {{overall_avg|safe}}[selectedValue];
-                chartData.datasets[1].label = selectedValue;
+            selected1.addEventListener('change', (event) => {
+              const selectedValue1 = event.target.value;
+                chartData.datasets[0].data = {{overall_avg|safe}}[selectedValue1];
+                chartData.datasets[0].label = selectedValue1;
+              
+                // chartData.datasets[1].data = {{overall_avg|safe}}[selectedValue.value];
+                // chartData.datasets[1].label = selectedValue;
+              // Re-render the chart using Chart.js update method
+              chart.update();
+            });
+            selected2.addEventListener('change', (event) => {
+              const selectedValue2 = event.target.value;
+                chartData.datasets[1].data = {{overall_avg|safe}}[selectedValue2];
+                chartData.datasets[1].label = selectedValue2;
+              
+                // chartData.datasets[1].data = {{overall_avg|safe}}[selectedValue.value];
+                // chartData.datasets[1].label = selectedValue;
               // Re-render the chart using Chart.js update method
               chart.update();
             });
           </script>
         </div>
         <div style="margin: 50px">
+
+
           <style>
             table {
                 width: 100%;
