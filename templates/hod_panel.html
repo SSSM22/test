@@ -9,113 +9,66 @@
       href="https://bootswatch.com/5/lux/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/hod_panel.css' %}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 
-    <style>
-      
-      body{
-        margin: 0;
-      }
 
-      .custom-box {
-        width: 380px;
-        box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
-        padding: 20px;
-        border-radius: 20px;
-      }
-
-      .custom-button-1 {
-        margin-left: 20px;
-        padding-top: 8px;
-        padding-bottom: 8px;
-      }
-
-      .custom-button {
-        margin: 20px;
-      }
-
-      .custom-button:hover {
-        background: #fff;
-        color: #000;
-        transition: ease-in-out;
-        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
-      }
-      .custom-button-1:hover {
-        background: #fff;
-        color: #000;
-        transition: ease-in-out;
-        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
-      }
-
-      .custom-padding {
-        padding-top: 0px;
-      }
-
-      .container{
-        margin: 30px;
-        margin-left: 6%;
-        margin-right: 4%;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr;
-        column-gap: 30px;
-
-      }
-
-      .get_student_details{
-        /*container styling*/
-        background-color: #fff;
-        border: 2px solid #fff;
-        border-radius: 10px;
-        box-shadow: 0 0px 25px rgba(0,0,0,0.4);
-        padding: 20px;
-      }
-
-      .comparision_graph{
-        margin: 0px;
-        width: 600px;
-        height: 500px;
-        /*container styling*/
-        background-color: #fff;
-        border: 2px solid #fff;
-        border-radius: 10px;
-        box-shadow: 0 0px 25px rgba(0,0,0,0.4);
-        padding: 60px;
-        padding-bottom: 90px;
-      }
-
-      .row-box{
-        display: grid;
-        grid-template-columns: auto auto;
-        grid-template-rows: 1fr;
-      }
-
-      p{
-        margin: 10px 0;
-  text-align: center;
-    text-transform: uppercase;
-    font-weight: bolder;
-    letter-spacing: 3px;
-    padding-left: 500px;
-      }
-
-      
-    
-    </style>
   </head>
   <body>
 
-    <nav class="navbar">
-      <p><h1>{{hod}}</h1></p>
-      <button
+   
+    
+    <nav class="navigationbar1">
+      <div class="logo-image">
+        <a href="/student_panel" class="logo"><img src="https://vardhaman.org/wp-content/uploads/2021/08/vardhamanlogo-1.png" alt="college Logo">
+          
+        </div>
+      <div class="college-name">
+        <h1 class="custom_h1">Vardhaman College of Engineering</h1>
+      </div>
+     
+    <ul class="navigation-items">      
+      <li class="dropdown">
+        <a>Scoreboard<i class="fa fa-caret-down" style="display: inline !important; padding-left: 10px;" aria-hidden="true"></i></a>
+        <div class="dropdown-content" style=" text-transform: capitalize;">
+          <a href="/report">Department rankings</a>
+          <a href="/overview">College rankings</a>
+        </div>
+      </li>
+      
+      <li class="dropdown">
+        <a href="#"><i class="fas fa-bars"></i></a>
+        <div class="dropdown-content" style="left: -200%; text-transform: capitalize;">
+          <a href="https://discord.gg/jXUkmX7Tvf">Discord Group</a>
+          <a href="/change_password">Change Password</a>
+          <div class="dropdown-divider"></div>
+          <a href="/logout">Logout</a>
+        </div>
+      </li>
+    </ul>
+    
+    
+  </nav>
+  
+    
+ 
+
+
+
+
+
+    <div style="display: flex; align-items: center; justify-content: center; padding: 1%;">
+      <h1>{{hod}}</h1>
+      <!--<button
                   class="btn btn-primary btn-block rounded-pill mt-2 custom-button"
                   onclick="window.location.href='/logout'"
                   type="button"
-                >
+                                  >
                   Logout
-                </button>
-    </nav>
+                </button>-->
+              </div>
 
     <ul>
       <!-- {% for avg in dept_avg %} {{ avg|safe }} {% endfor %} 
@@ -128,6 +81,8 @@
             {% if messages %} {% for message in messages %}
             <h5 style="color: rgb(248, 34, 34)">{{message}}</h5>
             {% endfor %} {% endif %}
+
+
 
             <form action="/hod_view" method="get" class="p-4">
               
@@ -153,16 +108,16 @@
           </div>
           </div>
 
-<div style="margin-top: 60px;">
+<div style="margin-top: 15%;">
   
 </div>
 
-            <form action="/hod_view" method="post">
+            <form action="/hod_view" method="post"  class="p-4">
               {% csrf_token %}
-              <label for="year"><b>&nbsp;&nbsp;&nbsp;Choose year:</b></label>
+              <label for="year" class="form-label mt-2 custom-padding"><b>Choose year:</b></label>
               <div class="row-box">
                 <div class="roll_input">
-              <select name="year" id="year" class="form-control" style="margin-left: 25px;">
+              <select name="year" id="year" class="form-control">
                 <option value="all">All</option>
                 <option value="3">First Year</option>
                 <option value="2">Second Year</option>
@@ -173,7 +128,7 @@
               
               <div class="search_button">
                 <input
-                  class="btn btn-primary btn-block rounded-pill mt-2 custom-button-1" style="margin-left: 90px;"
+                  class="btn btn-primary btn-block rounded-pill mt-7 custom-button-1"
                   type="submit"
                 />
                 </div>
@@ -185,7 +140,7 @@
 
 
         <div class="comparision_graph">
-          <h3 class="text-center">Average Comparison</h3>
+          <h2 class="text-center">Average Comparison</h2>
           <select name="department" id="department">
             <option value="college">college</option>
             <option value="cse">cse</option>
@@ -253,6 +208,8 @@
             });
           </script>
         </div>
+
+        
         <div style="margin: 50px">
           <style>
             table {

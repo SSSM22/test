@@ -90,7 +90,7 @@ DATABASES = {
         'USER': 'root', #sssm
         'HOST': 'localhost',#vardhamanstudent-data.mysql.database.azure.com', 
         'PORT': 3306,
-        'PASSWORD': 'root',#'abcd1234!@', #root
+        'PASSWORD': 'Pranav_001',#'abcd1234!@', #root
     }
 }
 
