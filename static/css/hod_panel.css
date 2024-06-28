@@ -231,6 +231,13 @@ a:hover {
   grid-auto-flow: dense;
 }
 
+.dept-buttons {
+  margin-left: 3%;
+  margin-right: 3%;
+  padding: 1%;
+  border-radius: 8px;
+  
+  }
 
 
 
