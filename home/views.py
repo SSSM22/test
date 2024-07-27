@@ -233,7 +233,6 @@ def load_rows(request):
     #     students = StudentMaster.objects.select_related('roll_no').annotate(overall_score=F('roll_no__overall_score')).order_by('-overall_score').filter(branch=dic_branch[request.user.username])
 
 def update(request):
-    scraped_dates.append(date.today().strftime("%B %d, %Y"))
     student = StudentMaster.objects.all().values() #getting all the students from the database
     c = 0
     cc_data=[]
